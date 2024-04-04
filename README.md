@@ -1,4 +1,4 @@
-# [IVE](https://ive.js.org) - Intermediate View Enhancer
+# [IVE](https://ive.js.org) - Intermediate View Engine
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
@@ -29,7 +29,7 @@ write(document.body, Counter);
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
-Visit [litimproved.dev](https://litimproved.dev) for more infomation.
+Visit [ive.js.org](https://ive.js.org) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
