@@ -9,13 +9,11 @@
 ---
 
 ```javascript
-import html from 'https://esm.sh/ive-html';
-
-const Counter =  () => {
+const Counter = () => {
 
     let count = 0;
 
-    return () => html`
+    return html => html`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -29,7 +27,9 @@ export default Counter;
 ```
 
 ```html
-<ive-main src=./counter.js></ive-main>
+<script>
+    (await import('https://esm.sh/ive-html')).write(await import('./counter.js'))
+</script>
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
@@ -41,7 +41,7 @@ Visit [ive.js.org](https://ive.js.org) for more infomation.
 
 | package | about | exports |
 | --- | --- | --- |
-| **ive-[html](./html)** | HTML in JavaScript library | ```html``` (default) |
+| **ive-[html](./html)** | HTML in JavaScript library | ```html``` |
 | **ive-[layout](./layout)** | Layout manager | ```layout``` |
 | **ive-[nitro](./nitro)** | Design systems | ```nitro``` |
 | **ive-[material3](./material3)** | Material Design 3 port | ```m3``` |
