@@ -8,7 +8,7 @@
 
 ---
 
-```javascript
+```javascript filename="index.js"
 const Counter = () => {
 
     let count = 0;
@@ -27,9 +27,8 @@ export default Counter;
 ```
 
 ```html
-<script>
-    (await import('https://esm.sh/ive-html')).write(await import('./counter.js'))
-</script>
+<script type=module src=https://esm.sh/ive-html></script>
+<div src=./counter.js onload=ive(this)></div>
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
