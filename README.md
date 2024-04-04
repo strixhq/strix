@@ -27,8 +27,8 @@ export default Counter;
 ```
 
 ```html
-<script type=module src=https://esm.sh/ive-html></script>
-<div src=./counter.js onload=ive(this)></div>
+<script type='module' src='https://esm.sh/ive-html'></script>
+<div onload='ive(this, await import("./counter.js"))'></div>
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
