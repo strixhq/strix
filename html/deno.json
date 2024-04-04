@@ -1,0 +1,5 @@
+{
+	"name": "@sf/html",
+	"version": "0.0.1",
+	"exports": "./mod.js"
+}
