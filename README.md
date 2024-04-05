@@ -27,7 +27,7 @@ export default Counter;
 ```
 
 ```html
-<div src=./counter.js onload=IVE(this)></div>
+<div src=./counter onload=IVE(this)></div>
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
