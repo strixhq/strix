@@ -8,7 +8,7 @@
 
 ---
 
-```javascript filename="index.js"
+```javascript
 const Counter = () => {
 
     let count = 0;
@@ -27,8 +27,7 @@ export default Counter;
 ```
 
 ```html
-<script type=module src=https://esm.sh/ive-html></script>
-<div src=./counter.js onload=ive(this)></div>
+<div src=./counter.js onload='import("https://esm.sh/ive-html").then(write => write(this))'></div>
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
@@ -40,14 +39,15 @@ Visit [ive.js.org](https://ive.js.org) for more infomation.
 
 | package | about | exports |
 | --- | --- | --- |
-| **ive-[html](./html)** | HTML in JavaScript library | ```html``` |
-| **ive-[layout](./layout)** | Layout manager | ```layout``` |
-| **ive-[nitro](./nitro)** | Design systems | ```nitro``` |
-| **ive-[material3](./material3)** | Material Design 3 port | ```m3``` |
-| **ive-[md](./md)** | Markdown-to-HTML Plugin | ```md``` |
-| **ive-[react](./react)** | React compatibility hook | ```React``` |
-| **ive-[create](./create)** | Project template generator | - |
-| **ive-[analyzer](./analyzer)** | Typescript analyzer | - |
+| **IVE-[HTML](./html)** | HTML in JavaScript library | ```html``` |
+| **IVE-[Layout](./layout)** | Layout manager | ```layout``` |
+| **IVE-[Nitro](./nitro)** | Design systems | ```nitro``` |
+| **IVE-[Material3](./material3)** | Material Design 3 port | ```m3``` |
+| **IVE-[MD](./md)** | Markdown-to-HTML Plugin | ```md``` |
+| **IVE-[HX](./hx)** | High power tools | ```hx``` |
+| **IVE-[React](./react)** | React compatibility hook | ```React``` |
+| **IVE-[Create](./create)** | Project template generator | - |
+| **IVE-[Analyzer](./analyzer)** | Typescript analyzer | - |
 
 ### Installation
 
@@ -364,9 +364,19 @@ import { Button } from '@shadcn/ui/components/ui/button'
 
 const ReactEmbedded = () => html => html`
     <div>
-        <${React(Button)}>I am the Button from @shadcn/ui in Ive!</${React(Button)}>
+        <${React(Button)}>I am the Button from @shadcn/ui in IVE!</${React(Button)}>
     </div>
 `;
+```
+
+```javascript
+import { hx } from 'ive-hx';
+
+const RunLikeHTMX = () => {
+    return html => html`
+        <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
+    `;
+}
 ```
 
 ### License
