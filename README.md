@@ -1,4 +1,4 @@
-# [Ive](https://ive.js.org)
+# [Strix](https://strix.js.org)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
@@ -9,11 +9,13 @@
 ---
 
 ```javascript
-const Main = () => {
+import { write } from 'strix-html';
+
+const Counter = () => {
 
     let count = 0;
 
-    return html => html`
+    return h => h`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -23,16 +25,11 @@ const Main = () => {
     `;
 }
 
-export default Main;
+write(document.body, Counter);
 ```
 
-```html
-<script>import('https://esm.sh/ive-html')</script>
-<div src=./main.js onload=ive(this)></div>
-```
-
-**Ive** is the JavaScript and TypeScript project for empowering the Web construction.
-Visit [ive.js.org](https://ive.js.org) for more infomation.
+**Strix** is the JavaScript and TypeScript project for empowering the Web construction.\
+Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
@@ -40,35 +37,35 @@ Visit [ive.js.org](https://ive.js.org) for more infomation.
 
 | package | about | exports |
 | --- | --- | --- |
-| **Ive-[HTML](./html)** | HTML in JavaScript library | ```html``` |
-| **Ive-[Layout](./layout)** | Layout manager | ```layout``` |
-| **Ive-[Nitro](./nitro)** | Design systems | ```nitro``` |
-| **Ive-[Material3](./material3)** | Material Design 3 port | ```m3``` |
-| **Ive-[MD](./md)** | Markdown-to-HTML Plugin | ```md``` |
-| **Ive-[HX](./hx)** | High power tools | ```hx``` |
-| **Ive-[React](./react)** | React compatibility hook | ```React``` |
-| **Ive-[Create](./create)** | Project template generator | - |
-| **Ive-[Analyzer](./analyzer)** | Typescript analyzer | - |
+| **strix-[html](./html)** | HTML in JavaScript library | ```html``` |
+| **strix-[layout](./layout)** | Layout manager | ```layout``` |
+| **strix-[nitro](./nitro)** | Design systems | ```nitro``` |
+| **strix-[material3](./material3)** | Material Design 3 port | ```m3``` |
+| **strix-[md](./md)** | Markdown-to-HTML Plugin | ```md``` |
+| **strix-[hx](./hx)** | High power tools | ```hx``` |
+| **strix-[react](./react)** | React compatibility hook | ```React``` |
+| **strix-[create](./create)** | Project template generator | - |
+| **strix-[analyzer](./analyzer)** | Typescript analyzer | - |
 
 ### Installation
 
 #### CDN (esm.sh)
 ```javascript
-import { write } from 'https://esm.sh/ive-html'
+import { write } from 'https://esm.sh/strix-html'
 ```
 
 #### NPM
 ```sh
-npm i ive-html
+npm i strix-html
 ```
 
 ### Build From Source
 ```sh
-git clone https://github.com/ihasq/ive
+git clone https://github.com/ihasq/strix
 deno task build
 ```
 
-### Smart Attributes on IVE-HTML
+### Smart Attributes on strix-HTML
 ```javascript
 return html => html`
     <div>
@@ -166,7 +163,7 @@ const PointerMode = $ => {
 
 ### Usage
 ```javascript
-import { write } from 'ive-html'
+import { write } from 'strix-html'
 
 const Count = $ => {
     const { ptr } = $.std;
@@ -294,8 +291,8 @@ const C2DApp = $ => () => html`
 ```
 
 ```javascript
-import nitro from 'https://esm.sh/ive-nitro'
-// Nitro Design - The Design System By Ive
+import nitro from 'https://esm.sh/strix-nitro'
+// Nitro Design - The Design System By Strix
 
 const StyleImport = () => {
     return html => html`
@@ -352,7 +349,7 @@ const WithAttributeModule = () => html => html`
 ```
 
 ```javascript
-import { center } from 'ive-layout';
+import { center } from 'strix-layout';
 
 const HowToCenterADiv = $ => html => html`
     <div ${center}>Now I am a centered div!</div>
@@ -360,18 +357,18 @@ const HowToCenterADiv = $ => html => html`
 ```
 
 ```javascript
-import { React } from 'ive-react';
+import { React } from 'strix-react';
 import { Button } from '@shadcn/ui/components/ui/button'
 
 const ReactEmbedded = () => html => html`
     <div>
-        <${React(Button)}>I am the Button from @shadcn/ui in IVE!</${React(Button)}>
+        <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
     </div>
 `;
 ```
 
 ```javascript
-import { hx } from 'ive-hx';
+import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
     return html => html`
@@ -381,4 +378,4 @@ const RunLikeHTMX = () => {
 ```
 
 ### License
-IVE is MIT Licensed.
+Strix is MIT Licensed.
