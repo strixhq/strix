@@ -28,7 +28,7 @@ export default Main;
 
 ```html
 <script>import('https://esm.sh/ive-html')</script>
-<div onload='ive(this, import("./main.js"))'></div>
+<div src=./main.js onload=ive(this)></div>
 ```
 
 **Ive** is the JavaScript and TypeScript project for empowering the Web construction.
