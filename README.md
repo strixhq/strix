@@ -1,4 +1,4 @@
-# [IVE](https://ive.js.org) - Intermediate View Engine
+# [Ive](https://ive.js.org)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-const Counter = () => {
+const Main = () => {
 
     let count = 0;
 
@@ -23,14 +23,15 @@ const Counter = () => {
     `;
 }
 
-export default Counter;
+export default Main;
 ```
 
 ```html
-<div src=./counter onload=IVE(this)></div>
+<script>import('https://esm.sh/ive-html')</script>
+<div onload='ive(this, import("./main.js"))'></div>
 ```
 
-**IVE** is the JavaScript and TypeScript project for empowering the Web construction.
+**Ive** is the JavaScript and TypeScript project for empowering the Web construction.
 Visit [ive.js.org](https://ive.js.org) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
@@ -39,15 +40,15 @@ Visit [ive.js.org](https://ive.js.org) for more infomation.
 
 | package | about | exports |
 | --- | --- | --- |
-| **IVE-[HTML](./html)** | HTML in JavaScript library | ```html``` |
-| **IVE-[Layout](./layout)** | Layout manager | ```layout``` |
-| **IVE-[Nitro](./nitro)** | Design systems | ```nitro``` |
-| **IVE-[Material3](./material3)** | Material Design 3 port | ```m3``` |
-| **IVE-[MD](./md)** | Markdown-to-HTML Plugin | ```md``` |
-| **IVE-[HX](./hx)** | High power tools | ```hx``` |
-| **IVE-[React](./react)** | React compatibility hook | ```React``` |
-| **IVE-[Create](./create)** | Project template generator | - |
-| **IVE-[Analyzer](./analyzer)** | Typescript analyzer | - |
+| **Ive-[HTML](./html)** | HTML in JavaScript library | ```html``` |
+| **Ive-[Layout](./layout)** | Layout manager | ```layout``` |
+| **Ive-[Nitro](./nitro)** | Design systems | ```nitro``` |
+| **Ive-[Material3](./material3)** | Material Design 3 port | ```m3``` |
+| **Ive-[MD](./md)** | Markdown-to-HTML Plugin | ```md``` |
+| **Ive-[HX](./hx)** | High power tools | ```hx``` |
+| **Ive-[React](./react)** | React compatibility hook | ```React``` |
+| **Ive-[Create](./create)** | Project template generator | - |
+| **Ive-[Analyzer](./analyzer)** | Typescript analyzer | - |
 
 ### Installation
 
