@@ -27,7 +27,7 @@ export default Counter;
 ```
 
 ```html
-<div src=./counter.js onload='(await import("https://esm.sh/ive-html")).write(this)'></div>
+<div src=./counter.js onload=IVE(this)></div>
 ```
 
 **IVE** is the JavaScript and TypeScript project for empowering the Web construction.
