@@ -23,7 +23,9 @@ const Counter = () => {
     `;
 }
 
-(await import('strix-html')).write(document.body, Counter);
+const { write } = await import('strix-html');
+
+write(document.body, Counter);
 ```
 
 **Strix** is the JavaScript and TypeScript project for empowering the Web construction.\
