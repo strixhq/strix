@@ -3,7 +3,7 @@ const anchorStrTempCache = new WeakMap();
 
 const h = (htmlTempStrings, ...htmlTempValues) => {
 	const prebuiltTemp = htmlStrTempCache.get(htmlTempStrings);
-	if(prebuiltTemp === undefined) {
+	if(!prebuiltTemp) {
 		htmlStrTempCache.set(htmlTempStrings, {
 
 		})
@@ -249,7 +249,7 @@ const StrixClock = () => {
 		`
 	}
 
-	return html => html`
+	return () => html`
 		<svg viewBox='0 0 100 100'>
 			<g transform='translate(50,50)'>
 				<circle class='clock-face' r='48'/>

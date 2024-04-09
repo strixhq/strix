@@ -28,7 +28,7 @@ const Counter = () => {
 write(document.body, Counter);
 ```
 
-**Strix** is the JavaScript and TypeScript project for empowering the Web construction.\
+**Strix** is light-weight JavaScript and TypeScript Web construction helper.\
 Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
