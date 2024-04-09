@@ -9,11 +9,13 @@
 ---
 
 ```javascript
+import { html, write } from 'strix-html'
+
 const Counter = () => {
 
     let count = 0;
 
-    return h => h`
+    return () => html`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -22,8 +24,6 @@ const Counter = () => {
         </div>
     `;
 }
-
-const { write } = await import('strix-html');
 
 write(document.body, Counter);
 ```
@@ -37,7 +37,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 | package | about | exports |
 | --- | --- | --- |
-| **strix-[html](./html)** | HTML in JavaScript library | ```html``` |
+| **strix-[html](./html)** | HTML in JavaScript library | ```html``` ```write``` |
 | **strix-[layout](./layout)** | Layout manager | ```layout``` |
 | **strix-[nitro](./nitro)** | Design systems | ```nitro``` |
 | **strix-[material3](./material3)** | Material Design 3 port | ```m3``` |
@@ -45,7 +45,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 | **strix-[hx](./hx)** | High power tools | ```hx``` |
 | **strix-[react](./react)** | React compatibility hook | ```React``` |
 | **strix-[create](./create)** | Project template generator | - |
-| **strix-[analyzer](./analyzer)** | Typescript analyzer | - |
+| **strix-[analyzer](./analyzer)** | VSCode analyzer | - |
 
 ### Installation
 
@@ -67,7 +67,7 @@ deno task build
 
 ### Smart Attributes on strix-HTML
 ```javascript
-return html => html`
+return () => html`
     <div>
         <!-- text -->
         <label>${text}</label>
@@ -143,7 +143,7 @@ $.std = {
 const FrameMode = $ => {
     let count = 0; // this is a 'frame' mode
 
-    return html => html`
+    return () => html`
         <button @click=${() => count++};>${count}</button>
     `;
     // refresh every frame with requestAnimationFrame()
@@ -154,7 +154,7 @@ const PointerMode = $ => {
     
     let count = ptr(0);
 
-    return html => html`
+    return () => html`
         <button @click=${() => count.v++}>${count}</button>
     `;
     // refresh when pointer value changed, which reduces unchanged calls (most performant)
@@ -163,7 +163,7 @@ const PointerMode = $ => {
 
 ### Usage
 ```javascript
-import { write } from 'strix-html'
+import { html, write } from 'strix-html'
 
 const Count = $ => {
     const { ptr } = $.std;
@@ -176,7 +176,7 @@ const Count = $ => {
             buttonText.v = $.value? 'Click me!' : 'Hover me!'
         };
 
-    return html => html`
+    return () => html`
         <div>
             <p>You clicked ${count} times</p>
             <button
@@ -203,7 +203,7 @@ const Counter = () => {
 
     let count = 0;
 
-    return html => html`
+    return () => html`
         <button @click=${() => count++}; .count=${count};>
             I got clicked ${count} times!
         </button>
@@ -211,7 +211,12 @@ const Counter = () => {
 }
 
 const Main = $ => {
-    return html => html`
+
+    $`#counter`.then(counterRef => {
+        
+    });
+
+    return () => html`
         <body>
             <p>👇 She got clicked ${$`#counter`.count} times</p>
             <${Counter} #counter/>
@@ -224,33 +229,35 @@ const Main = $ => {
 ```javascript
 
 const TodoApp = $ => {
-    const { ptr } = $.std;
+    const { ptr, map } = $.std;
 
-    const inputPlaceholder = ptr('', true);
+    const inputPlaceholder = ptr.new('', true);
+
+    const todoMap = map.new();
 
     const TodoRow = $ => {
         const { ptr } = $.std;
 
-        const editableTextnode = ptr($.value, true); // create contenteditable=plaintext-only
+        const editableTextnode = ptr.new($.value, true); // create contenteditable=plaintext-only
 
         return html => html`
             <div @blur=${() => editableTextnode.close()}>
                 <span @blur=${() => editableTextnode.close()}>${editableTextnode}</span>
 
                 <button @click=${() => editableTextnode.open()}>edit</button>
-                <button @click=${() => $.element.remove()}>delete</button>
-                <button @click=${() => $.swap('above')}>swap with above</button>
-                <button @click=${() => $.swap('below')}>swap with below</button>
+                <button @click=${() => $.map.remove()}>delete</button>
+                <button @click=${() => $.map.swapAbove()}>swap with above</button>
+                <button @click=${() => $.map.swapBelow()}>swap with below</button>
             </div>
         `;
     }
 
-    return html => html`
+    return () => html`
         <div *background-color=#red; *color=white;>
-            <ul #todoList></ul>
+            <ul ${map}=${todoMap}></ul>
             <input #todoInput; type=text; value=${inputPlaceHolder}/>
             <input type=button; @click=${() => {
-                $`#todoList`.push($ => html => html`
+                todoMap.push(html => html`
                     <${TodoRow} .value=${inputPlaceHolder.v}/>
                 `);
                 inputPlaceHolder.v = '';
@@ -268,7 +275,7 @@ const ReverseStr = $ => {
         revText = ptr(''),
         textValuePtr = ptr('', true);
 
-    return html => html`
+    return () => html`
         <div>
             <input
                 type=text;
@@ -295,7 +302,7 @@ import nitro from 'https://esm.sh/strix-nitro'
 // Nitro Design - The Design System By Strix
 
 const StyleImport = () => {
-    return html => html`
+    return () => html`
         <div>
             <button ${nitro}>I am themed by Nitro Design!</button>
         </div>
@@ -311,7 +318,7 @@ const StyleImport = () => {
     }
 */
 
-const sampleAttrModule = attr => attr`
+const sampleAttrModule = () => attr`
     *background-color=${attr.value === 'system'
         ? '#000'
         : attr.value === 'dark'
@@ -341,7 +348,7 @@ const sampleAttrModule = attr => attr`
     };
 `; // psuedo elements are style attributes only
 
-const WithAttributeModule = () => html => html`
+const WithAttributeModule = () => () => html`
     <div ${sampleAttrModule}=system;>
         <button></button>
     </div>
@@ -351,7 +358,7 @@ const WithAttributeModule = () => html => html`
 ```javascript
 import { center } from 'strix-layout';
 
-const HowToCenterADiv = $ => html => html`
+const HowToCenterADiv = () => () => html`
     <div ${center}>Now I am a centered div!</div>
 `;
 ```
@@ -360,7 +367,7 @@ const HowToCenterADiv = $ => html => html`
 import { React } from 'strix-react';
 import { Button } from '@shadcn/ui/components/ui/button'
 
-const ReactEmbedded = () => html => html`
+const ReactEmbedded = () => () => html`
     <div>
         <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
     </div>
@@ -371,7 +378,7 @@ const ReactEmbedded = () => html => html`
 import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
-    return html => html`
+    return () => html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
 }
