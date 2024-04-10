@@ -25,6 +25,20 @@ const Counter = () => {
     `;
 }
 
+const Counter = () => {
+
+    const [count, setCount] = useState(0);
+
+    return (
+        <div>
+            <h1>{count}</h1>
+            <button onClick={() => count++}>
+                Increment
+            </button>
+        </div>
+    )
+}
+
 write(document.body, Counter);
 ```
 
@@ -33,7 +47,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
-### Projects
+### Packages
 
 | package | about | exports |
 | --- | --- | --- |
@@ -44,8 +58,13 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 | **strix-[md](./md)** | Markdown-to-HTML Plugin | ```md``` |
 | **strix-[hx](./hx)** | High power tools | ```hx``` |
 | **strix-[react](./react)** | React compatibility hook | ```React``` |
-| **strix-[create](./create)** | Project template generator | - |
-| **strix-[analyzer](./analyzer)** | VSCode analyzer | - |
+
+### Projects
+| project | about |
+| --- | --- |
+| **[Trixel](./trixel)** | Fullstack Strix Framework |
+| **[Create](./create)** | Project template generator |
+| **[Analyzer](./analyzer)** | VSCode analyzer |
 
 ### Installation
 
@@ -381,6 +400,14 @@ const RunLikeHTMX = () => {
     return () => html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
+}
+```
+
+```jsx
+const withJsxImportSource = () => {
+    return () => (
+        <div {hx.get}=/example; {hx.swap}=afterend;></div>
+    );
 }
 ```
 
