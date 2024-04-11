@@ -9,13 +9,13 @@
 ---
 
 ```javascript
-import { html, write } from 'strix-html'
+import { write } from 'strix-html'
 
 const Counter = () => {
 
     let count = 0;
 
-    return () => html`
+    return h => h`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -23,20 +23,6 @@ const Counter = () => {
             </button>
         </div>
     `;
-}
-
-const Counter = () => {
-
-    const [count, setCount] = useState(0);
-
-    return (
-        <div>
-            <h1>{count}</h1>
-            <button onClick={() => count++}>
-                Increment
-            </button>
-        </div>
-    )
 }
 
 write(document.body, Counter);
@@ -173,7 +159,7 @@ const PointerMode = $ => {
     
     let count = ptr(0);
 
-    return () => html`
+    return html => html`
         <button @click=${() => count.v++}>${count}</button>
     `;
     // refresh when pointer value changed, which reduces unchanged calls (most performant)
@@ -182,7 +168,7 @@ const PointerMode = $ => {
 
 ### Usage
 ```javascript
-import { html, write } from 'strix-html'
+import { write } from 'strix-html'
 
 const Count = $ => {
     const { ptr } = $.std;
@@ -195,7 +181,7 @@ const Count = $ => {
             buttonText.v = $.value? 'Click me!' : 'Hover me!'
         };
 
-    return () => html`
+    return html => html`
         <div>
             <p>You clicked ${count} times</p>
             <button
@@ -222,7 +208,7 @@ const Counter = () => {
 
     let count = 0;
 
-    return () => html`
+    return html => html`
         <button @click=${() => count++}; .count=${count};>
             I got clicked ${count} times!
         </button>
@@ -235,7 +221,7 @@ const Main = $ => {
         
     });
 
-    return () => html`
+    return html => html`
         <body>
             <p>👇 She got clicked ${$`#counter`.count} times</p>
             <${Counter} #counter/>
@@ -271,7 +257,7 @@ const TodoApp = $ => {
         `;
     }
 
-    return () => html`
+    return html => html`
         <div *background-color=#red; *color=white;>
             <ul ${map}=${todoMap}></ul>
             <input #todoInput; type=text; value=${inputPlaceHolder}/>
@@ -294,7 +280,7 @@ const ReverseStr = $ => {
         revText = ptr(''),
         textValuePtr = ptr('', true);
 
-    return () => html`
+    return html => html`
         <div>
             <input
                 type=text;
@@ -308,7 +294,7 @@ const ReverseStr = $ => {
 ```
 
 ```javascript
-const C2DApp = $ => () => html`
+const C2DApp = $ => html => html`
     <canvas @load=${({ target: canvas }) => {
         const ctx = canvas.getContext('2d');
         // ...
@@ -321,7 +307,7 @@ import nitro from 'https://esm.sh/strix-nitro'
 // Nitro Design - The Design System By Strix
 
 const StyleImport = () => {
-    return () => html`
+    return html => html`
         <div>
             <button ${nitro}>I am themed by Nitro Design!</button>
         </div>
@@ -337,7 +323,7 @@ const StyleImport = () => {
     }
 */
 
-const sampleAttrModule = () => attr`
+const sampleAttrModule = attr => attr`
     *background-color=${attr.value === 'system'
         ? '#000'
         : attr.value === 'dark'
@@ -367,7 +353,7 @@ const sampleAttrModule = () => attr`
     };
 `; // psuedo elements are style attributes only
 
-const WithAttributeModule = () => () => html`
+const WithAttributeModule = () => html => html`
     <div ${sampleAttrModule}=system;>
         <button></button>
     </div>
@@ -377,7 +363,7 @@ const WithAttributeModule = () => () => html`
 ```javascript
 import { center } from 'strix-layout';
 
-const HowToCenterADiv = () => () => html`
+const HowToCenterADiv = () => html => html`
     <div ${center}>Now I am a centered div!</div>
 `;
 ```
@@ -386,7 +372,7 @@ const HowToCenterADiv = () => () => html`
 import { React } from 'strix-react';
 import { Button } from '@shadcn/ui/components/ui/button'
 
-const ReactEmbedded = () => () => html`
+const ReactEmbedded = () => html => html`
     <div>
         <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
     </div>
@@ -397,7 +383,7 @@ const ReactEmbedded = () => () => html`
 import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
-    return () => html`
+    return html => html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
 }
