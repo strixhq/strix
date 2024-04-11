@@ -1,3 +1,5 @@
+const html = ({ raw }, ...val) => [raw, val];
+
 /**
  * 
  * @param { HTMLElement } container 

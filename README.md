@@ -9,8 +9,6 @@
 ---
 
 ```javascript
-import { write } from 'strix-html'
-
 const Counter = () => {
 
     let count = 0;
@@ -24,6 +22,8 @@ const Counter = () => {
         </div>
     `;
 }
+
+const { write } = await import('strix-html');
 
 write(document.body, Counter);
 ```

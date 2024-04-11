@@ -1,1 +1,0 @@
-export const html = ({ raw }, ...val) => [raw, val];
