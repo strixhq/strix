@@ -10,10 +10,10 @@
 
 ```javascript
 const Counter = () => {
+	let count = 0;
 
-    let count = 0;
-
-    return h => h`
+	return (h) =>
+		h`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -21,7 +21,7 @@ const Counter = () => {
             </button>
         </div>
     `;
-}
+};
 
 const { write } = await import('strix-html');
 
@@ -35,44 +35,50 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 ### Packages
 
-| package | about | exports |
-| --- | --- | --- |
-| **strix-[html](./html)** | HTML in JavaScript library | ```html``` ```write``` |
-| **strix-[layout](./layout)** | Layout manager | ```layout``` |
-| **strix-[nitro](./nitro)** | Design systems | ```nitro``` |
-| **strix-[material3](./material3)** | Material Design 3 port | ```m3``` |
-| **strix-[md](./md)** | Markdown-to-HTML Plugin | ```md``` |
-| **strix-[hx](./hx)** | High power tools | ```hx``` |
-| **strix-[react](./react)** | React compatibility hook | ```React``` |
+| package                            | about                      | exports        |
+| ---------------------------------- | -------------------------- | -------------- |
+| **strix-[html](./html)**           | HTML in JavaScript library | `html` `write` |
+| **strix-[layout](./layout)**       | Layout manager             | `layout`       |
+| **strix-[nitro](./nitro)**         | Design systems             | `nitro`        |
+| **strix-[material3](./material3)** | Material Design 3 port     | `m3`           |
+| **strix-[md](./md)**               | Markdown-to-HTML Plugin    | `md`           |
+| **strix-[hx](./hx)**               | High power tools           | `hx`           |
+| **strix-[react](./react)**         | React compatibility hook   | `React`        |
 
 ### Projects
-| project | about |
-| --- | --- |
-| **[Trixel](./trixel)** | Fullstack Strix Framework |
-| **[Create](./create)** | Project template generator |
-| **[Analyzer](./analyzer)** | VSCode analyzer |
+
+| project                    | about                      |
+| -------------------------- | -------------------------- |
+| **[Trixel](./trixel)**     | Fullstack Strix Framework  |
+| **[Create](./create)**     | Project template generator |
+| **[Analyzer](./analyzer)** | VSCode analyzer            |
 
 ### Installation
 
 #### CDN (esm.sh)
+
 ```javascript
-import { write } from 'https://esm.sh/strix-html'
+import { write } from 'https://esm.sh/strix-html';
 ```
 
 #### NPM
+
 ```sh
 npm i strix-html
 ```
 
 ### Build From Source
+
 ```sh
 git clone https://github.com/ihasq/strix
 deno task build
 ```
 
 ### Smart Attributes on strix-HTML
+
 ```javascript
-return () => html`
+return () =>
+	html`
     <div>
         <!-- text -->
         <label>${text}</label>
@@ -130,58 +136,61 @@ return () => html`
 $`#inputWithProp`.get`.value` === $`#inputWithProp`.value; // true
 $`button`.get`@click`; // () => console.log('clicked')
 $`#hasNested`.get`*color`; // 'blue'
-
 ```
 
 ### Directives
+
 ```javascript
 $.std = {
-    ptr(setup, setCallbackFn, getCallbackFn) {
-        /* create pointer */
-        return { get v() {} }
-    }
-}
+	ptr(setup, setCallbackFn, getCallbackFn) {
+		/* create pointer */
+		return { get v() {} };
+	},
+};
 ```
 
 ### Select Your Writing Mode
-```javascript
-const FrameMode = $ => {
-    let count = 0; // this is a 'frame' mode
 
-    return () => html`
+```javascript
+const FrameMode = ($) => {
+	let count = 0; // this is a 'frame' mode
+
+	return () =>
+		html`
         <button @click=${() => count++};>${count}</button>
     `;
-    // refresh every frame with requestAnimationFrame()
-}
+	// refresh every frame with requestAnimationFrame()
+};
 
-const PointerMode = $ => {
-    const { ptr } = $.std; // switching into 'set' mode
-    
-    let count = ptr(0);
+const PointerMode = ($) => {
+	const { ptr } = $.std; // switching into 'set' mode
 
-    return html => html`
+	let count = ptr(0);
+
+	return (html) =>
+		html`
         <button @click=${() => count.v++}>${count}</button>
     `;
-    // refresh when pointer value changed, which reduces unchanged calls (most performant)
-}
+	// refresh when pointer value changed, which reduces unchanged calls (most performant)
+};
 ```
 
 ### Usage
+
 ```javascript
-import { write } from 'strix-html'
+import { write } from 'strix-html';
 
-const Count = $ => {
-    const { ptr } = $.std;
+const Count = ($) => {
+	const { ptr } = $.std;
 
-    const
-        count = ptr(0),
-        buttonText = ptr('Hover me!'),
+	const count = ptr(0),
+		buttonText = ptr('Hover me!'),
+		isHovering = ($) => () => {
+			buttonText.v = $.value ? 'Click me!' : 'Hover me!';
+		};
 
-        isHovering = $ => () => {
-            buttonText.v = $.value? 'Click me!' : 'Hover me!'
-        };
-
-    return html => html`
+	return (html) =>
+		html`
         <div>
             <p>You clicked ${count} times</p>
             <button
@@ -198,89 +207,91 @@ const Count = $ => {
             </button>
         </div>
     `;
-}
+};
 
 write(document.body, Count);
 ```
 
 ```javascript
 const Counter = () => {
+	let count = 0;
 
-    let count = 0;
-
-    return html => html`
+	return (html) =>
+		html`
         <button @click=${() => count++}; .count=${count};>
             I got clicked ${count} times!
         </button>
     `;
-}
+};
 
-const Main = $ => {
+const Main = ($) => {
+	$`#counter`.then((counterRef) => {
+	});
 
-    $`#counter`.then(counterRef => {
-        
-    });
-
-    return html => html`
+	return (html) =>
+		html`
         <body>
             <p>👇 She got clicked ${$`#counter`.count} times</p>
             <${Counter} #counter/>
             <button @click=${() => $`#counter`.click()};>Bring some more...</button>
         </body>
     `;
-}
+};
 ```
 
 ```javascript
+const TodoApp = ($) => {
+	const { std: { ptr, map } } = $;
 
-const TodoApp = $ => {
-    const { ptr, map } = $.std;
+	const inputPlaceholder = ptr.new('', true);
 
-    const inputPlaceholder = ptr.new('', true);
+	const todoMap = map.new();
 
-    const todoMap = map.new();
+	const TodoRow = (todoRowRef) => {
+		const { std: { ptr }, map } = todoRowRef;
 
-    const TodoRow = $ => {
-        const { ptr } = $.std;
+		const editableTextnode = ptr.new(todoRowRef.value, true); // create contenteditable=plaintext-only
 
-        const editableTextnode = ptr.new($.value, true); // create contenteditable=plaintext-only
-
-        return html => html`
+		return (html) =>
+			html`
             <div @blur=${() => editableTextnode.close()}>
                 <span @blur=${() => editableTextnode.close()}>${editableTextnode}</span>
 
                 <button @click=${() => editableTextnode.open()}>edit</button>
-                <button @click=${() => $.map.remove()}>delete</button>
-                <button @click=${() => $.map.swapAbove()}>swap with above</button>
-                <button @click=${() => $.map.swapBelow()}>swap with below</button>
+                <button @click=${() => map.hide()}>delete</button>
+                <button @click=${() => map.swapAbove()}>swap with above</button>
+                <button @click=${() => map.swapBelow()}>swap with below</button>
             </div>
         `;
-    }
+	};
 
-    return html => html`
+	return (html) =>
+		html`
         <div *background-color=#red; *color=white;>
-            <ul ${map}=${todoMap}></ul>
-            <input #todoInput; type=text; value=${inputPlaceHolder}/>
+            <ul>${todoMap}</ul>
+            <input #todoInput; type=text; .value=${inputPlaceHolder}/>
             <input type=button; @click=${() => {
-                todoMap.push(html => html`
+			todoMap.push((html) =>
+				html`
                     <${TodoRow} .value=${inputPlaceHolder.v}/>
-                `);
-                inputPlaceHolder.v = '';
-            }};/>
+                `
+			);
+			inputPlaceHolder.v = '';
+		}};/>
         </div>
     `;
-}
+};
 ```
 
 ```javascript
-const ReverseStr = $ => {
-    const { ptr } = $.std;
+const ReverseStr = ($) => {
+	const { ptr } = $.std;
 
-    const
-        revText = ptr(''),
-        textValuePtr = ptr('', true);
+	const revText = ptr(''),
+		textValuePtr = ptr('', true);
 
-    return html => html`
+	return (html) =>
+		html`
         <div>
             <input
                 type=text;
@@ -290,29 +301,31 @@ const ReverseStr = $ => {
             <h2>${revText}</h2>
         </div>
     `;
-}
+};
 ```
 
 ```javascript
-const C2DApp = $ => html => html`
+const C2DApp = ($) => (html) =>
+	html`
     <canvas @load=${({ target: canvas }) => {
-        const ctx = canvas.getContext('2d');
-        // ...
-    }};></canvas>
+		const ctx = canvas.getContext('2d');
+		// ...
+	}};></canvas>
 `;
 ```
 
 ```javascript
-import nitro from 'https://esm.sh/strix-nitro'
+import nitro from 'https://esm.sh/strix-nitro';
 // Nitro Design - The Design System By Strix
 
 const StyleImport = () => {
-    return html => html`
+	return (html) =>
+		html`
         <div>
             <button ${nitro}>I am themed by Nitro Design!</button>
         </div>
-    `
-}
+    `;
+};
 ```
 
 ```javascript
@@ -323,13 +336,9 @@ const StyleImport = () => {
     }
 */
 
-const sampleAttrModule = attr => attr`
-    *background-color=${attr.value === 'system'
-        ? '#000'
-        : attr.value === 'dark'
-            ? '#fff'
-            : '#000'
-    }
+const sampleAttrModule = (attr) =>
+	attr`
+    *background-color=${attr.value === 'system' ? '#000' : attr.value === 'dark' ? '#fff' : '#000'}
     *color=red;
     ${anotherAttrModule}=${true}
 
@@ -353,26 +362,29 @@ const sampleAttrModule = attr => attr`
     };
 `; // psuedo elements are style attributes only
 
-const WithAttributeModule = () => html => html`
+const WithAttributeModule = () => (html) =>
+	html`
     <div ${sampleAttrModule}=system;>
         <button></button>
     </div>
-`
+`;
 ```
 
 ```javascript
 import { center } from 'strix-layout';
 
-const HowToCenterADiv = () => html => html`
+const HowToCenterADiv = () => (html) =>
+	html`
     <div ${center}>Now I am a centered div!</div>
 `;
 ```
 
 ```javascript
 import { React } from 'strix-react';
-import { Button } from '@shadcn/ui/components/ui/button'
+import { Button } from '@shadcn/ui/components/ui/button';
 
-const ReactEmbedded = () => html => html`
+const ReactEmbedded = () => (html) =>
+	html`
     <div>
         <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
     </div>
@@ -383,10 +395,11 @@ const ReactEmbedded = () => html => html`
 import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
-    return html => html`
+	return (html) =>
+		html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
-}
+};
 ```
 
 ```jsx
@@ -398,4 +411,5 @@ const withJsxImportSource = () => {
 ```
 
 ### License
+
 Strix is MIT Licensed.

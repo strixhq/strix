@@ -1,1 +1,1 @@
-# *Nitro* - Design System by ```libh.js```
+# _Nitro_ - Design System by `libh.js`

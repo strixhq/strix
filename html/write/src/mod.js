@@ -1,7 +1,5 @@
 const html = (templateStrings, ...templateValues) => {
-	
-}
+};
 
-export default function(targetDocument, componentFn) {
-
+export default function (targetDocument, componentFn) {
 }
