@@ -1,18 +1,18 @@
 {
-	"name": "libh",
-	"version": "0.0.31",
-	"description": "libh.js is the public domain JavaScript library for empowering the DOM manipulation.",
-	"main": "demo.js",
-	"directories": {
-		"doc": "docs"
-	},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ihasq/libh.git"
-	},
-	"author": "ihasq",
-	"license": "MIT"
+    "name": "libh",
+    "version": "0.0.31",
+    "description": "libh.js is the public domain JavaScript library for empowering the DOM manipulation.",
+    "main": "demo.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ihasq/libh.git"
+    },
+    "author": "ihasq",
+    "license": "MIT"
 }

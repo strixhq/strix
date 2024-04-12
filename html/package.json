@@ -1,14 +1,14 @@
 {
-	"name": "@ive/html",
-	"version": "0.0.1",
-	"description": "HTML in JavaScript library",
-	"main": "mod.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"keywords": [
-		"html"
-	],
-	"author": "ihasq",
-	"license": "MIT"
+    "name": "@ive/html",
+    "version": "0.0.1",
+    "description": "HTML in JavaScript library",
+    "main": "mod.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "html"
+    ],
+    "author": "ihasq",
+    "license": "MIT"
 }

@@ -7,7 +7,7 @@ const hTempMap = {};
 let strixRequestId = '';
 
 const writeLoopProcess = () => {
-	strixRequestId = window.requestAnimationFrame(writeLoopProcess);
+    strixRequestId = window.requestAnimationFrame(writeLoopProcess);
 };
 
 /**
@@ -17,20 +17,20 @@ const writeLoopProcess = () => {
  */
 
 export const write = (container, templateFn) => {
-	let isWriting = true,
-		isAborted = false;
-	container.insertBefore();
-	return {
-		pause() {
-			isWriting = false;
-		},
+    let isWriting = true,
+        isAborted = false;
+    container.insertBefore();
+    return {
+        pause() {
+            isWriting = false;
+        },
 
-		resume() {
-			isWriting = true;
-		},
+        resume() {
+            isWriting = true;
+        },
 
-		close() {
-			isAborted = true;
-		},
-	};
+        close() {
+            isAborted = true;
+        },
+    };
 };

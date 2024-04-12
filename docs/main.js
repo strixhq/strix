@@ -1,28 +1,28 @@
 import md from '@libh/md';
 
 export default ($) => {
-	const accent = (at) =>
-		at`
+    const accent = (at) =>
+        at`
 		*color=#3D72D7;
 	`;
 
-	const randomPhrase = [
-		'Finally, React without Hooks',
-		'#NoMoreUseState()',
-		'So Long, HTML Classes!',
-	][Math.floor(Math.random() * 5)];
+    const randomPhrase = [
+        'Finally, React without Hooks',
+        '#NoMoreUseState()',
+        'So Long, HTML Classes!',
+    ][Math.floor(Math.random() * 5)];
 
-	const LibhToken = ($) => (h) =>
-		h`
+    const LibhToken = ($) => (h) =>
+        h`
 		<span>lib<span *color=#3d72D7;>h</span></span>
 	`;
 
-	const { std: { ptr } } = $;
+    const { std: { ptr } } = $;
 
-	const todoInput = ptr('', true);
+    const todoInput = ptr('', true);
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
 		<div>
 			<h1 *background=transition(0);>
 				lib<span ${accent}>h</span>

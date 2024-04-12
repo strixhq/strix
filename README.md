@@ -10,10 +10,10 @@
 
 ```javascript
 const Counter = () => {
-	let count = 0;
+    let count = 0;
 
-	return (h) =>
-		h`
+    return (h) =>
+        h`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -78,7 +78,7 @@ deno task build
 
 ```javascript
 return () =>
-	html`
+    html`
     <div>
         <!-- text -->
         <label>${text}</label>
@@ -142,10 +142,10 @@ $`#hasNested`.get`*color`; // 'blue'
 
 ```javascript
 $.std = {
-	ptr(setup, setCallbackFn, getCallbackFn) {
-		/* create pointer */
-		return { get v() {} };
-	},
+    ptr(setup, setCallbackFn, getCallbackFn) {
+        /* create pointer */
+        return { get v() {} };
+    },
 };
 ```
 
@@ -153,25 +153,25 @@ $.std = {
 
 ```javascript
 const FrameMode = ($) => {
-	let count = 0; // this is a 'frame' mode
+    let count = 0; // this is a 'frame' mode
 
-	return () =>
-		html`
+    return () =>
+        html`
         <button @click=${() => count++};>${count}</button>
     `;
-	// refresh every frame with requestAnimationFrame()
+    // refresh every frame with requestAnimationFrame()
 };
 
 const PointerMode = ($) => {
-	const { ptr } = $.std; // switching into 'set' mode
+    const { ptr } = $.std; // switching into 'set' mode
 
-	let count = ptr(0);
+    let count = ptr(0);
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <button @click=${() => count.v++}>${count}</button>
     `;
-	// refresh when pointer value changed, which reduces unchanged calls (most performant)
+    // refresh when pointer value changed, which reduces unchanged calls (most performant)
 };
 ```
 
@@ -181,16 +181,16 @@ const PointerMode = ($) => {
 import { write } from 'strix-html';
 
 const Count = ($) => {
-	const { ptr } = $.std;
+    const { ptr } = $.std;
 
-	const count = ptr(0),
-		buttonText = ptr('Hover me!'),
-		isHovering = ($) => () => {
-			buttonText.v = $.value ? 'Click me!' : 'Hover me!';
-		};
+    const count = ptr(0),
+        buttonText = ptr('Hover me!'),
+        isHovering = ($) => () => {
+            buttonText.v = $.value ? 'Click me!' : 'Hover me!';
+        };
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <div>
             <p>You clicked ${count} times</p>
             <button
@@ -214,10 +214,10 @@ write(document.body, Count);
 
 ```javascript
 const Counter = () => {
-	let count = 0;
+    let count = 0;
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <button @click=${() => count++}; .count=${count};>
             I got clicked ${count} times!
         </button>
@@ -225,11 +225,11 @@ const Counter = () => {
 };
 
 const Main = ($) => {
-	$`#counter`.then((counterRef) => {
-	});
+    $`#counter`.then((counterRef) => {
+    });
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <body>
             <p>👇 She got clicked ${$`#counter`.count} times</p>
             <${Counter} #counter/>
@@ -241,19 +241,19 @@ const Main = ($) => {
 
 ```javascript
 const TodoApp = ($) => {
-	const { std: { ptr, map } } = $;
+    const { std: { ptr, map } } = $;
 
-	const inputPlaceholder = ptr.new('', true);
+    const inputPlaceholder = ptr.new('', true);
 
-	const todoMap = map.new();
+    const todoMap = map.new();
 
-	const TodoRow = (todoRowRef) => {
-		const { std: { ptr }, map } = todoRowRef;
+    const TodoRow = (todoRowRef) => {
+        const { std: { ptr }, map } = todoRowRef;
 
-		const editableTextnode = ptr.new(todoRowRef.value, true); // create contenteditable=plaintext-only
+        const editableTextnode = ptr.new(todoRowRef.value, true); // create contenteditable=plaintext-only
 
-		return (html) =>
-			html`
+        return (html) =>
+            html`
             <div @blur=${() => editableTextnode.close()}>
                 <span @blur=${() => editableTextnode.close()}>${editableTextnode}</span>
 
@@ -263,21 +263,21 @@ const TodoApp = ($) => {
                 <button @click=${() => map.swapBelow()}>swap with below</button>
             </div>
         `;
-	};
+    };
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <div *background-color=#red; *color=white;>
             <ul>${todoMap}</ul>
             <input #todoInput; type=text; .value=${inputPlaceHolder}/>
             <input type=button; @click=${() => {
-			todoMap.push((html) =>
-				html`
+            todoMap.push((html) =>
+                html`
                     <${TodoRow} .value=${inputPlaceHolder.v}/>
                 `
-			);
-			inputPlaceHolder.v = '';
-		}};/>
+            );
+            inputPlaceHolder.v = '';
+        }};/>
         </div>
     `;
 };
@@ -285,13 +285,13 @@ const TodoApp = ($) => {
 
 ```javascript
 const ReverseStr = ($) => {
-	const { ptr } = $.std;
+    const { ptr } = $.std;
 
-	const revText = ptr(''),
-		textValuePtr = ptr('', true);
+    const revText = ptr(''),
+        textValuePtr = ptr('', true);
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <div>
             <input
                 type=text;
@@ -306,11 +306,11 @@ const ReverseStr = ($) => {
 
 ```javascript
 const C2DApp = ($) => (html) =>
-	html`
+    html`
     <canvas @load=${({ target: canvas }) => {
-		const ctx = canvas.getContext('2d');
-		// ...
-	}};></canvas>
+        const ctx = canvas.getContext('2d');
+        // ...
+    }};></canvas>
 `;
 ```
 
@@ -319,8 +319,8 @@ import nitro from 'https://esm.sh/strix-nitro';
 // Nitro Design - The Design System By Strix
 
 const StyleImport = () => {
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <div>
             <button ${nitro}>I am themed by Nitro Design!</button>
         </div>
@@ -337,7 +337,7 @@ const StyleImport = () => {
 */
 
 const sampleAttrModule = (attr) =>
-	attr`
+    attr`
     *background-color=${attr.value === 'system' ? '#000' : attr.value === 'dark' ? '#fff' : '#000'}
     *color=red;
     ${anotherAttrModule}=${true}
@@ -363,7 +363,7 @@ const sampleAttrModule = (attr) =>
 `; // psuedo elements are style attributes only
 
 const WithAttributeModule = () => (html) =>
-	html`
+    html`
     <div ${sampleAttrModule}=system;>
         <button></button>
     </div>
@@ -374,7 +374,7 @@ const WithAttributeModule = () => (html) =>
 import { center } from 'strix-layout';
 
 const HowToCenterADiv = () => (html) =>
-	html`
+    html`
     <div ${center}>Now I am a centered div!</div>
 `;
 ```
@@ -384,7 +384,7 @@ import { React } from 'strix-react';
 import { Button } from '@shadcn/ui/components/ui/button';
 
 const ReactEmbedded = () => (html) =>
-	html`
+    html`
     <div>
         <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
     </div>
@@ -395,8 +395,8 @@ const ReactEmbedded = () => (html) =>
 import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
-	return (html) =>
-		html`
+    return (html) =>
+        html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
 };

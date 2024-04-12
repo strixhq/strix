@@ -1,21 +1,21 @@
 const SomeReactComponent = () => {
-	const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
-	useEffect(() => {
-		console.log('count changed');
-	}, [count]);
+    useEffect(() => {
+        console.log('count changed');
+    }, [count]);
 
-	return (
-		<div>
-			<button onClick={() => setCount((count) => count + 1)}>
-				私は{count}回クリックされました
-			</button>
-		</div>
-	);
+    return (
+        <div>
+            <button onClick={() => setCount((count) => count + 1)}>
+                私は{count}回クリックされました
+            </button>
+        </div>
+    );
 };
 
 const cardToolBarItem = ($) => (at) =>
-	at`
+    at`
 	*color=#333;
 	*flex=1;
 	*padding=1rem;
@@ -30,12 +30,12 @@ const cardToolBarItem = ($) => (at) =>
 `;
 
 const Ours = () => {
-	let count = 0;
+    let count = 0;
 
-	const addCount = () => count++;
+    const addCount = () => count++;
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
 		<div>
 			<button ${cardToolBarItem} @click=${addCount};>
 				私は${count}回クリックされました
@@ -45,24 +45,24 @@ const Ours = () => {
 };
 
 const TodoApp = ($) => {
-	const addTodo = () => {
-		$`#todoList`.push(($$) => {
-			const todo = $$.std.ptr($`#todoInput`.value, 'closed');
+    const addTodo = () => {
+        $`#todoList`.push(($$) => {
+            const todo = $$.std.ptr($`#todoInput`.value, 'closed');
 
-			return (html) =>
-				html`
+            return (html) =>
+                html`
 				<div>
 					<label>${todo}</label>
 					<button @click=${todo.switch}>edit</button>
 					<button @click=${$$.remove}>delete</button>
 				</div>
 			`;
-		});
-		$`#todoInput`.value = '';
-	};
+        });
+        $`#todoInput`.value = '';
+    };
 
-	return (html) =>
-		html`
+    return (html) =>
+        html`
 		<div>
 			<div #todoList></div>
 			<input
