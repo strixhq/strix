@@ -9,10 +9,13 @@
 ---
 
 ```javascript
+import { h, write } from 'https://esm.sh/strix-html';
+
 const Counter = () => {
+
     let count = 0;
 
-    return h => h`
+    return () => h`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -21,8 +24,6 @@ const Counter = () => {
         </div>
     `;
 };
-
-const { write } = await import('strix-html');
 
 write(document.body, Counter);
 ```
