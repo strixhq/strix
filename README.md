@@ -77,13 +77,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { write } from 'https://esm.sh/strix-html';
-```
-
-#### NPM
-
-```sh
-npm i strix-html
+import { h as html, write } from 'https://esm.sh/strix-html';
 ```
 
 ### Build From Source
@@ -174,7 +168,7 @@ $.std = {
 const FrameMode = ($) => {
     let count = 0; // this is a 'frame' mode
 
-    return (html) => html`
+    return () => html`
         <button @click=${() => count++};>${count}</button>
     `;
     // refresh every frame with requestAnimationFrame()
@@ -185,7 +179,7 @@ const PointerMode = ($) => {
 
     let count = ptr(0);
 
-    return html => html`
+    return () => html`
         <button @click=${() => count.v++}>${count}</button>
     `;
     // refresh when pointer value changed, which reduces unchanged calls (most performant)
