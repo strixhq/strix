@@ -155,7 +155,7 @@ $.std = {
 const FrameMode = ($) => {
     let count = 0; // this is a 'frame' mode
 
-    return () =>
+    return (html) =>
         html`
         <button @click=${() => count++};>${count}</button>
     `;
