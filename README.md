@@ -12,7 +12,8 @@
 const Counter = () => {
     let count = 0;
 
-    return (h) => h`
+    return (h) =>
+        h`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -22,14 +23,9 @@ const Counter = () => {
     `;
 };
 
-const { Writer } = await import('strix-html');
+const { write } = await import('strix-html');
 
-const app = new Writer(document.body, Counter);
-
-app.frame((loop, write) => {
-    window.requestAnimationFrame(loop);
-    write();
-});
+write(document.body, Counter);
 ```
 
 **Strix** is light-weight JavaScript and TypeScript Web construction helper.\
@@ -37,25 +33,46 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
+### Directories
+
+| directory          | about    | exports |
+| ------------------ | -------- | ------- |
+| **[mod](./mod)**   | Modules  |         |
+| **[pkg](./pkg)**   | Packages |         |
+| **[sdk](./sdk)**   | SDKs     |         |
+| **[docs](./docs)** |          |         |
+
 ### Packages
 
-| package                            | about                      | exports        |
-| ---------------------------------- | -------------------------- | -------------- |
-| **strix-[html](./html)**           | HTML in JavaScript library | `html` `write` |
-| **strix-[layout](./layout)**       | Layout manager             | `layout`       |
-| **strix-[nitro](./nitro)**         | Design systems             | `nitro`        |
-| **strix-[material3](./material3)** | Material Design 3 port     | `m3`           |
-| **strix-[md](./md)**               | Markdown-to-HTML Plugin    | `md`           |
-| **strix-[hx](./hx)**               | High power tools           | `hx`           |
-| **strix-[react](./react)**         | React compatibility hook   | `React`        |
+| package                                | about                      | exports  |
+| -------------------------------------- | -------------------------- | -------- |
+| **strix-[html](./pkg/html)**           | HTML in JavaScript library | `write`  |
+| **strix-[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`  |
+| **strix-[define](./pkg/define)**       | Defining Web Components    | `serve`  |
+| **strix-[layout](./pkg/layout)**       | Layout manager             | `layout` |
+| **strix-[nitro](./pkg/nitro)**         | Design systems             | `nitro`  |
+| **strix-[material3](./pkg/material3)** | Material Design 3 port     | `m3`     |
+| **strix-[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`     |
+| **strix-[hx](./pkg/hx)**               | High power tools           | `hx`     |
+| **strix-[react](./pkg/react)**         | React compatibility hook   | `React`  |
 
-### Projects
+### SDK
 
-| project                    | about                      |
-| -------------------------- | -------------------------- |
-| **[Trixel](./trixel)**     | Fullstack Strix Framework  |
-| **[Create](./create)**     | Project template generator |
-| **[Analyzer](./analyzer)** | VSCode analyzer            |
+| project                        | about                      |
+| ------------------------------ | -------------------------- |
+| **[Trixel](./sdk/trixel)**     | Fullstack Strix Framework  |
+| **[Create](./sdk/create)**     | Project template generator |
+| **[Analyzer](./sdk/analyzer)** | VSCode analyzer            |
+
+### Modules
+
+| module                      | about                     |
+| --------------------------- | ------------------------- |
+| **[html](./mod/html.js)**   | HTML template parser      |
+| **[attr](./mod/attr.js)**   | Attribute template parser |
+| **[event](./mod/event.js)** | Event router              |
+
+### 
 
 ### Installation
 
@@ -81,7 +98,8 @@ deno task build
 ### Smart Attributes on strix-HTML
 
 ```javascript
-return () => html`
+return () =>
+    html`
     <div>
         <!-- text -->
         <label>${text}</label>
@@ -158,7 +176,8 @@ $.std = {
 const FrameMode = ($) => {
     let count = 0; // this is a 'frame' mode
 
-    return (html) => html`
+    return (html) =>
+        html`
         <button @click=${() => count++};>${count}</button>
     `;
     // refresh every frame with requestAnimationFrame()
@@ -169,7 +188,8 @@ const PointerMode = ($) => {
 
     let count = ptr(0);
 
-    return (html) => html`
+    return (html) =>
+        html`
         <button @click=${() => count.v++}>${count}</button>
     `;
     // refresh when pointer value changed, which reduces unchanged calls (most performant)
@@ -190,7 +210,8 @@ const Count = ($) => {
             buttonText.v = $.value ? 'Click me!' : 'Hover me!';
         };
 
-    return (html) => html`
+    return (html) =>
+        html`
         <div>
             <p>You clicked ${count} times</p>
             <button
@@ -216,7 +237,8 @@ write(document.body, Count);
 const Counter = () => {
     let count = 0;
 
-    return (html) => html`
+    return (html) =>
+        html`
         <button @click=${() => count++}; .count=${count};>
             I got clicked ${count} times!
         </button>
@@ -227,7 +249,8 @@ const Main = ($) => {
     $`#counter`.then((counterRef) => {
     });
 
-    return (html) => html`
+    return (html) =>
+        html`
         <body>
             <p>👇 She got clicked ${$`#counter`.count} times</p>
             <${Counter} #counter/>
@@ -250,7 +273,8 @@ const TodoApp = ($) => {
 
         const editableTextnode = ptr.new(todoRowRef.value, true); // create contenteditable=plaintext-only
 
-        return (html) => html`
+        return (html) =>
+            html`
             <div @blur=${() => editableTextnode.close()}>
                 <span @blur=${() => editableTextnode.close()}>${editableTextnode}</span>
 
@@ -262,7 +286,8 @@ const TodoApp = ($) => {
         `;
     };
 
-    return (html) => html`
+    return (html) =>
+        html`
         <div *background-color=#red; *color=white;>
             <ul>${todoMap}</ul>
             <input #todoInput; type=text; .value=${inputPlaceHolder}/>
@@ -286,7 +311,8 @@ const ReverseStr = ($) => {
     const revText = ptr(''),
         textValuePtr = ptr('', true);
 
-    return (html) => html`
+    return (html) =>
+        html`
         <div>
             <input
                 type=text;
@@ -300,7 +326,8 @@ const ReverseStr = ($) => {
 ```
 
 ```javascript
-const C2DApp = ($) => (html) => html`
+const C2DApp = ($) => (html) =>
+    html`
     <canvas @load=${({ target: canvas }) => {
         const ctx = canvas.getContext('2d');
         // ...
@@ -313,7 +340,8 @@ import nitro from 'https://esm.sh/strix-nitro';
 // Nitro Design - The Design System By Strix
 
 const StyleImport = () => {
-    return (html) => html`
+    return (html) =>
+        html`
         <div>
             <button ${nitro}>I am themed by Nitro Design!</button>
         </div>
@@ -329,7 +357,8 @@ const StyleImport = () => {
     }
 */
 
-const sampleAttrModule = (attr) => attr`
+const sampleAttrModule = (attr) =>
+    attr`
     *background-color=${attr.value === 'system' ? '#000' : attr.value === 'dark' ? '#fff' : '#000'}
     *color=red;
     ${anotherAttrModule}=${true}
@@ -354,7 +383,8 @@ const sampleAttrModule = (attr) => attr`
     };
 `; // psuedo elements are style attributes only
 
-const WithAttributeModule = () => (html) => html`
+const WithAttributeModule = () => (html) =>
+    html`
     <div ${sampleAttrModule}=system;>
         <button></button>
     </div>
@@ -364,7 +394,8 @@ const WithAttributeModule = () => (html) => html`
 ```javascript
 import { center } from 'strix-layout';
 
-const HowToCenterADiv = () => (html) => html`
+const HowToCenterADiv = () => (html) =>
+    html`
     <div ${center}>Now I am a centered div!</div>
 `;
 ```
@@ -373,7 +404,8 @@ const HowToCenterADiv = () => (html) => html`
 import { React } from 'strix-react';
 import { Button } from '@shadcn/ui/components/ui/button';
 
-const ReactEmbedded = () => (html) => html`
+const ReactEmbedded = () => (html) =>
+    html`
     <div>
         <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
     </div>
@@ -384,7 +416,8 @@ const ReactEmbedded = () => (html) => html`
 import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
-    return (html) => html`
+    return (html) =>
+        html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
 };
