@@ -17,7 +17,7 @@ const Counter = () => {
 
     return () => h`
         <div>
-            <h1>${count}</h1>
+            <h1>${{ count }}</h1>
             <button @click=${() => count++}>
                 Increment
             </button>
@@ -48,7 +48,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 | -------------------------------------- | -------------------------- | -------- |
 | **strix-[html](./pkg/html)**           | HTML in JavaScript library | `write`  |
 | **strix-[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`  |
-| **strix-[define](./pkg/define)**       | Defining Web Components    | `serve`  |
+| **strix-[define](./pkg/define)**       | Defining Web Components    | `define` |
 | **strix-[layout](./pkg/layout)**       | Layout manager             | `layout` |
 | **strix-[nitro](./pkg/nitro)**         | Design systems             | `nitro`  |
 | **strix-[material3](./pkg/material3)** | Material Design 3 port     | `m3`     |
@@ -96,10 +96,11 @@ deno task build
 ### Smart Attributes on strix-HTML
 
 ```javascript
-return html => html`
+return () => html`
     <div>
-        <!-- text -->
-        <label>${text}</label>
+        <!-- primitive -->
+        <label>${text}</label> <!-- this is static, may not compare when refreshing -->
+        <label>${{ text }}</label> <!-- this is dynamic -->
 
         <!-- attribute -->
         <iframe src=${formURL}; />
@@ -232,8 +233,8 @@ const Counter = () => {
     let count = 0;
 
     return () => html`
-        <button @click=${() => count++}; .count=${count};>
-            I got clicked ${count} times!
+        <button @click=${() => count++}; .count=${{ count }};>
+            I got clicked ${{ count }} times!
         </button>
     `;
 };
@@ -399,7 +400,7 @@ const ReactEmbedded = () => () => html`
 import { hx } from 'strix-hx';
 
 const RunLikeHTMX = () => {
-    return (html) => html`
+    return () => html`
         <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
     `;
 };
