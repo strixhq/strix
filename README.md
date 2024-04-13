@@ -35,12 +35,12 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 ### Directories
 
-| directory          | about    | exports |
-| ------------------ | -------- | ------- |
-| **[mod](./mod)**   | Modules  |         |
-| **[pkg](./pkg)**   | Packages |         |
-| **[sdk](./sdk)**   | SDKs     |         |
-| **[docs](./docs)** |          |         |
+| directory          | about         |
+| ------------------ | ------------- |
+| **[mod](./mod)**   | Modules       |
+| **[pkg](./pkg)**   | Packages      |
+| **[sdk](./sdk)**   | SDKs          |
+| **[docs](./docs)** | Documentation |
 
 ### Packages
 
@@ -71,8 +71,6 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 | **[html](./mod/html.js)**   | HTML template parser      |
 | **[attr](./mod/attr.js)**   | Attribute template parser |
 | **[event](./mod/event.js)** | Event router              |
-
-### 
 
 ### Installation
 
