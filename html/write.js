@@ -10,27 +10,44 @@ const writeLoopProcess = () => {
     strixRequestId = window.requestAnimationFrame(writeLoopProcess);
 };
 
-/**
- * @param { HTMLElement } container
- * @param { Function } templateFn
- * @returns { Function }
- */
+export class Writer {
 
-export const write = (container, templateFn) => {
-    let isWriting = true,
-        isAborted = false;
-    container.insertBefore();
-    return {
-        pause() {
-            isWriting = false;
-        },
+    /**
+     * 
+     * @param { HTMLElement } container 
+     * @param { Function } templateFn 
+     */
 
-        resume() {
-            isWriting = true;
-        },
+    constructor(container, templateFn) {
+        this.container = container;
+        this.templateFn = templateFn;
+        this.isWriting = true;
+        this.isAborted = false;
 
-        close() {
-            isAborted = true;
-        },
-    };
-};
+        this.dispatchEvent();
+    }
+
+    pause() {
+        this.isWriting = false;
+    }
+
+    resume() {
+        this.isWriting = true;
+    }
+
+    close() {
+        this.isWriting = false;
+        this.isAborted = true;
+    }
+}
+
+const mainApp = new Writer(document.body, Counter);
+
+const mainLoop = () => {
+    window.requestAnimationFrame(mainLoop);
+    mainApp.write();
+}
+
+mainApp.addEventListener('', () => {
+
+})
