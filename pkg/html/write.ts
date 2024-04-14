@@ -8,12 +8,9 @@ const createHTemp = (hTempObj) => {
 
 }
 
-/**
- * 
- * @param { TemplateStringsArray } hTempObj 
- */
-
-const createHTempKey = (hTempObj) => {
+const createHTempKey = (
+	hTempObj: TemplateStringsArray
+): string => {
 	const newHTempKey = hTempObj.join('\0');
 	if(newHTempKey in hTempMap) {
 		hTempMap[newHTempKey] = createHTemp(hTempObj);
@@ -25,7 +22,9 @@ const createPathRef = () => {
 
 }
 
-const createPath = (template) => {
+const createPath = (
+	template: Function
+): Array<Function> => {
 	const pathRef = createPathRef();
 	const initialWriterFn = template();
 	return [
@@ -39,14 +38,17 @@ const createPath = (template) => {
 	]
 }
 
-export const write = (container, template) => {
-	let currentStrixRequestId = "";
+export const write = (
+	container: HTMLElement | DocumentFragment,
+	template: Function
+) => {
+	let currentStrixRequestId = -1;
 	const [ write ] = createPath(template);
 	const writeLoop = () => {
 		currentStrixRequestId = requestAnimationFrame(writeLoop);
 		write();
 	};
-	requestAnimationFrame(writeLoop);
+	writeLoop();
 	return {
 		close() {
 			cancelAnimationFrame(currentStrixRequestId);
