@@ -17,7 +17,7 @@ const Counter = () => {
 
     return () => h`
         <div>
-            <h1>${{ count }}</h1>
+            <h1>${count}</h1>
             <button @click=${() => count++}>
                 Increment
             </button>
@@ -92,9 +92,8 @@ deno task build
 ```javascript
 return () => html`
     <div>
-        <!-- primitive -->
-        <label>${text}</label> <!-- this is static, may not compare when refreshing -->
-        <label>${{ text }}</label> <!-- this is dynamic -->
+        <!-- text -->
+        <label>${text}</label>
 
         <!-- attribute -->
         <iframe src=${formURL}; />
@@ -227,8 +226,8 @@ const Counter = () => {
     let count = 0;
 
     return () => html`
-        <button @click=${() => count++}; .count=${{ count }};>
-            I got clicked ${{ count }} times!
+        <button @click=${() => count++}; .count=${count};>
+            I got clicked ${count} times!
         </button>
     `;
 };
@@ -277,7 +276,7 @@ const TodoApp = ($) => {
             <ul>${todoMap}</ul>
             <input #todoInput; type=text; .value=${inputPlaceHolder}/>
             <input type=button; @click=${() => {
-                todoMap.push(html => html`
+                todoMap.push(() => html`
                     <${TodoRow} .value=${inputPlaceHolder.v}/>
                 `);
                 inputPlaceHolder.v = '';
