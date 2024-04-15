@@ -1,1 +1,0 @@
-export const h = ({ raw }: TemplateStringsArray, ...val: Array<any>): Array<any> => [ raw, val ];
