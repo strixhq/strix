@@ -5,19 +5,29 @@ const {
 	Promise,
 	Proxy,
 	WeakMap,
-	
+
+	Uint8Array,
+
 	requestAnimationFrame,
 	cancelAnimationFrame,
+	
+	BigInt,
+	crypto,
 
 } = window;
 
+const join = 'join';
+const get = 'get';
+const toString = 'toString';
+
+const SecretTag = `strix${BigInt(crypto.getRandomValues(new Uint8Array(16))[join](''))[toString](36)}`
 
 const HTMLTemplateKeyMap = new WeakMap();
 
 const HTMLTemplateMap = {};
 
 const TSAToAST = (TSA: TemplateStringsArray) => {
-	const HTMLTemplateKey = HTMLTemplateKeyMap.get(TSA);
+	const HTMLTemplateKey = HTMLTemplateKeyMap[get](TSA);
 	if(!HTMLTemplateKey) {
 
 	}
@@ -29,7 +39,7 @@ const createHTMLTemplate = (hTempObj) => {
 
 const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 
-	const HTMLTemplateKey = HTMLTemplateObj.join('\0');
+	const HTMLTemplateKey = HTMLTemplateObj[join](SecretTag);
 	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
 		HTMLTemplateMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
 	}
@@ -79,7 +89,7 @@ const createWritePath = (template: Function): Function[] => {
 		() => {
 			const HTMLTemplateResult = initialWriterFn();
 			const HTMLTemplateObject = HTMLTemplateResult[0];
-			const HTMLTemplateKey = HTMLTemplateKeyMap.get(HTMLTemplateObject) || createHTMLTemplateKey(HTMLTemplateObject);
+			const HTMLTemplateKey = HTMLTemplateKeyMap[get](HTMLTemplateObject) || createHTMLTemplateKey(HTMLTemplateObject);
 			const HTMLTemplate = HTMLTemplateMap[HTMLTemplateKey];
 		}
 	]
