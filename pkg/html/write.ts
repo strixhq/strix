@@ -1,3 +1,5 @@
+// Pre-fetching builtin functions and classes, which reduces minified file size
+
 const {
 
 	Promise,
@@ -18,13 +20,6 @@ const createHTMLTemplate = (hTempObj) => {
 
 }
 
-/**
- * 
- * @param { TemplateStringsArray } HTMLTemplateObj 
- * 
- * @returns { HTMLTemplateKey }
- */
-
 const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 	const HTMLTemplateKey = HTMLTemplateObj.join('\0');
 	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
@@ -39,12 +34,7 @@ const HTMLReferenceObject = new Proxy(
 		{}
 	),
 	{}
-)
-
-/**
- * 
- * @param { Function } template
- */
+);
 
 const createHTMLInstance = (template: Function) => {
 	const HTMLWriter = template(HTMLReferenceObject);
@@ -52,14 +42,7 @@ const createHTMLInstance = (template: Function) => {
 
 const createWritePathRef = () => {
 
-}
-
-/**
- * 
- * @param { Function } template 
- * 
- * @returns { Function[] }
- */
+};
 
 const createWritePath = (template: Function): Function[] => {
 	const pathRef = createWritePathRef();
