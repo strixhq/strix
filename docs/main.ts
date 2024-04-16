@@ -1,8 +1,7 @@
-import md from '@libh/md';
+import { h as html, attr } from 'https://esm.sh/strix-html';
 
 export default ($) => {
-    const accent = (at) =>
-        at`
+    const accent = () => attr`
 		*color=#3D72D7;
 	`;
 
@@ -12,8 +11,7 @@ export default ($) => {
         'So Long, HTML Classes!',
     ][Math.floor(Math.random() * 5)];
 
-    const LibhToken = ($) => (h) =>
-        h`
+    const LibhToken = ($) => (h) => h`
 		<span>lib<span *color=#3d72D7;>h</span></span>
 	`;
 
@@ -21,8 +19,7 @@ export default ($) => {
 
     const todoInput = ptr('', true);
 
-    return (html) =>
-        html`
+    return () => html`
 		<div>
 			<h1 *background=transition(0);>
 				lib<span ${accent}>h</span>

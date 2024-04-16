@@ -1,2 +1,2 @@
-export { h } from './html';
+export { h } from './h';
 export { write } from './write';

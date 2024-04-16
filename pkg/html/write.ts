@@ -21,10 +21,12 @@ const createHTMLTemplate = (hTempObj) => {
 }
 
 const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
+
 	const HTMLTemplateKey = HTMLTemplateObj.join('\0');
 	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
 		HTMLTemplateMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
 	}
+
 	return HTMLTemplateKey;
 }
 
@@ -37,6 +39,7 @@ const HTMLReferenceObject = new Proxy(
 );
 
 const createHTMLInstance = (template: Function) => {
+
 	const HTMLWriter = template(HTMLReferenceObject);
 }
 
@@ -45,8 +48,10 @@ const createWritePathRef = () => {
 };
 
 const createWritePath = (template: Function): Function[] => {
+
 	const pathRef = createWritePathRef();
 	const initialWriterFn = template();
+
 	return [
 		// write
 		() => {
@@ -88,7 +93,6 @@ export const write = (
 ): StrixController => {
 
 	const [ writeFn ] = createWritePath(template);
-
 	const [ cancelLoopFn ] = createLoop(writeFn, container, requestAnimationFrame, cancelAnimationFrame);
 
 	return {
