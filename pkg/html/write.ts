@@ -1,4 +1,4 @@
-// Pre-fetching builtin functions and classes, which reduces minified file size
+// Pre-fetching builtin functions and classes, which reduces minified file size ;)
 
 const {
 
@@ -15,6 +15,13 @@ const {
 const HTMLTemplateKeyMap = new WeakMap();
 
 const HTMLTemplateMap = {};
+
+const TSAToAST = (TSA: TemplateStringsArray) => {
+	const HTMLTemplateKey = HTMLTemplateKeyMap.get(TSA);
+	if(!HTMLTemplateKey) {
+
+	}
+}
 
 const createHTMLTemplate = (hTempObj) => {
 
@@ -38,9 +45,24 @@ const HTMLReferenceObject = new Proxy(
 	{}
 );
 
-const createHTMLInstance = (template: Function) => {
+const instacingOperations = {
+	function(template: Function) {
+		const HTMLWriter = template(HTMLReferenceObject);
+	},
+	object(template: StrixHTMLTemplate) {
 
-	const HTMLWriter = template(HTMLReferenceObject);
+	}
+}
+
+const createHTMLInstance = (template: Function | StrixHTMLTemplate) => {
+	instacingOperations[typeof template]?.(template);
+
+	return [
+		// write
+		() => {
+
+		}
+	]
 }
 
 const createWritePathRef = () => {
@@ -88,11 +110,11 @@ const createLoop = (
 export const write = (
 
 	container: HTMLContainer,
-	template: Function
+	template: Function | StrixHTMLTemplate
 
 ): StrixController => {
 
-	const [ writeFn ] = createWritePath(template);
+	const [ writeFn ] = createHTMLInstance(template);
 	const [ cancelLoopFn ] = createLoop(writeFn, container, requestAnimationFrame, cancelAnimationFrame);
 
 	return {
