@@ -74,7 +74,6 @@ const createHTMLInstance = (template: Function | StrixHTMLTemplate) => {
 }
 
 const createWritePathRef = () => {
-
 };
 
 const createWritePath = (template: Function): Function[] => {

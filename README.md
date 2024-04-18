@@ -35,12 +35,12 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 ### Directories
 
-| directory          | about         |
-| ------------------ | ------------- |
-| **[mod](./mod)**   | Modules       |
-| **[pkg](./pkg)**   | Packages      |
-| **[sdk](./sdk)**   | SDKs          |
-| **[docs](./docs)** | Documentation |
+| directory          | about             |
+| ------------------ | ----------------- |
+| **[mod](./mod)**   | Modules           |
+| **[pkg](./pkg)**   | Packages          |
+| **[sdk](./sdk)**   | Developnent Tools |
+| **[docs](./docs)** | Documentation     |
 
 ### Packages
 
