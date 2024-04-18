@@ -52,6 +52,7 @@ const HTMLReferenceObject = new Proxy(
 	{}
 );
 
+
 const instacingOperations = {
 	function(template: Function) {
 		const HTMLWriter = template(HTMLReferenceObject);
