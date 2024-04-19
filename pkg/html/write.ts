@@ -39,6 +39,7 @@ const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 	const HTMLTemplateKey = HTMLTemplateObj.join(SecretTag);
 	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
 		HTMLTemplateMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
+		HTMLTemplateMap
 	}
 
 	return HTMLTemplateKey;
@@ -51,7 +52,6 @@ const HTMLReferenceObject = new Proxy(
 	),
 	{}
 );
-
 
 const instacingOperations = {
 	function(template: Function) {

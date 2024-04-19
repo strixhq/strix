@@ -14,15 +14,14 @@ const SomeReactComponent = () => {
     );
 };
 
-const cardToolBarItem = ($) => (at) =>
-    at`
-	*color=#333;
-	*flex=1;
-	*padding=1rem;
-	*border=none;
-	*background-color=#fff;
+const cardToolBarItem = ($) => () => at`
+	*color=#333
+	*flex=1
+	*padding=1rem
+	*border=none
+	*background-color=#fff
 	*transition=background-color 0.2s ease-in-out;
-	*cursor=pointer;
+	*cursor=pointer
 
 	:hover {
 		*background-color=rgb(218, 218, 218);
@@ -32,12 +31,9 @@ const cardToolBarItem = ($) => (at) =>
 const Ours = () => {
     let count = 0;
 
-    const addCount = () => count++;
-
-    return (html) =>
-        html`
+    return () => html`
 		<div>
-			<button ${cardToolBarItem} @click=${addCount};>
+			<button ${cardToolBarItem} @click=${() => count++};>
 				私は${count}回クリックされました
 			</button>
 		</div>
@@ -55,6 +51,7 @@ const TodoApp = ($) => {
 					<label>${todo}</label>
 					<button @click=${() => todo.switch()}>edit</button>
 					<button @click=${() => $$.remove()}>delete</button>
+					<button>
 				</div>
 			`;
         });
@@ -74,3 +71,9 @@ const TodoApp = ($) => {
 		</div>
 	`;
 };
+
+const FallbackTest = () => {
+	return () => html`
+		<div ${fallback}a=${html`<div></div>`}>
+	`
+}
