@@ -1,1 +1,0 @@
-export const getTypeOf = (object) => typeof object;

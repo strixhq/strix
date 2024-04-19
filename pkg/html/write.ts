@@ -1,5 +1,3 @@
-import { getTypeOf } from "../../mod/gettypeof";
-
 // Pre-fetching builtin functions and classes, which reduces minified file size ;)
 
 const {
@@ -14,6 +12,8 @@ const {
 	cancelAnimationFrame,
 	
 	BigInt,
+
+	crypto,
 
 } = window;
 
@@ -63,7 +63,7 @@ const instacingOperations = {
 }
 
 const createHTMLInstance = (template: Function | StrixHTMLTemplate) => {
-	instacingOperations[getTypeOf(template)]?.(template);
+	instacingOperations[typeof template]?.(template);
 
 	return [
 		// write

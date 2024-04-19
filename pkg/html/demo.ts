@@ -1,21 +1,21 @@
-import { h, map } from './mod';
+import { h as html, map } from './mod';
 
 const Todo = () => {
-	const todoList = map.new((el) => h`
-		<li .map-swap-transition=${100} ease-in ease-out;>
-			<label>${el.data}</label>
-			<button @click=${() => el.swapAbove()}></button>
-			<button @click=${() => el.swapBelow()}></button>
-		</li>
-	`);
-	return () => h`
+	const todoList = map();
+	return () => html`
 		<ul>${todoList}</ul>
-		<input @@keydown.Enter=${({ target: { value } }) => todoList.push(value)};/>
+		<input @@keydown{code:Enter}=${({ target: { value } }) => todoList.push(el => html`
+			<li .map-swap-transition=${100} ease-in ease-out;>
+				<label>${value}</label>
+				<button @click=${() => el.swapAbove()}></button>
+				<button @click=${() => el.swapBelow()}></button>
+			</li>
+		`)};/>
 	`;
 }
 
 const App = () => {
-	return () => h`
+	return () => html`
 		<div>
 	`
 }

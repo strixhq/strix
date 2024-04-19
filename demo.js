@@ -53,8 +53,8 @@ const TodoApp = ($) => {
                 html`
 				<div>
 					<label>${todo}</label>
-					<button @click=${todo.switch}>edit</button>
-					<button @click=${$$.remove}>delete</button>
+					<button @click=${() => todo.switch()}>edit</button>
+					<button @click=${() => $$.remove()}>delete</button>
 				</div>
 			`;
         });
