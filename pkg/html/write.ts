@@ -2,10 +2,10 @@
 
 const {
 
-	BigInt,
 	crypto,
 
 	Object,
+	Array,
 	Promise,
 	Proxy,
 	WeakMap,
@@ -17,7 +17,37 @@ const {
 
 } = window;
 
-const SecretTag = `strix${BigInt(crypto.getRandomValues(new BigUint64Array(1))[0]).toString(36)}`;
+const createTag = (() => {
+	let currentBufferIndex = 0;
+	let tagBufferLength = -1;
+	
+	const tagBuffer = [];
+	const arrayBufferMaxLength = 64;
+	const arrayBuffer = new BigUint64Array(arrayBufferMaxLength);
+
+	const supplyTag = () => {
+		crypto.getRandomValues(arrayBuffer);
+		Object.assign(tagBuffer, Array.from(arrayBuffer).map(x => x.toString(36)).join("").match(/.{16}/g));
+		tagBufferLength = tagBuffer.length;
+		currentBufferIndex = 0;
+	};
+
+	supplyTag();
+
+	return () => {
+		const returnTag = tagBuffer[currentBufferIndex];
+
+		currentBufferIndex++;
+
+		if(currentBufferIndex === tagBufferLength) {
+			supplyTag();
+		}
+
+		return returnTag;
+	}
+})();
+
+const secretTag = `strix${createTag()}`;
 
 const HTMLTemplateKeyMap = new WeakMap();
 
@@ -44,7 +74,7 @@ const createHTMLTemplate = (hTempObj) => {
 
 const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 
-	const HTMLTemplateKey = HTMLTemplateObj.join(SecretTag);
+	const HTMLTemplateKey = HTMLTemplateObj.join(secretTag);
 	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
 		HTMLTemplateMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
 		HTMLTemplateMap
