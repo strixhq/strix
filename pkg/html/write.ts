@@ -2,26 +2,34 @@
 
 const {
 
+	BigInt,
+	crypto,
+
+	Object,
 	Promise,
 	Proxy,
 	WeakMap,
-
-	Uint8Array,
-
-	requestAnimationFrame,
-	cancelAnimationFrame,
+	BigUint64Array,
 	
-	BigInt,
-
-	crypto,
+	requestAnimationFrame,
+	requestIdleCallback,
+	cancelAnimationFrame,
 
 } = window;
 
-const SecretTag = `strix${BigInt(crypto.getRandomValues(new Uint8Array(16)).join('')).toString(36)}`;
+const SecretTag = `strix${BigInt(crypto.getRandomValues(new BigUint64Array(1))[0]).toString(36)}`;
 
 const HTMLTemplateKeyMap = new WeakMap();
 
 const HTMLTemplateMap = {};
+
+const wrapFn = (targetFn, addFn) => {
+	const target = targetFn;
+	return (...arg) => {
+		target(...arg);
+		addFn(...arg);
+	}
+}
 
 const TSAToAST = (TSA: TemplateStringsArray) => {
 	const HTMLTemplateKey = HTMLTemplateKeyMap.get(TSA);
