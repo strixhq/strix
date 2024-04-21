@@ -17,7 +17,8 @@ const {
 
 } = window;
 
-const createTag = (() => {
+const createTag: Function = (() => {
+
 	let currentBufferIndex = 0;
 	let tagBufferLength = -1;
 	
@@ -25,7 +26,7 @@ const createTag = (() => {
 	const arrayBufferMaxLength = 64;
 	const arrayBuffer = new BigUint64Array(arrayBufferMaxLength);
 
-	const supplyTag = () => {
+	const supplyTag = (): void => {
 		crypto.getRandomValues(arrayBuffer);
 		Object.assign(tagBuffer, Array.from(arrayBuffer).map(x => x.toString(36)).join("").match(/.{16}/g));
 		tagBufferLength = tagBuffer.length;
@@ -35,6 +36,7 @@ const createTag = (() => {
 	supplyTag();
 
 	return () => {
+
 		const returnTag = tagBuffer[currentBufferIndex];
 
 		currentBufferIndex++;
@@ -62,6 +64,7 @@ const wrapFn = (targetFn, addFn) => {
 }
 
 const TSAToAST = (TSA: TemplateStringsArray) => {
+
 	const HTMLTemplateKey = HTMLTemplateKeyMap.get(TSA);
 	if(!HTMLTemplateKey) {
 
@@ -92,15 +95,19 @@ const HTMLReferenceObject = new Proxy(
 );
 
 const instacingOperations = {
+
 	function(template: Function) {
 		const HTMLWriter = template(HTMLReferenceObject);
 	},
+
 	object(template: StrixHTMLTemplate) {
 
 	}
+
 }
 
 const createHTMLInstance = (template: Function | StrixHTMLTemplate) => {
+
 	instacingOperations[typeof template]?.(template);
 
 	return [
@@ -152,7 +159,7 @@ const createLoop = (
 	];
 }
 
-export const write = (
+const writeOp = (
 
 	container: HTMLContainer,
 	template: Function | StrixHTMLTemplate
@@ -168,4 +175,11 @@ export const write = (
 			this.close = () => undefined;
 		}
 	}
-};
+}
+
+export const write = (
+
+	container: HTMLContainer,
+	template: Function | StrixHTMLTemplate
+
+): StrixController => writeOp(container, template);
