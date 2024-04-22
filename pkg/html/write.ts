@@ -6,11 +6,12 @@ const {
 
 	Object,
 	Array,
+
 	Promise,
 	Proxy,
 	WeakMap,
 	BigUint64Array,
-	
+
 	requestAnimationFrame,
 	requestIdleCallback,
 	cancelAnimationFrame,
@@ -28,7 +29,16 @@ const createTag: Function = (() => {
 
 	const supplyTag = (): void => {
 		crypto.getRandomValues(arrayBuffer);
-		Object.assign(tagBuffer, Array.from(arrayBuffer).map(x => x.toString(36)).join("").match(/.{16}/g));
+
+		Object.assign(
+			tagBuffer,
+			Array
+				.from(arrayBuffer)
+				.map(x => x.toString(36))
+				.join("")
+				.match(/.{16}/g)
+		);
+
 		tagBufferLength = tagBuffer.length;
 		currentBufferIndex = 0;
 	};

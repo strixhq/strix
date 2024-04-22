@@ -9,13 +9,13 @@
 ---
 
 ```javascript
-import { h, write } from 'https://esm.sh/strix-html';
+import { html, write } from 'https://esm.sh/strix-html';
 
 const Counter = () => {
 
     let count = 0;
 
-    return () => h`
+    return () => html`
         <div>
             <h1>${count}</h1>
             <button @click=${() => count++}>
@@ -77,7 +77,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { h as html, write } from 'https://esm.sh/strix-html';
+import { html, write } from 'https://esm.sh/strix-html';
 ```
 
 ### Build From Source
@@ -188,7 +188,7 @@ const PointerMode = ($) => {
 ### Usage
 
 ```javascript
-import { h as html, write } from 'strix-html';
+import { html, write } from 'strix-html';
 
 const Count = ($) => {
     const { ptr } = $.std;
