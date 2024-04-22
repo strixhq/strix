@@ -185,6 +185,8 @@ const PointerMode = ($) => {
 };
 ```
 
+### 3 Ways To Make View
+
 ```javascript
 const HTML = html`
     <div>It works!</div>

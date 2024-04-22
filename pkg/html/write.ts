@@ -11,6 +11,11 @@ const {
 	RegExp,
 	WeakMap,
 
+	DragEvent,
+	KeyboardEvent,
+	MouseEvent,
+	PointerEvent,
+
 	crypto,
 
 	requestAnimationFrame,
