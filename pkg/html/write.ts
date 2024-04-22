@@ -2,16 +2,17 @@
 
 const {
 
-	crypto,
-
-	Object,
 	Array,
+	Object,
 
+	BigUint64Array,
 	Promise,
 	Proxy,
-	WeakMap,
-	BigUint64Array,
 	RegExp,
+	WeakMap,
+
+	crypto,
+	document,
 
 	requestAnimationFrame,
 	requestIdleCallback,
@@ -62,7 +63,7 @@ const createTag = (() => {
 	}
 })();
 
-const HTMLTemplateAnalyzerTag = createTag();
+const HTMLTemplateAnalyzerTag = `stval${createTag()}`;
 const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);
 
 const HTMLTemplateKeyMap = new WeakMap();
@@ -157,18 +158,20 @@ const createWritePath = (template: Function): Function[] => {
 const createLoop = (
 
 	writeFn: Function,
-	container: HTMLContainer,
-	requestAnimationFrame: Function,
-	cancelAnimationFrame: Function
+	container: HTMLContainer
 
 ): Function[] => {
 
 	let rAFId = -1;
 
+	const containerRoot = container.attatchShadow({ mode: 'close' });
+	containerRoot.innerHTML = "";
+
 	const mainLoop = () => {
 		rAFId = requestAnimationFrame(mainLoop);
 		writeFn();
 	}
+
 	mainLoop();
 
 	return [
@@ -184,7 +187,7 @@ const writeOp = (
 ): StrixController => {
 
 	const [ writeFn ] = createHTMLInstance(template);
-	const [ cancelLoopFn ] = createLoop(writeFn, container, requestAnimationFrame, cancelAnimationFrame);
+	const [ cancelLoopFn ] = createLoop(writeFn, container);
 
 	return {
 		close() {
