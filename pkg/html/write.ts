@@ -12,7 +12,6 @@ const {
 	WeakMap,
 
 	crypto,
-	document,
 
 	requestAnimationFrame,
 	requestIdleCallback,
@@ -175,7 +174,10 @@ const createLoop = (
 	mainLoop();
 
 	return [
-		() => cancelAnimationFrame(rAFId)
+		() => {
+			cancelAnimationFrame(rAFId);
+			return true;
+		}
 	];
 }
 
@@ -186,13 +188,14 @@ const writeOp = (
 
 ): StrixController => {
 
+	let hasClosed = false;
+
 	const [ writeFn ] = createHTMLInstance(template);
 	const [ cancelLoopFn ] = createLoop(writeFn, container);
 
 	return {
 		close() {
-			cancelLoopFn();
-			this.close = () => undefined;
+			hasClosed = hasClosed? true : cancelLoopFn();
 		}
 	}
 }

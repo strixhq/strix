@@ -185,6 +185,30 @@ const PointerMode = ($) => {
 };
 ```
 
+```javascript
+const HTML = html`
+    <div>It works!</div>
+`;
+
+const View = () => html`
+    <div>It works too!</div>
+`;
+
+const Component = () => {
+    return () => html`
+        <div>Fully working!</div>
+    `;
+};
+
+write(document.body, html`
+    <div>
+        <${HTML} />
+        <${View} />
+        <${Component} />
+    </div>
+`)
+```
+
 ### Usage
 
 ```javascript
