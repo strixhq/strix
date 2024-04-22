@@ -1,5 +1,8 @@
 type HTMLContainer = HTMLElement | DocumentFragment
 type HTMLTemplateKey = string
+interface StrixElementProxy {
+	
+}
 
 interface StrixController {
 	close(): void;

@@ -11,6 +11,7 @@ const {
 	Proxy,
 	WeakMap,
 	BigUint64Array,
+	RegExp,
 
 	requestAnimationFrame,
 	requestIdleCallback,
@@ -18,22 +19,23 @@ const {
 
 } = window;
 
-const createTag: Function = (() => {
+const createTag = (() => {
 
 	let currentBufferIndex = 0;
 	let tagBufferLength = -1;
 	
 	const tagBuffer = [];
 	const arrayBufferMaxLength = 64;
-	const arrayBuffer = new BigUint64Array(arrayBufferMaxLength);
+	const baseArrayBuffer = new BigUint64Array(arrayBufferMaxLength);
 
-	const supplyTag = (): void => {
-		crypto.getRandomValues(arrayBuffer);
+	const supplyTag = () => {
+
+		crypto.getRandomValues(baseArrayBuffer);
 
 		Object.assign(
 			tagBuffer,
 			Array
-				.from(arrayBuffer)
+				.from(baseArrayBuffer)
 				.map(x => x.toString(36))
 				.join("")
 				.match(/.{16}/g)
@@ -41,6 +43,7 @@ const createTag: Function = (() => {
 
 		tagBufferLength = tagBuffer.length;
 		currentBufferIndex = 0;
+
 	};
 
 	supplyTag();
@@ -59,18 +62,21 @@ const createTag: Function = (() => {
 	}
 })();
 
-const secretTag = `strix${createTag()}`;
+const HTMLTemplateAnalyzerTag = createTag();
+const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);
 
 const HTMLTemplateKeyMap = new WeakMap();
-
 const HTMLTemplateMap = {};
 
 const wrapFn = (targetFn, addFn) => {
+
 	const target = targetFn;
+
 	return (...arg) => {
 		target(...arg);
 		addFn(...arg);
 	}
+
 }
 
 const TSAToAST = (TSA: TemplateStringsArray) => {
@@ -88,6 +94,7 @@ const createHTMLTemplate = (hTempObj) => {
 const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 
 	const HTMLTemplateKey = HTMLTemplateObj.join(secretTag);
+
 	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
 		HTMLTemplateMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
 		HTMLTemplateMap
