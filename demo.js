@@ -78,6 +78,10 @@ const FallbackTest = () => {
 	`
 }
 
+const Primitive = html`
+	<div>I am primitive</div>
+`;
+
 const Todo = () => {
 
 	const TodoRow = ({ todoContent }) => {
@@ -91,8 +95,9 @@ const Todo = () => {
 
 	return () => html`
 		<ul>${todoArray}</ul>
-		<input type=text @@keydown.Enter=${({ target: { value } }) => {
-			todoArray.push(html`<${TodoRow} .todoContent=${value}; />`)
+		<input type=text @@keydown.Enter=${({ target }) => {
+			todoArray.push(html`<${TodoRow} .todoContent=${target.value}; />`);
+			target.value = "";
 		}} />
 	`
 }
