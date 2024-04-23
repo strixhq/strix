@@ -180,15 +180,11 @@ const PointerMode = ($) => {
 };
 ```
 
-### 3 Ways To Make View
+### 2 Ways To Make View
 
 ```javascript
 const Primitive = html`
     <div>It works!</div>
-`;
-
-const Transformer = () => html`
-    <div>It works too!</div>
 `;
 
 const Component = () => {
@@ -199,9 +195,8 @@ const Component = () => {
 
 write(document.body, html`
     <${Primitive} />
-    <${Transformer} />
     <${Component} />
-`)
+`);
 ```
 
 ### Usage
