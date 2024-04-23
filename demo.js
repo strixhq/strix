@@ -14,7 +14,7 @@ const SomeReactComponent = () => {
     );
 };
 
-const cardToolBarItem = ($) => () => at`
+const cardToolBarItem = ({ $ }) => () => at`
 	*color=#333
 	*flex=1
 	*padding=1rem
@@ -40,7 +40,7 @@ const Ours = () => {
 	`;
 };
 
-const TodoApp = ($) => {
+const TodoApp = ({ $ }) => {
     const addTodo = () => {
         $`#todoList`.push(($$) => {
             const todo = $$.std.ptr($`#todoInput`.value, 'closed');
@@ -74,6 +74,25 @@ const TodoApp = ($) => {
 
 const FallbackTest = () => {
 	return () => html`
-		<div ${fallback}a=${html`<div></div>`}>
+		<div ${fallback}=${html`<div></div>`}>
+	`
+}
+
+const Todo = () => {
+
+	const TodoRow = ({ todoContent }) => {
+		let todoContentBuffer = todoContent;
+		return () => html`
+			<h1>${todoContentBuffer}</h1>
+		`;
+	}
+
+	const todoArray = [];
+
+	return () => html`
+		<ul>${todoArray}</ul>
+		<input type=text @@keydown.Enter=${({ target: { value } }) => {
+			todoArray.push(html`<${TodoRow} .todoContent=${value}; />`)
+		}} />
 	`
 }

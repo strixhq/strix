@@ -141,7 +141,7 @@ return () => html`
 `;
 
 $`#inputWithProp`.get`.value` === $`#inputWithProp`.value; // true
-$`button`.get`@click`; // () => console.log('clicked')
+$`button` // ERROR
 $`#hasNested`.get`*color`; // 'blue'
 ```
 

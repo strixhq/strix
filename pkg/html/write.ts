@@ -3,7 +3,10 @@
 const {
 
 	Array,
-	Object,
+	Object: {
+		assign: OBJECT_assign,
+		defineProperties: OBJECT_defineProperties
+	},
 
 	BigUint64Array,
 	Promise,
@@ -24,14 +27,6 @@ const {
 
 } = window;
 
-const createPulse = (initial) => {
-	return (...arg) => {
-		if(arg.length) {
-
-		}
-	}
-}
-
 const createTag = (() => {
 
 	let currentBufferIndex = 0;
@@ -45,7 +40,7 @@ const createTag = (() => {
 
 		crypto.getRandomValues(baseArrayBuffer);
 
-		Object.assign(
+		OBJECT_assign(
 			tagBuffer,
 			Array
 				.from(baseArrayBuffer)

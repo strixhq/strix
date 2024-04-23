@@ -1,1 +1,1 @@
-# @libh/[html](https://libh.js.org)
+# strix-[html](https://strixhtml.dev)
