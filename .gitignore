@@ -1,4 +1,4 @@
 dev
 node_modules
 /index.html
-./demo.js
+demo.ts

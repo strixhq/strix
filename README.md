@@ -183,11 +183,11 @@ const PointerMode = ($) => {
 ### 3 Ways To Make View
 
 ```javascript
-const HTML = html`
+const Primitive = html`
     <div>It works!</div>
 `;
 
-const View = () => html`
+const Transformer = () => html`
     <div>It works too!</div>
 `;
 
@@ -198,8 +198,8 @@ const Component = () => {
 };
 
 write(document.body, html`
-    <${HTML} />
-    <${View} />
+    <${Primitive} />
+    <${Transformer} />
     <${Component} />
 `)
 ```
