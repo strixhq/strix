@@ -24,6 +24,14 @@ const {
 
 } = window;
 
+const createPulse = (initial) => {
+	return (...arg) => {
+		if(arg.length) {
+
+		}
+	}
+}
+
 const createTag = (() => {
 
 	let currentBufferIndex = 0;

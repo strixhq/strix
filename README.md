@@ -16,12 +16,10 @@ const Counter = () => {
     let count = 0;
 
     return () => html`
-        <div>
-            <h1>${count}</h1>
-            <button @click=${() => count++}>
-                Increment
-            </button>
-        </div>
+        <h1>${count}</h1>
+        <button @click=${() => count++}>
+            Increment
+        </button>
     `;
 };
 
@@ -91,58 +89,55 @@ deno task build
 
 ```javascript
 return () => html`
-    <div>
-        <!-- text -->
-        <label>${text}</label>
+    <!-- text -->
+    <label>${text}</label>
 
-        <!-- attribute -->
-        <iframe src=${formURL}; />
+    <!-- attribute -->
+    <iframe src=${formURL}; />
 
-        <!-- identifier (not the id attribute) -->
-        <img #mainImgRef/>
+    <!-- identifier (not the id attribute) -->
+    <img #mainImgRef/>
 
-        <!-- event handler -->
-        <button @click=${() => console.log('clicked')}; />
-        <input @@keydown=${() => console.log('cancelled')}; /> <!-- preventDefault() -->
+    <!-- event handler -->
+    <button @click=${() => console.log('clicked')}; />
+    <input @@keydown=${() => console.log('cancelled')}; /> <!-- preventDefault() -->
 
-        <!-- style -->
-        <h1 *color=${titleColor}></h1>
+    <!-- style -->
+    <h1 *color=${titleColor}></h1>
 
-        <!-- property -->
-        <input #inputWithProp type=text; .value=ok; />
+    <!-- property -->
+    <input #inputWithProp type=text; .value=ok; />
 
-        <input type=checkbox; .value=${true}; /> <!-- CORRECT type -->
-        <input type=checkbox; .value=true; /> <!-- This is NOT boolean, this is string -->
+    <input type=checkbox; .value=${true}; /> <!-- CORRECT type -->
+    <input type=checkbox; .value=true; /> <!-- This is NOT boolean, this is string -->
 
-        <div .someprop.deeper='more deeper'; />
+    <div .someprop.deeper='more deeper'; />
 
-        <!-- embedding component -->
-        <${DefinedComponent} my-attribute=1; />
+    <!-- embedding component -->
+    <${DefinedComponent} my-attribute=1; />
 
-        <!-- custom attribute -->
-        <div ${name}=taro></div>
-        <div ${alsoWithType}=${true}></div>
+    <!-- custom attribute -->
+    <div ${name}=taro></div>
+    <div ${alsoWithType}=${true}></div>
 
-        <!-- to child elements -->
-        <div .value&input=${inputvalue}>...</div>
+    <!-- to child elements -->
+    <div .value&input=${inputvalue}>...</div>
 
-        <!-- branching with psuedo class or booleanish -->
-        <button *color:hover=red; *color${Date.now() % 2}=blue></button>
+    <!-- branching with psuedo class or booleanish -->
+    <button *color:hover=red; *color${Date.now() % 2}=blue></button>
 
-        <!-- nesting -->
-        <div
-            #hasNested
+    <!-- nesting -->
+    <div
+        #hasNested
 
-            :hover {
-                *color=red;
-            };
+        :hover {
+            *color=red;
+        };
 
-            ${window.clientHeight >= 100} {
-                *color=blue;
-            };
-        ></div>
-
-    </div>
+        ${window.clientHeight >= 100} {
+            *color=blue;
+        };
+    ></div>
 `;
 
 $`#inputWithProp`.get`.value` === $`#inputWithProp`.value; // true
@@ -203,11 +198,9 @@ const Component = () => {
 };
 
 write(document.body, html`
-    <div>
-        <${HTML} />
-        <${View} />
-        <${Component} />
-    </div>
+    <${HTML} />
+    <${View} />
+    <${Component} />
 `)
 ```
 
@@ -226,21 +219,19 @@ const Count = ($) => {
         };
 
     return () => html`
-        <div>
-            <p>You clicked ${count} times</p>
-            <button
-                @click=${() => count.v++};
-                ${isHovering}=${false};
+        <p>You clicked ${count} times</p>
+        <button
+            @click=${() => count.v++};
+            ${isHovering}=${false};
 
-                :hover {
-                    *background-color=red;
-                    *color=white;
-                    ${isHovering}=${true};
-                }
-            >
-                ${buttonText}
-            </button>
-        </div>
+            :hover {
+                *background-color=red;
+                *color=white;
+                ${isHovering}=${true};
+            }
+        >
+            ${buttonText}
+        </button>
     `;
 };
 
@@ -320,14 +311,12 @@ const ReverseStr = ($) => {
         textValuePtr = ptr('', true);
 
     return () => html`
-        <div>
-            <input
-                type=text;
-                .value=${textValuePtr};
-                @keydown=${async () => revText.v = value.split('').reverse().join('')}
-            />
-            <h2>${revText}</h2>
-        </div>
+        <input
+            type=text;
+            .value=${textValuePtr};
+            @keydown=${async () => revText.v = value.split('').reverse().join('')}
+        />
+        <h2>${revText}</h2>
     `;
 };
 ```
@@ -347,9 +336,7 @@ import nitro from 'https://esm.sh/strix-nitro';
 
 const StyleImport = () => {
     return () => html`
-        <div>
-            <button ${nitro}>I am themed by Nitro Design!</button>
-        </div>
+        <button ${nitro}>I am themed by Nitro Design!</button>
     `;
 };
 ```
@@ -409,9 +396,7 @@ import { React } from 'strix-react';
 import { Button } from '@shadcn/ui/components/ui/button';
 
 const ReactEmbedded = () => () => html`
-    <div>
-        <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
-    </div>
+    <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
 `;
 ```
 
