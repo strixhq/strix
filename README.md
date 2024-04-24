@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { html, write } from 'https://esm.sh/strix-html';
+import { html, write } from 'https://strix.io/html';
 
 const Counter = () => {
 
@@ -27,7 +27,7 @@ write(document.body, Counter);
 ```
 
 **Strix** is light-weight DOM manipulation helper.\
-Visit [strix.js.org](https://strix.js.org) for more infomation.
+Visit [strix.io](https://strix.io) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
@@ -42,17 +42,17 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 
 ### Packages
 
-| package                                | about                      | exports  |
-| -------------------------------------- | -------------------------- | -------- |
-| **strix-[html](./pkg/html)**           | HTML in JavaScript library | `write`  |
-| **strix-[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`  |
-| **strix-[define](./pkg/define)**       | Defining Web Components    | `define` |
-| **strix-[layout](./pkg/layout)**       | Layout manager             | `layout` |
-| **strix-[nitro](./pkg/nitro)**         | Design systems             | `nitro`  |
-| **strix-[material3](./pkg/material3)** | Material Design 3 port     | `m3`     |
-| **strix-[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`     |
-| **strix-[hx](./pkg/hx)**               | High power tools           | `hx`     |
-| **strix-[react](./pkg/react)**         | React compatibility hook   | `React`  |
+| package                                | about                      | exports         |
+| -------------------------------------- | -------------------------- | --------------- |
+| **strix-[html](./pkg/html)**           | HTML in JavaScript library | `html` `write`  |
+| **strix-[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`         |
+| **strix-[define](./pkg/define)**       | Defining Web Components    | `define`        |
+| **strix-[layout](./pkg/layout)**       | Layout manager             | `layout`        |
+| **strix-[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
+| **strix-[material3](./pkg/material3)** | Material Design 3 port     | `m3`            |
+| **strix-[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`            |
+| **strix-[hx](./pkg/hx)**               | High power tools           | `hx`            |
+| **strix-[react](./pkg/react)**         | React compatibility hook   | `React`         |
 
 ### SDK
 
@@ -75,7 +75,7 @@ Visit [strix.js.org](https://strix.js.org) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { html, write } from 'https://esm.sh/strix-html';
+import { html, write } from 'https://strix.io/html';
 ```
 
 ### Build From Source

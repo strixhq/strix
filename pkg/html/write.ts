@@ -214,3 +214,5 @@ export const write = (
 	template: Function | StrixHTMLTemplate
 
 ): StrixController => writeOp(container, template);
+
+using instance = await new WorkerTemplate();
