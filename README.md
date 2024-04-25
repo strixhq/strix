@@ -417,10 +417,22 @@ const withJsxImportSource = () => {
 const primitive = html`<div>Hi</div>`;
 
 const samePrimitive = primitive;
-alert(primitive === samePrimitive) // true
+alert(primitive === samePrimitive); // true
+
+const regeneratedPrimitive = primitive.new();
+alert(primitive === regeneratedPrimitive); // false
 
 const anotherPrimitive = html`<div>Hi</div>`;
-alert(primitive === anotherPrimitive) // false
+alert(primitive === anotherPrimitive); // false
+
+```
+
+```javascript
+// delivers event target without raw
+html`<input type=text; @input=${({ value }) => alert(value)} />`
+
+// delivers raw InputEvent object
+html`<input type=text; @input.raw=${({ target: { value } }) => alert(value)} />`
 ```
 
 ### License

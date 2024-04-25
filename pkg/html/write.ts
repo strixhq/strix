@@ -1,3 +1,5 @@
+import { createTag } from "./tag";
+
 // Pre-fetching builtin functions and classes, which reduces minified file size ;)
 
 const {
@@ -26,49 +28,6 @@ const {
 	cancelAnimationFrame,
 
 } = window;
-
-const createTag = (() => {
-
-	let currentBufferIndex = 0;
-	let tagBufferLength = -1;
-	
-	const tagBuffer = [];
-	const arrayBufferMaxLength = 64;
-	const baseArrayBuffer = new BigUint64Array(arrayBufferMaxLength);
-
-	const supplyTag = () => {
-
-		crypto.getRandomValues(baseArrayBuffer);
-
-		OBJECT_assign(
-			tagBuffer,
-			Array
-				.from(baseArrayBuffer)
-				.map(x => x.toString(36))
-				.join("")
-				.match(/.{16}/g)
-		);
-
-		tagBufferLength = tagBuffer.length;
-		currentBufferIndex = 0;
-
-	};
-
-	supplyTag();
-
-	return () => {
-
-		const returnTag = tagBuffer[currentBufferIndex];
-
-		currentBufferIndex++;
-
-		if(currentBufferIndex === tagBufferLength) {
-			supplyTag();
-		}
-
-		return returnTag;
-	}
-})();
 
 const HTMLTemplateAnalyzerTag = `stval${createTag()}`;
 const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);
