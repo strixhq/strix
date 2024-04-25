@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { html, write } from 'https://strix.sh/@html';
+import { html, write } from 'https://strix.sh/html';
 
 const Counter = () => {
 
@@ -75,7 +75,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { html, write } from 'https://strix.sh/@html';
+import { html, write } from 'https://strix.sh/html';
 ```
 
 ### Build From Source
