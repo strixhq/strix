@@ -10,7 +10,6 @@ const {
 		defineProperties: OBJECT_defineProperties
 	},
 
-	BigUint64Array,
 	Promise,
 	Proxy,
 	RegExp,
@@ -28,6 +27,12 @@ const {
 	cancelAnimationFrame,
 
 } = window;
+
+class StrixHTMLProxy extends Promise {
+	constructor(frameRefreshedCallbackFn) {
+		super((resolve) => frameRefreshedCallbackFn(resolve))
+	}
+}
 
 const HTMLTemplateAnalyzerTag = `stval${createTag()}`;
 const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);

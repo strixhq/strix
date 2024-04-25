@@ -1,4 +1,4 @@
-# [Strix](https://strix.js.org)
+# [Strix](https://strix.sh)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { html, write } from 'https://strix.io/html';
+import { html, write } from 'https://strix.sh/html';
 
 const Counter = () => {
 
@@ -27,7 +27,7 @@ write(document.body, Counter);
 ```
 
 **Strix** is light-weight DOM manipulation helper.\
-Visit [strix.io](https://strix.io) for more infomation.
+Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
@@ -75,7 +75,7 @@ Visit [strix.io](https://strix.io) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { html, write } from 'https://strix.io/html';
+import { html, write } from 'https://strix.sh/html';
 ```
 
 ### Build From Source
@@ -428,11 +428,8 @@ alert(primitive === anotherPrimitive); // false
 ```
 
 ```javascript
-// delivers event target without raw
-html`<input type=text; @input=${({ value }) => alert(value)} />`
-
-// delivers raw InputEvent object
-html`<input type=text; @input.raw=${({ target: { value } }) => alert(value)} />`
+html`<input type=text; @input=${({ target: { value } }) => alert(value)} />`
+html`<input type=text; @input.target.value=${value => alert(value)} />`
 ```
 
 ### License
