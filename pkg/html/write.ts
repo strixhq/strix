@@ -76,6 +76,8 @@ const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);
 const HTMLTemplateKeyMap = new WeakMap();
 const HTMLTemplateMap = {};
 
+const HTMLWritePathMap = new WeakMap();
+
 const wrapFn = (targetFn, addFn) => {
 
 	const target = targetFn;

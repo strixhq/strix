@@ -413,6 +413,16 @@ const withJsxImportSource = () => {
 }
 ```
 
+```javascript
+const primitive = html`<div>Hi</div>`;
+
+const samePrimitive = primitive;
+alert(primitive === samePrimitive) // true
+
+const anotherPrimitive = html`<div>Hi</div>`;
+alert(primitive === anotherPrimitive) // false
+```
+
 ### License
 
 Strix is MIT Licensed.
