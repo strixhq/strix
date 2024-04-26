@@ -37,22 +37,22 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | ------------------ | ----------------- |
 | **[mod](./mod)**   | Modules           |
 | **[pkg](./pkg)**   | Packages          |
-| **[sdk](./sdk)**   | Developnent Tools |
-| **[docs](./docs)** | Documentation     |
+| **[dev](./dev)**   | Developnent Tools |
+| **[web](./web)**   | Publications      |
 
 ### Packages
 
-| package                                | about                      | exports         |
-| -------------------------------------- | -------------------------- | --------------- |
-| **strix-[html](./pkg/html)**           | HTML in JavaScript library | `html` `write`  |
-| **strix-[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`         |
-| **strix-[define](./pkg/define)**       | Defining Web Components    | `define`        |
-| **strix-[layout](./pkg/layout)**       | Layout manager             | `layout`        |
-| **strix-[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
-| **strix-[material3](./pkg/material3)** | Material Design 3 port     | `m3`            |
-| **strix-[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`            |
-| **strix-[hx](./pkg/hx)**               | High power tools           | `hx`            |
-| **strix-[react](./pkg/react)**         | React compatibility hook   | `React`         |
+| package                          | about                      | exports         |
+| -------------------------------- | -------------------------- | --------------- |
+| **[html](./pkg/html)**           | HTML in JavaScript library | `html` `write`  |
+| **[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`         |
+| **[define](./pkg/define)**       | Defining Web Components    | `define`        |
+| **[layout](./pkg/layout)**       | Layout manager             | `layout`        |
+| **[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
+| **[material3](./pkg/material3)** | Material Design 3 port     | `m3`            |
+| **[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`            |
+| **[hx](./pkg/hx)**               | High power tools           | `hx`            |
+| **[react](./pkg/react)**         | React compatibility hook   | `React`         |
 
 ### SDK
 
