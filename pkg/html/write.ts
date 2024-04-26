@@ -4,9 +4,7 @@ import { createTag } from "./tag";
 
 const {
 
-	Array,
 	Object: {
-		assign: OBJECT_assign,
 		defineProperties: OBJECT_defineProperties
 	},
 
@@ -19,8 +17,6 @@ const {
 	KeyboardEvent,
 	MouseEvent,
 	PointerEvent,
-
-	crypto,
 
 	requestAnimationFrame,
 	requestIdleCallback,

@@ -1,3 +1,10 @@
+const {
+
+	crypto,
+	BigUint64Array
+
+} = window;
+
 let currentBufferIndex = 0;
 let tagBufferLength = -1;
 

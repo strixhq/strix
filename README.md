@@ -78,6 +78,12 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 import { html, write } from 'https://strix.sh/html';
 ```
 
+#### NPM (HTTPS)
+
+```sh
+npm i git+https://github.com/ihasq/strix.git
+```
+
 ### Build From Source
 
 ```sh
