@@ -29,14 +29,15 @@ class StrixHTMLProxy extends Promise {
 		super((resolve) => frameRefreshedCallbackFn(resolve))
 	}
 }
-
 const HTMLTemplateAnalyzerTag = `stval${createTag()}`;
 const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);
 
-const HTMLTemplateKeyMap = new WeakMap();
-const HTMLTemplateMap = {};
+const AnalyzedASTKeyMap = new WeakMap();
+const AnalyzedASTMap = {};
 
 const HTMLWritePathMap = new WeakMap();
+
+const HTMLTemplateMap = new WeakMap();
 
 const wrapFn = (targetFn, addFn) => {
 
@@ -49,9 +50,13 @@ const wrapFn = (targetFn, addFn) => {
 
 }
 
+const createRef = (StrixHTMLTemplate) => {
+	const templateBuffer = HTMLTemplateMap.get(StrixHTMLTemplate);
+}
+
 const TSAToAST = (TSA: TemplateStringsArray) => {
 
-	const HTMLTemplateKey = HTMLTemplateKeyMap.get(TSA);
+	const HTMLTemplateKey = AnalyzedASTKeyMap.get(TSA);
 	if(!HTMLTemplateKey) {
 
 	}
@@ -65,9 +70,9 @@ const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 
 	const HTMLTemplateKey = HTMLTemplateObj.join(secretTag);
 
-	if(!(HTMLTemplateKey in HTMLTemplateMap)) {
-		HTMLTemplateMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
-		HTMLTemplateMap
+	if(!(HTMLTemplateKey in AnalyzedASTMap)) {
+		AnalyzedASTMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
+		AnalyzedASTMap
 	}
 
 	return HTMLTemplateKey;
@@ -118,8 +123,8 @@ const createWritePath = (template: Function): Function[] => {
 		() => {
 			const HTMLTemplateResult = initialWriterFn();
 			const HTMLTemplateObject = HTMLTemplateResult[0];
-			const HTMLTemplateKey = HTMLTemplateKeyMap.get(HTMLTemplateObject) || createHTMLTemplateKey(HTMLTemplateObject);
-			const HTMLTemplate = HTMLTemplateMap[HTMLTemplateKey];
+			const HTMLTemplateKey = AnalyzedASTKeyMap.get(HTMLTemplateObject) || createHTMLTemplateKey(HTMLTemplateObject);
+			const HTMLTemplate = AnalyzedASTMap[HTMLTemplateKey];
 		}
 	]
 }
@@ -158,16 +163,7 @@ const writeOp = (
 
 ): StrixController => {
 
-	let hasClosed = false;
 
-	const [ writeFn ] = createHTMLInstance(template);
-	const [ cancelLoopFn ] = createLoop(writeFn, container);
-
-	return {
-		close() {
-			hasClosed = hasClosed? true : cancelLoopFn();
-		}
-	}
 }
 
 export const write = (

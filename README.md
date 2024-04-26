@@ -39,6 +39,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | **[pkg](./pkg)**   | Packages          |
 | **[dev](./dev)**   | Developnent Tools |
 | **[web](./web)**   | Publications      |
+| **[repl](./repl)** | Playground REPL   |
 
 ### Packages
 
