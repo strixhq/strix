@@ -68,7 +68,7 @@ const createHTMLTemplate = (hTempObj) => {
 
 const createHTMLTemplateKey = (HTMLTemplateObj: string[]): HTMLTemplateKey => {
 
-	const HTMLTemplateKey = HTMLTemplateObj.join(secretTag);
+	const HTMLTemplateKey = HTMLTemplateObj.join(HTMLTemplateAnalyzerTag);
 
 	if(!(HTMLTemplateKey in AnalyzedASTMap)) {
 		AnalyzedASTMap[HTMLTemplateKey] = createHTMLTemplate(HTMLTemplateObj);
