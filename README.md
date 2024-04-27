@@ -11,7 +11,7 @@
 ```javascript
 import { html } from 'https://strix.sh/html';
 
-export const Counter = () => {
+const Counter = () => {
 
     let count = 0;
 
@@ -22,10 +22,8 @@ export const Counter = () => {
         </button>
     `;
 };
-```
 
-```html
-<body onload="(await import('https://strix.sh/write'))(this, import('./counter.js'))"></body>
+export default Counter;
 ```
 
 **Strix** is light-weight DOM manipulation helper.\
@@ -48,13 +46,13 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | package                          | about                      | exports         |
 | -------------------------------- | -------------------------- | --------------- |
 | **[html](./pkg/html)**           | HTML in JavaScript library | `html`          |
-| **[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`         |
+| **[write](./pkg/write)**         | Client-side HTML Writer    | `write`         |
+| **[serve](./pkg/serve)**         | Server-side HTML Writer    | `serve`         |
 | **[define](./pkg/define)**       | Defining Web Components    | `define`        |
 | **[layout](./pkg/layout)**       | Layout manager             | `layout`        |
 | **[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
 | **[material3](./pkg/material3)** | Material Design 3 port     | `m3`            |
 | **[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`            |
-| **[hx](./pkg/hx)**               | High power tools           | `hx`            |
 | **[react](./pkg/react)**         | React compatibility hook   | `React`         |
 
 ### SDK
@@ -78,7 +76,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { html, write } from 'https://strix.sh/html';
+import { html } from 'https://strix.sh/html';
 ```
 
 #### NPM (HTTPS)
@@ -211,7 +209,7 @@ write(document.body, html`
 ### Usage
 
 ```javascript
-import { html, write } from 'strix-html';
+import { html } from 'strix-html';
 
 const Count = ($) => {
     const { ptr } = $.std;
@@ -239,7 +237,15 @@ const Count = ($) => {
     `;
 };
 
-write(document.body, Count);
+export default Count;
+```
+
+```html
+<script type=module>
+    window.write = await import('https://strix.sh/write');
+</script>
+
+<body onload='write(this, import("./count.js"))'></body>
 ```
 
 ```javascript
