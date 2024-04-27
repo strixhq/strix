@@ -1,4 +1,3 @@
-type HTMLContainer = Element | DocumentFragment
 type HTMLTemplate = Function | StrixHTMLTemplate
 type HTMLTemplateKey = string
 interface StrixElementProxy {

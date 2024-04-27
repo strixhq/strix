@@ -37,7 +37,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | ------------------ | ----------------- |
 | **[mod](./mod)**   | Modules           |
 | **[pkg](./pkg)**   | Packages          |
-| **[dev](./dev)**   | Developnent Tools |
+| **[kit](./kit)**   | Developnent Kits  |
 | **[web](./web)**   | Publications      |
 | **[repl](./repl)** | Playground REPL   |
 
