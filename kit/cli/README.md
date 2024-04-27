@@ -11,9 +11,9 @@ deno install --allow-net --allow-read https://strix.sh/cli
 ```
 Strix all commands
 
-	help                        - Show information about Strix CLI.
+    help                        - Show information about Strix CLI.
 
     new                         - Create project template
-	build <filepath>            - Build static HTML
-	serve <filepath>            - Create HTTP Server
+    build <filepath>            - Build static HTML
+    serve <filepath>            - Create HTTP Server
 ```

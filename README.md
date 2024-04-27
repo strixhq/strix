@@ -9,9 +9,9 @@
 ---
 
 ```javascript
-import { html, write } from 'https://strix.sh/html';
+import { html } from 'https://strix.sh/html';
 
-const Counter = () => {
+export const Counter = () => {
 
     let count = 0;
 
@@ -22,8 +22,10 @@ const Counter = () => {
         </button>
     `;
 };
+```
 
-write(document.body, Counter);
+```html
+<body onload="import('https://strix.sh/write').then(write => write(this, import('./counter.js')))"></body>
 ```
 
 **Strix** is light-weight DOM manipulation helper.\
