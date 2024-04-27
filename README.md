@@ -47,7 +47,6 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | -------------------------------- | -------------------------- | --------------- |
 | **[html](./pkg/html)**           | HTML in JavaScript library | `html`          |
 | **[write](./pkg/write)**         | Client-side HTML Writer    | `write`         |
-| **[serve](./pkg/serve)**         | Server-side HTML Writer    | `serve`         |
 | **[define](./pkg/define)**       | Defining Web Components    | `define`        |
 | **[layout](./pkg/layout)**       | Layout manager             | `layout`        |
 | **[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
@@ -76,7 +75,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import { html } from 'https://strix.sh/html';
+import html from 'https://strix.sh/html';
 ```
 
 #### NPM (HTTPS)
@@ -95,7 +94,7 @@ deno task build
 ### Smart Attributes on strix-HTML
 
 ```javascript
-return () => html`
+html`
     <!-- text -->
     <label>${text}</label>
 
@@ -147,44 +146,6 @@ return () => html`
     ></div>
 `;
 
-$`#inputWithProp`.get`.value` === $`#inputWithProp`.value; // true
-$`button` // ERROR
-$`#hasNested`.get`*color`; // 'blue'
-```
-
-### Directives
-
-```javascript
-$.std = {
-    ptr(setup, setCallbackFn, getCallbackFn) {
-        /* create pointer */
-        return { get v() {} };
-    },
-};
-```
-
-### Select Your Writing Mode
-
-```javascript
-const FrameMode = ($) => {
-    let count = 0; // this is a 'frame' mode
-
-    return () => html`
-        <button @click=${() => count++};>${count}</button>
-    `;
-    // refresh every frame with requestAnimationFrame()
-};
-
-const PointerMode = ($) => {
-    const { ptr } = $.std; // switching into 'set' mode
-
-    let count = ptr(0);
-
-    return () => html`
-        <button @click=${() => count.v++}>${count}</button>
-    `;
-    // refresh when pointer value changed, which reduces unchanged calls (most performant)
-};
 ```
 
 ### 2 Ways To Make View
@@ -212,18 +173,17 @@ write(document.body, html`
 import html from 'strix-html';
 
 const Count = ($) => {
-    const { ptr } = $.std;
 
-    const count = ptr(0),
-        buttonText = ptr('Hover me!'),
-        isHovering = ($) => () => {
-            buttonText.v = $.value ? 'Click me!' : 'Hover me!';
+    let count = 0,
+        buttonText = 'Hover me!',
+        isHovering = () => value => {
+            buttonText = value? 'Click me!' : 'Hover me!'
         };
 
     return () => html`
         <p>You clicked ${count} times</p>
         <button
-            @click=${() => count.v++};
+            @click=${() => count++};
             ${isHovering}=${false};
 
             :hover {
