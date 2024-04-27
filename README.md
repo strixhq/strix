@@ -25,7 +25,9 @@ export const Counter = () => {
 ```
 
 ```html
-<body onload="import('https://strix.sh/write').then(write => write(this, import('./counter.js')))"></body>
+<script type=module>write = await import('https://strix.sh/write')</script>
+
+<body onload="write(this, import('./counter.js'))"></body>
 ```
 
 **Strix** is light-weight DOM manipulation helper.\
@@ -47,7 +49,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 | package                          | about                      | exports         |
 | -------------------------------- | -------------------------- | --------------- |
-| **[html](./pkg/html)**           | HTML in JavaScript library | `html` `write`  |
+| **[html](./pkg/html)**           | HTML in JavaScript library | `html`          |
 | **[serve](./pkg/serve)**         | Server-side HTML Renderer  | `serve`         |
 | **[define](./pkg/define)**       | Defining Web Components    | `define`        |
 | **[layout](./pkg/layout)**       | Layout manager             | `layout`        |
