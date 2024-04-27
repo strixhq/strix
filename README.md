@@ -25,9 +25,7 @@ export const Counter = () => {
 ```
 
 ```html
-<script type=module>write = await import('https://strix.sh/write')</script>
-
-<body onload="write(this, import('./counter.js'))"></body>
+<body onload="(await import('https://strix.sh/write'))(this, import('./counter.js'))"></body>
 ```
 
 **Strix** is light-weight DOM manipulation helper.\
