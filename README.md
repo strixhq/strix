@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { html } from 'https://strix.sh/html';
+import html from 'https://strix.sh/html';
 
 const Counter = () => {
 
@@ -209,7 +209,7 @@ write(document.body, html`
 ### Usage
 
 ```javascript
-import { html } from 'strix-html';
+import html from 'strix-html';
 
 const Count = ($) => {
     const { ptr } = $.std;
@@ -352,15 +352,6 @@ const StyleImport = () => {
 ```
 
 ```javascript
-/*
-    $ = {
-        value: value from attribute
-        element: element reference
-    }
-*/
-
-import { attr } from 'strix-html';
-
 const sampleAttrModule = () => attr`
     *background-color=${attr.value === 'system' ? '#000' : attr.value === 'dark' ? '#fff' : '#000'}
     *color=red;
