@@ -28,36 +28,6 @@ const {
 
 const main: Function = (() => {
 
-	const resolveStrixElement: Function = (() => {
-
-		const StrixTemplateCache = new WeakMap();
-	
-		const createStrixElement: Function = (() => {
-	
-			const resolverProcess = {
-	
-				function(StrixElement) {
-	
-				},
-	
-				object(StrixElement) {
-	
-				}
-	
-			};
-	
-			return (StrixElement, StrixTemplateCache) => {
-				resolverProcess[typeof StrixElement]?.(StrixElement);
-				StrixTemplateCache.set(StrixElement)
-			};
-		})();
-
-		// main process
-
-		return (StrixElement) => StrixTemplateCache.get(StrixElement) || createStrixElement(StrixElement, StrixTemplateCache);
-	})();
-
-
 	const baseDocumentFragment = document.createDocumentFragment().appendChild(document.createElement('div'));
 	const baseCommentAnalyzer = document.createTreeWalker(baseDocumentFragment, 0x80);
 	
@@ -188,11 +158,47 @@ const main: Function = (() => {
 		];
 	}
 
+	const resolveStrixElement: Function = (() => {
+
+		const StrixTemplateCache = new WeakMap();
+	
+		const createStrixElement: Function = (() => {
+	
+			const resolverProcess = {
+	
+				function(StrixElement) {
+	
+				},
+	
+				object(StrixElement) {
+	
+				}
+	
+			};
+	
+			return (StrixElement, StrixTemplateCache) => {
+				resolverProcess[typeof StrixElement]?.(StrixElement);
+				StrixTemplateCache.set(StrixElement)
+			};
+		})();
+
+		// main process
+
+		return (StrixElement) => StrixTemplateCache.get(StrixElement) || createStrixElement(StrixElement, StrixTemplateCache);
+	})();
+
 	// main process
 
-	return (container, StrixTemplate) => {
+	return (
+
+		container: any,
+		StrixTemplate: Function | StrixHTMLTemplate
+
+	): void => {
+		// resolving strix element
+		const entryPoint = resolveStrixElement(StrixTemplate);
 		baseDocumentFragment.innerHTML = "";
-	}
+	};
 
 })();
 
@@ -201,4 +207,6 @@ export const write = (
 	container: any,
 	template: Function | StrixHTMLTemplate | Promise<Function | StrixHTMLTemplate>
 
-): StrixController => main(container, template);
+): void => template instanceof Promise
+	? template.then(resolvedTemplate => main(container, resolvedTemplate))
+	: main(container, template);
