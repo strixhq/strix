@@ -26,13 +26,13 @@ const {
 
 } = window;
 
-const writeOp: Function = (() => {
+const main: Function = (() => {
 
-	const resolveStrixElement = (() => {
+	const resolveStrixElement: Function = (() => {
 
 		const StrixTemplateCache = new WeakMap();
 	
-		const createStrixElement = (() => {
+		const createStrixElement: Function = (() => {
 	
 			const resolverProcess = {
 	
@@ -51,7 +51,9 @@ const writeOp: Function = (() => {
 				StrixTemplateCache.set(StrixElement)
 			};
 		})();
-	
+
+		// main process
+
 		return (StrixElement) => StrixTemplateCache.get(StrixElement) || createStrixElement(StrixElement, StrixTemplateCache);
 	})();
 
@@ -197,6 +199,6 @@ const writeOp: Function = (() => {
 export const write = (
 
 	container: any,
-	template: Function | StrixHTMLTemplate
+	template: Function | StrixHTMLTemplate | Promise<Function | StrixHTMLTemplate>
 
-): StrixController => writeOp(container, template);
+): StrixController => main(container, template);

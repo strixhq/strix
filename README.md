@@ -172,12 +172,16 @@ write(document.body, html`
 ```javascript
 import html from 'strix-html';
 
-const Count = ($) => {
+const Count = () => {
 
     let count = 0,
         buttonText = 'Hover me!',
         isHovering = () => value => {
             buttonText = value? 'Click me!' : 'Hover me!'
+            return html`
+                *background-color=red;
+                *color=white;
+            `;
         };
 
     return () => html`
@@ -185,12 +189,7 @@ const Count = ($) => {
         <button
             @click=${() => count++};
             ${isHovering}=${false};
-
-            :hover {
-                *background-color=red;
-                *color=white;
-                ${isHovering}=${true};
-            }
+            ${isHovering}:hover=${true};
         >
             ${buttonText}
         </button>
@@ -206,31 +205,6 @@ export default Count;
 </script>
 
 <body onload='write(this, import("./count.js"))'></body>
-```
-
-```javascript
-const Counter = () => {
-    let count = 0;
-
-    return () => html`
-        <button @click=${() => count++}; .count=${count};>
-            I got clicked ${count} times!
-        </button>
-    `;
-};
-
-const Main = ($) => {
-    $`#counter`.then((counterRef) => {
-    });
-
-    return () => html`
-        <body>
-            <p>👇 She got clicked ${$`#counter`.count} times</p>
-            <${Counter} #counter/>
-            <button @click=${() => $`#counter`.click()};>Bring some more...</button>
-        </body>
-    `;
-};
 ```
 
 ```javascript
@@ -292,7 +266,7 @@ const ReverseStr = ($) => {
 ```
 
 ```javascript
-const C2DApp = ($) => () => html`
+const C2DApp = html`
     <canvas @load=${({ target: canvas }) => {
         const ctx = canvas.getContext('2d');
         // ...
