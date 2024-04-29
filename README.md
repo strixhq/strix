@@ -198,7 +198,9 @@ export default Count;
 ```
 
 ```html
-<body onload='import("https://strix.sh/write").then(write => write(this, import("./count.js")))'></body>
+<body onload='
+    import("https://strix.sh/write").then(write => write(this, import(this.src)))
+'></body>
 ```
 
 ```javascript
