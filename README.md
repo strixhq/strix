@@ -9,6 +9,8 @@
 ---
 
 ```javascript
+import html from 'https://strix.sh/html';
+
 const Counter = () => {
 
     let count = 0;
@@ -70,8 +72,11 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Installation
 
-#### CDN (esm.sh)
+#### CDN
 
+```javascript
+import html from 'https://strix.sh/html';
+```
 ```javascript
 const html = await import('https://strix.sh/html');
 ```
@@ -168,7 +173,7 @@ write(document.body, html`
 ### Usage
 
 ```javascript
-const html = await import('https://strix.sh/html')
+import html from "https://strix.sh/html"
 
 const Count = () => {
 
@@ -204,43 +209,59 @@ export default Count;
 ```
 
 ```javascript
-const TodoApp = ($) => {
-    const { std: { ptr, map } } = $;
+const Todo = () => {
 
-    const inputPlaceholder = ptr.new('', true);
+	const todoArray = [];
 
-    const todoMap = map.new();
+	const TodoRow = ({ todoContent, swapRow, deleteRow }) => {
 
-    const TodoRow = (todoRowRef) => {
-        const { std: { ptr }, map } = todoRowRef;
+		let todoData = todoContent;
+		let isEditable = false;
+		let isDone = false;
 
-        const editableTextnode = ptr.new(todoRowRef.value, true); // create contenteditable=plaintext-only
+		return () => html`
+			<li
+				contenteditable=${isEditable? 'plaintext-only' : undefined}
+				@input=${async ({ target }) => todoData = (await target).data}
+				@blur=${() => isEditable = false}
+				*text-decoration=${isDone? 'line-through' : 'none'}
+				*font-style=${isDone? 'italic' : 'normal'}
+			>
+				${todoData}
+			</li>
+			<button @click=${() => isEditable = true}>edit</button>
+			<button @click=${() => isDone = true}>done</button>
+			<button @click=${() => deleteRow()}>delete</button>
 
-        return () => html`
-            <div @blur=${() => editableTextnode.close()}>
-                <span @blur=${() => editableTextnode.close()}>${editableTextnode}</span>
+			<button @click=${() => swapRow(1)}>swap above</button>
+			<button @click=${() => swapRow(-1)}>swap below</button>
+		`
+	}
 
-                <button @click=${() => editableTextnode.open()}>edit</button>
-                <button @click=${() => map.hide()}>delete</button>
-                <button @click=${() => map.swapAbove()}>swap with above</button>
-                <button @click=${() => map.swapBelow()}>swap with below</button>
-            </div>
-        `;
-    };
-
-    return () => html`
-        <div *background-color=#red; *color=white;>
-            <ul>${todoMap}</ul>
-            <input #todoInput; type=text; .value=${inputPlaceHolder}/>
-            <input type=button; @click=${() => {
-                todoMap.push(() => html`
-                    <${TodoRow} .value=${inputPlaceHolder.v}/>
-                `);
-                inputPlaceHolder.v = '';
-            }};/>
-        </div>
-    `;
-};
+	return () => html`
+		<ul>${todoArray}</ul>
+		<input @@keydown.Enter=${({ target }) => {
+			const newRow = html`
+				<div
+					*width=100%
+					@dragover=${({ target }) => {
+					}}
+				></div>
+				<${TodoRow}
+					draggable=${true}
+					.todoContent=${target.value}
+					.swapRow=${(direction) => {
+						const i = todoArray.indexOf(newRow);
+						[todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
+					}}
+					.deleteRow=${() => delete todoArray[todoArray.indexOf(newRow)]}
+				/>
+			`;
+			todoArray.push(newRow);
+			target.value = "";
+		}} />
+	`
+}
 ```
 
 ```javascript
