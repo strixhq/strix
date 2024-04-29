@@ -3,7 +3,7 @@ interface StrixHTMLTemplate {
 	1: readonly any[];
 }
 
-type StrixHTMLElement = Function | StrixHTMLTemplate
+type StrixHTMLElement = (() => () => StrixHTMLTemplate) | (StrixHTMLTemplate)
 
 type HTMLTemplateKey = string
 type StrixAttributes = object

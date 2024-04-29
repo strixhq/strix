@@ -77,9 +77,13 @@ const resolveStrixElement: Function = (
 
 ) => {
 	const BUF_StrixAttributes = "";
-	const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement(BUF_StrixAttributes)
+	const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement(BUF_StrixAttributes) : null
 
 };
+
+const createEntryPoint = () => {
+	
+}
 
 const main = (
 
