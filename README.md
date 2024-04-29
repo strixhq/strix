@@ -9,8 +9,6 @@
 ---
 
 ```javascript
-import html from 'https://strix.sh/html';
-
 const Counter = () => {
 
     let count = 0;
@@ -75,7 +73,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 #### CDN (esm.sh)
 
 ```javascript
-import html from 'https://strix.sh/html';
+const html = await import('https://strix.sh/html');
 ```
 
 #### NPM (HTTPS)
@@ -170,7 +168,7 @@ write(document.body, html`
 ### Usage
 
 ```javascript
-import html from 'strix-html';
+const html = await import('https://strix.sh/html')
 
 const Count = () => {
 
@@ -200,11 +198,7 @@ export default Count;
 ```
 
 ```html
-<script type=module>
-    window.write = await import('https://strix.sh/write');
-</script>
-
-<body onload='write(this, import("./count.js"))'></body>
+<body onload='import("https://strix.sh/write").then(write => write(this, import("./count.js")))'></body>
 ```
 
 ```javascript
