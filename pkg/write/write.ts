@@ -60,15 +60,24 @@ const createStrixElement: Function = (() => {
 	};
 })();
 
-const parseStrixElement: Function = (TemplateStringsArray: TemplateStringsArray): StrixAST => {
+// this be called when the TSA object is not found in StrixHTMLTemplateMap
+const parseTSA: Function = (
 
+	TemplateStringsArray: TemplateStringsArray
+
+): StrixAST => {
+	const raw = '';
+	return { raw }
 }
 
 const resolveStrixElement: Function = (
+
 	StrixHTMLElement: StrixHTMLElement,
 	StrixAttributes: StrixAttributes
+
 ) => {
-	// StrixTemplateCache.get(StrixElement) || StrixTemplateCache.set(...createStrixElement(StrixElement)).get(StrixElement);
+	const BUF_StrixAttributes = "";
+	const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement(BUF_StrixAttributes)
 
 };
 
@@ -78,15 +87,17 @@ const main = (
 	StrixHTMLElement: StrixHTMLElement
 
 ): void => {
+
 	// resolving strix element
 	const entryPoint = resolveStrixElement(StrixHTMLElement, {});
 	baseDocumentFragment.innerHTML = "";
+
 };
 
 export const write = (
 
 	container: any,
-	element: Function | StrixHTMLElement | Promise<StrixHTMLElement>
+	element: StrixHTMLElement | Promise<StrixHTMLElement>
 
 ): void | Promise<void> => element instanceof Promise
 	? element.then(resolvedElement => main(container, resolvedElement))
