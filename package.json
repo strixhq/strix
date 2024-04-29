@@ -13,6 +13,14 @@
         "type": "git",
         "url": "https://github.com/ihasq/libh.git"
     },
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./types/hello-world.d.ts",
+                "default": "./hello-world.js"
+            }
+        }
+    },
     "author": "ihasq",
     "license": "MIT"
 }
