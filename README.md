@@ -211,56 +211,56 @@ export default Count;
 ```javascript
 const Todo = () => {
 
-	const todoArray = [];
+    const todoArray = [];
 
-	const TodoRow = ({ todoContent, swapRow, deleteRow }) => {
+    const TodoRow = ({ todoContent, swapRow, deleteRow }) => {
 
-		let todoData = todoContent;
-		let isEditable = false;
-		let isDone = false;
+        let todoData = todoContent;
+        let isEditable = false;
+        let isDone = false;
 
-		return () => html`
-			<li
-				contenteditable=${isEditable? 'plaintext-only' : undefined}
-				@input=${async ({ target }) => todoData = (await target).data}
-				@blur=${() => isEditable = false}
-				*text-decoration=${isDone? 'line-through' : 'none'}
-				*font-style=${isDone? 'italic' : 'normal'}
-			>
-				${todoData}
-			</li>
-			<button @click=${() => isEditable = true}>edit</button>
-			<button @click=${() => isDone = true}>done</button>
-			<button @click=${() => deleteRow()}>delete</button>
+        return () => html`
+            <li
+                contenteditable=${isEditable? 'plaintext-only' : undefined}
+                @input=${async ({ target }) => todoData = (await target).data}
+                @blur=${() => isEditable = false}
+                *text-decoration=${isDone? 'line-through' : 'none'}
+                *font-style=${isDone? 'italic' : 'normal'}
+            >
+                ${todoData}
+            </li>
+            <button @click=${() => isEditable = true}>edit</button>
+            <button @click=${() => isDone = true}>done</button>
+            <button @click=${() => deleteRow()}>delete</button>
 
-			<button @click=${() => swapRow(1)}>swap above</button>
-			<button @click=${() => swapRow(-1)}>swap below</button>
-		`
-	}
+            <button @click=${() => swapRow(1)}>swap above</button>
+            <button @click=${() => swapRow(-1)}>swap below</button>
+        `
+    }
 
-	return () => html`
-		<ul>${todoArray}</ul>
-		<input @@keydown.Enter=${({ target }) => {
-			const newRow = html`
-				<div
-					*width=100%
-					@dragover=${({ target }) => {
-					}}
-				></div>
-				<${TodoRow}
-					draggable=${true}
-					.todoContent=${target.value}
-					.swapRow=${(direction) => {
-						const i = todoArray.indexOf(newRow);
-						[todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
-					}}
-					.deleteRow=${() => delete todoArray[todoArray.indexOf(newRow)]}
-				/>
-			`;
-			todoArray.push(newRow);
-			target.value = "";
-		}} />
-	`
+    return () => html`
+        <ul>${todoArray}</ul>
+        <input @@keydown.Enter=${({ target }) => {
+            const newRow = html`
+                <div
+                    *width=100%
+                    @dragover=${({ target }) => {
+                    }}
+                ></div>
+                <${TodoRow}
+                    draggable=${true}
+                    .todoContent=${target.value}
+                    .swapRow=${(direction) => {
+                        const i = todoArray.indexOf(newRow);
+                        [todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
+                    }}
+                    .deleteRow=${() => delete todoArray[todoArray.indexOf(newRow)]}
+                />
+            `;
+            todoArray.push(newRow);
+            target.value = "";
+        }} />
+    `
 }
 ```
 
