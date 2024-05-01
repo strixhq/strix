@@ -23,6 +23,7 @@ const {
 	requestAnimationFrame,
 	requestIdleCallback,
 	cancelAnimationFrame,
+	
 
 } = window;
 
