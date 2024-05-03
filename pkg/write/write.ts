@@ -40,7 +40,7 @@ const HTMLWritePathMap = new WeakMap();
 
 const HTMLTemplateMap = new WeakMap();
 
-const createStrixElement: Function = (() => {
+const createEntryPoint: Function = (() => {
 
 	const resolverProcess = {
 
@@ -81,10 +81,6 @@ const resolveStrixElement: Function = (
 
 };
 
-const createEntryPoint = () => {
-	
-}
-
 const main = (
 
 	container: any,
@@ -93,7 +89,7 @@ const main = (
 ): void => {
 
 	// resolving strix element
-	const entryPoint = resolveStrixElement(StrixHTMLElement, {});
+	const entryPoint = createEntryPoint(StrixHTMLElement);
 	baseDocumentFragment.innerHTML = "";
 
 };

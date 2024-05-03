@@ -48,6 +48,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | **[html](./pkg/html)**           | HTML in JavaScript library | `html`          |
 | **[write](./pkg/write)**         | Client-side HTML Writer    | `write`         |
 | **[define](./pkg/define)**       | Defining Web Components    | `define`        |
+| **[set](./pkg/set)**             | Signal-like Hook           | `set`           |
 | **[layout](./pkg/layout)**       | Layout manager             | `layout`        |
 | **[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
 | **[material3](./pkg/material3)** | Material Design 3 port     | `m3`            |
