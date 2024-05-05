@@ -1,7 +1,4 @@
-interface StrixHTMLTemplate {
-	0: TemplateStringsArray;
-	1: readonly any[];
-}
+type StrixHTMLTemplate = Function;
 
 type StrixProperties = object
 

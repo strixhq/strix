@@ -152,9 +152,13 @@ html`
 
 ```
 
-### 2 Ways To Make View
+### 3 Ways To Make View
 
 ```javascript
+const Instance = new html`
+    <div>It works!</div>
+`;
+
 const Primitive = html`
     <div>It works!</div>
 `;

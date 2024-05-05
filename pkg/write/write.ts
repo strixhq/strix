@@ -56,9 +56,12 @@ const createEntryPoint: Function = (() => {
 	};
 
 	return (StrixElement, StrixTemplateCache) => {
+
 		resolverProcess[typeof StrixElement]?.(StrixElement);
 		StrixTemplateCache.set(StrixElement)
+
 	};
+
 })();
 
 // this be called when the TSA object is not found in StrixHTMLTemplateMap
@@ -67,8 +70,11 @@ const parseTSA: Function = (
 	TemplateStringsArray: TemplateStringsArray
 
 ): StrixAST => {
+
 	const raw = '';
+
 	return { raw }
+
 }
 
 const resolveStrixElement: Function = (
@@ -77,6 +83,7 @@ const resolveStrixElement: Function = (
 	StrixAttributes: StrixAttributes
 
 ) => {
+
 	const BUF_StrixAttributes = "";
 	const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement(BUF_StrixAttributes) : null
 
