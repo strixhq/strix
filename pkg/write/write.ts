@@ -107,3 +107,4 @@ export const write = (
 ): void | Promise<void> => element instanceof Promise
 	? element.then(resolvedElement => main(container, resolvedElement))
 	: main(container, element);
+
