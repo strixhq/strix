@@ -17,3 +17,11 @@ const html = (
 };
 
 export default html;
+
+/**
+const instance = new html`
+	<div>${Date.now()}</div>
+`;
+const another = instance;
+
+ */
