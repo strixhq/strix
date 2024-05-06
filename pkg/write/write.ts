@@ -41,7 +41,7 @@ const HTMLWritePathMap = new WeakMap();
 
 const HTMLTemplateMap = new WeakMap();
 
-const createStrixElement: Function = (() => {
+const createEntryPoint: Function = (() => {
 
 	const resolverProcess = {
 
@@ -56,9 +56,12 @@ const createStrixElement: Function = (() => {
 	};
 
 	return (StrixElement, StrixTemplateCache) => {
+
 		resolverProcess[typeof StrixElement]?.(StrixElement);
 		StrixTemplateCache.set(StrixElement)
+
 	};
+
 })();
 
 // this be called when the TSA object is not found in StrixHTMLTemplateMap
@@ -67,8 +70,11 @@ const parseTSA: Function = (
 	TemplateStringsArray: TemplateStringsArray
 
 ): StrixAST => {
+
 	const raw = '';
+
 	return { raw }
+
 }
 
 const resolveStrixElement: Function = (
@@ -77,14 +83,11 @@ const resolveStrixElement: Function = (
 	StrixAttributes: StrixAttributes
 
 ) => {
+
 	const BUF_StrixAttributes = "";
 	const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement(BUF_StrixAttributes) : null
 
 };
-
-const createEntryPoint = () => {
-	
-}
 
 const main = (
 
@@ -94,7 +97,7 @@ const main = (
 ): void => {
 
 	// resolving strix element
-	const entryPoint = resolveStrixElement(StrixHTMLElement, {});
+	const entryPoint = createEntryPoint(StrixHTMLElement);
 	baseDocumentFragment.innerHTML = "";
 
 };

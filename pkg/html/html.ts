@@ -1,3 +1,19 @@
-const html = (str: TemplateStringsArray, ...val: any[]): StrixHTMLTemplate => ({ 0: str, 1: val });
+const html = (
+
+	str: TemplateStringsArray,
+	...val: any[]
+
+): StrixHTMLTemplate => function(n) {
+
+	return !!new.target
+		? [
+			str,
+			val
+		]
+		: n
+			? str
+			: val
+
+};
 
 export default html;
