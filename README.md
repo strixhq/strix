@@ -152,7 +152,7 @@ html`
 
 ```
 
-### 3 Ways To Make View
+### 4 Ways To Make View
 
 ```javascript
 const Instance = new html`
@@ -163,14 +163,26 @@ const Primitive = html`
     <div>It works!</div>
 `;
 
+const Transformer = ({ color }) => html`
+    <label *color=${color}>Label with colors!</label>
+`
+
 const Component = () => {
+
+    let count = 0;
+
     return () => html`
-        <div>Fully working!</div>
+        <button @click=${() => {
+            count++;
+            alert(count);
+        }}>Fully working!</button>
     `;
 };
 
 write(document.body, html`
+    <${Instance} />
     <${Primitive} />
+    <${Transformer} .color=red />
     <${Component} />
 `);
 ```

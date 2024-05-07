@@ -27,7 +27,6 @@ const {
 
 } = window;
 
-
 const baseDocumentFragment = document.createDocumentFragment().appendChild(document.createElement('div'));
 const baseCommentAnalyzer = document.createTreeWalker(baseDocumentFragment, 0x80);
 
