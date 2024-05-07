@@ -1,4 +1,4 @@
-const html = (
+export default (
 
 	str: TemplateStringsArray,
 	...val: any[]
@@ -15,13 +15,3 @@ const html = (
 			: val
 
 };
-
-export default html;
-
-/**
-const instance = new html`
-	<div>${Date.now()}</div>
-`;
-const another = instance;
-
- */
