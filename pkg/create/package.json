@@ -1,11 +1,12 @@
 {
   "name": "create-strix",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "Create Strix Project",
-  "main": "./dist/app.js",
+  "main": "./src/app.js",
   "scripts": {
-    "dev": "esbuild ./src/app.ts --minify > ./dist/app.js;node ./dist/app.js"
+    "dev": "esbuild ./src/app.ts --minify > ./dist/app.js;node ./dist/app.js",
+    "pkg": "esbuild ./src/app.ts --minify > ./dist/app.js;npm publish"
   },
   "keywords": [
     "javascript",

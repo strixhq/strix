@@ -3,14 +3,13 @@ export default (
 	str: TemplateStringsArray,
 	...val: any[]
 
-): StrixHTMLTemplate => function(n) {
+): StrixHTMLTemplate => function(i) {
 
 	return !!new.target
-		? [
-			str,
-			val
-		]
-		: n
+		? j => j
+			? val
+			: str
+		: i
 			? str
 			: val
 
