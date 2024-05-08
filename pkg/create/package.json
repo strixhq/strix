@@ -1,6 +1,6 @@
 {
   "name": "create-strix",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Create Strix Project",
   "main": "./dist/app.js",
@@ -12,6 +12,10 @@
     "typescript",
     "html"
   ],
+  "bin": {
+    "create-strix": "./dist/app.js",
+    "csa": "./dist/app.js"
+  },
   "author": "ihasq",
   "license": "MIT",
   "dependencies": {

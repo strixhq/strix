@@ -37,4 +37,4 @@ const requests = [
 
 const project_name = await prompts(requests);
 
-console.log(project_name)
+console.log(project_name);
