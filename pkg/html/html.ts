@@ -3,14 +3,10 @@ export default (
 	str: TemplateStringsArray,
 	...val: any[]
 
-): StrixHTMLTemplate => function(i) {
-
+): StrixHTMLTemplate => function fragmentGetter(i) {
 	return !!new.target
-		? j => j
-			? val
-			: str
+		? fragmentGetter
 		: i
 			? str
 			: val
-
-};
+}
