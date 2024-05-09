@@ -1,19 +1,25 @@
+const main = (
+
+	str: TemplateStringsArray,
+	val: any[]
+
+) => function(
+	
+	i: any
+
+) {
+	return new.target
+		? j => j
+			? val
+			: str
+		: i
+			? str
+			: val
+}
+
 export default (
 
 	str: TemplateStringsArray,
 	...val: any[]
 
-): StrixHTMLTemplate => function(i: boolean): (Function | any[] | TemplateStringsArray) {
-
-	return !!new.target
-
-		? (j: boolean): (any[] | TemplateStringsArray) => j
-
-			? val
-			: str
-
-		: i
-
-			? str
-			: val
-}
+) => main(str, val);
