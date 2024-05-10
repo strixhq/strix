@@ -1,35 +1,18 @@
-export const {
+export const globalGetter = new Proxy(Object.create(null), {
 
-	Object: {
-		defineProperties: Object_defineProperties
-	},
+	get: (t, prop: string) =>
+ 
+		window[prop] ||
 
-	Array: {
-		isArray: Array_isArray
-	},
+		(() => {
+			const splittedPropBuffer = prop.split("_");
+			const splittedPropBufferLength = splittedPropBuffer.length;
+		
+			let currentObjectCursor = window;
+			for(let propIndex = 0; propIndex < splittedPropBufferLength; propIndex++) {
+				currentObjectCursor = currentObjectCursor[splittedPropBuffer[propIndex]];
+			}
 
-	Math: {
-		floor: Math_floor
-	},
-
-	Promise,
-	Proxy,
-	RegExp,
-	WeakMap,
-
-	DragEvent,
-	KeyboardEvent,
-	MouseEvent,
-	PointerEvent,
-
-	Uint8Array,
-
-	crypto,
-	document,
-
-	requestAnimationFrame,
-	requestIdleCallback,
-	cancelAnimationFrame,
-	
-
-} = window;
+			return currentObjectCursor;
+		})()
+})

@@ -1,31 +1,8 @@
+import { globalGetter } from "../../mod/global.ts";
 import { createTag } from "../../mod/tag.ts";
+const { Promise, RegExp, WeakMap, document } = globalGetter
 
 // Pre-fetching builtin functions and classes, which reduces minified file size ;)
-
-const {
-
-	Object: {
-		defineProperties: OBJECT_defineProperties
-	},
-
-	Promise,
-	Proxy,
-	RegExp,
-	WeakMap,
-
-	DragEvent,
-	KeyboardEvent,
-	MouseEvent,
-	PointerEvent,
-
-	document,
-
-	requestAnimationFrame,
-	requestIdleCallback,
-	cancelAnimationFrame,
-	
-
-} = window;
 
 const baseDocumentFragment = document.createDocumentFragment().appendChild(document.createElement('div'));
 const baseCommentAnalyzer = document.createTreeWalker(baseDocumentFragment, 0x80);
@@ -84,7 +61,7 @@ const resolveStrixElement: Function = (
 ) => {
 
 	const BUF_StrixAttributes = "";
-	const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement(BUF_StrixAttributes) : null
+	// const BUF_StrixHTMLTemplate = typeof StrixHTMLElement === 'function'? StrixHTMLElement() : null
 
 };
 

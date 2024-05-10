@@ -1,4 +1,6 @@
-import { crypto, Math_floor, Uint8Array } from "./global.ts";
+import { globalGetter } from "./global.ts";
+
+const { crypto, Math_floor, Uint8Array } = globalGetter;
 
 const getPass = (() => {
 
@@ -22,10 +24,10 @@ const getPass = (() => {
 
 	})();
 
-	return (length) => {
+	const tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+	const tokensLength = tokens.length;	
 
-		const tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-		const tokensLength = tokens.length;	
+	return (length) => {
 
 		let strBuffer = "";
 
