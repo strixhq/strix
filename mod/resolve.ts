@@ -1,5 +1,5 @@
 import { isFnAsync } from "./isfnasync";
-import { Array_isArray } from "./shortened";
+import { Array_isArray } from "./global";
 
 const getResultBuffer = async (fn, initialArgument) => isFnAsync(fn)? await fn(initialArgument) : fn(initialArgument);
 
