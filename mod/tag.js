@@ -1,4 +1,4 @@
-import { globalGetter } from "./global.ts";
+import { globalGetter } from "./global.js";
 
 const { crypto, Math_floor, Uint8Array } = globalGetter;
 
@@ -28,7 +28,7 @@ const getPass = (() => {
 		tokens = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
 		tokensLength = tokens.length;	
 
-	return (length: number): string => {
+	return (length) => {
 
 		let strBuffer = "";
 
@@ -41,4 +41,4 @@ const getPass = (() => {
 
 })();
 
-export const createTag = (length: number): string => getPass(length)
+export const createTag = (length) => getPass(length)

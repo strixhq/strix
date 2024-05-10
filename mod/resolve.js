@@ -3,21 +3,36 @@ import { globalGetter } from "./global";
 
 const { Array_isArray } = globalGetter;
 
-const getResultBuffer = async (fn, initialArgument) => isFnAsync(fn)? undefined : fn(initialArgument);
+const getResultBuffer = async (fn, initialArgument) => isFnAsync(fn)? undefined : fn(initialArgument || true);
 
+/**
+	this will be executed when StrixHTMLElementMap doesn't contains target element.
+ */
+
+
+/**
+ * 
+ * @param { Function } StrixHTMLElement 
+ * @param { object } initialArgument 
+ * @returns 
+ */
 export const resolveStrixHTMLElement = async (
 	
-	StrixHTMLElement: Function,
-	initialArgument: object,
+	StrixHTMLElement,
+	initialArgument
 
 ) => {
 
-	let resultBuffer = getResultBuffer(StrixHTMLElement, initialArgument) || Error("async will be banned"),
+	let resultBuffer = getResultBuffer(StrixHTMLElement, initialArgument),
 		elementType = "";
 
 	if(Array_isArray(resultBuffer)) {
 
-		elementType = "raw" in resultBuffer? "fragment" : "instance";
+		elementType = "raw" in resultBuffer
+			? resolveAsFragment(resultBuffer, StrixHTMLElement(false))
+			: (() => {
+				return "instance"
+			})();
 
 	} else if(typeof resultBuffer === "function") {
 

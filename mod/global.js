@@ -1,8 +1,8 @@
 const propMap = {};
 
-export const globalGetter = new Proxy(Object.create(null), {
+export const globalGetter = new Proxy({}, {
 
-	get: (t, prop: string) =>
+	get: (t, prop) =>
 
 		propMap[prop] ||
  
