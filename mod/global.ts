@@ -8,6 +8,10 @@ export const {
 		isArray: Array_isArray
 	},
 
+	Math: {
+		floor: Math_floor
+	},
+
 	Promise,
 	Proxy,
 	RegExp,
@@ -18,6 +22,9 @@ export const {
 	MouseEvent,
 	PointerEvent,
 
+	Uint8Array,
+
+	crypto,
 	document,
 
 	requestAnimationFrame,

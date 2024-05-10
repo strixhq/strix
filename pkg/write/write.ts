@@ -1,4 +1,4 @@
-import { createTag } from "../html/tag";
+import { createTag } from "../../mod/tag.ts";
 
 // Pre-fetching builtin functions and classes, which reduces minified file size ;)
 
@@ -30,7 +30,7 @@ const {
 const baseDocumentFragment = document.createDocumentFragment().appendChild(document.createElement('div'));
 const baseCommentAnalyzer = document.createTreeWalker(baseDocumentFragment, 0x80);
 
-const HTMLTemplateAnalyzerTag = `stval${createTag()}`;
+const HTMLTemplateAnalyzerTag = `stval${createTag(16)}`;
 const HTMLTemplateAnalyzerTagRegEx = new RegExp(HTMLTemplateAnalyzerTag);
 
 const AnalyzedASTKeyMap = new WeakMap();

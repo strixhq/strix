@@ -10,22 +10,33 @@ export const resolveStrixHTMLElement = async (
 
 ) => {
 
-	let resultBuffer = getResultBuffer(StrixHTMLElement, initialArgument)
-	
-	let elementType = "";
+	let resultBuffer = getResultBuffer(StrixHTMLElement, initialArgument),
+		elementType = "";
 
 	if(Array_isArray(resultBuffer)) {
+
 		elementType = "raw" in resultBuffer? "instance" : "fragment";
+
 	} else if(typeof resultBuffer === "function") {
+
 		resultBuffer = getResultBuffer(resultBuffer, initialArgument);
+
 		if(Array_isArray(resultBuffer)) {
+
 			elementType = "transformer";
+
 		} else if(typeof resultBuffer === "function") {
+
 			resultBuffer = getResultBuffer(resultBuffer, initialArgument);
+
 			if(Array_isArray(resultBuffer)) {
+
 				elementType = "component";
+
 			} else {
+
 				throw "fucked up";	
+
 			}	
 		}
 	}
