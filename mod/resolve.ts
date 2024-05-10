@@ -3,7 +3,7 @@ import { globalGetter } from "./global";
 
 const { Array_isArray } = globalGetter;
 
-const getResultBuffer = async (fn, initialArgument) => isFnAsync(fn)? await fn(initialArgument) : fn(initialArgument);
+const getResultBuffer = async (fn, initialArgument) => isFnAsync(fn)? undefined : fn(initialArgument);
 
 export const resolveStrixHTMLElement = async (
 	
@@ -12,12 +12,12 @@ export const resolveStrixHTMLElement = async (
 
 ) => {
 
-	let resultBuffer = getResultBuffer(StrixHTMLElement, initialArgument),
+	let resultBuffer = getResultBuffer(StrixHTMLElement, initialArgument) || Error("async will be banned"),
 		elementType = "";
 
 	if(Array_isArray(resultBuffer)) {
 
-		elementType = "raw" in resultBuffer? "instance" : "fragment";
+		elementType = "raw" in resultBuffer? "fragment" : "instance";
 
 	} else if(typeof resultBuffer === "function") {
 
@@ -37,7 +37,7 @@ export const resolveStrixHTMLElement = async (
 
 			} else {
 
-				throw "fucked up";	
+				throw "too curried, we've fucked up";	
 
 			}	
 		}

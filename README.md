@@ -381,8 +381,10 @@ const RunLikeHTMX = () => {
 
 ```jsx
 const withJsxImportSource = () => {
+    let count = 0;
     return () => (
-        <Component {hx.get}=/example; {hx.swap}=afterend;></div>
+        <div>{count}</div>
+        <button @click={() => count++}></button>
     );
 }
 ```

@@ -1,4 +1,4 @@
-import { html } from "https://strix.sh/html"
+import html from "https://strix.sh/html"
 import { basicSetup } from "codemirror"
 import { EditorView, keymap } from "@codemirror/view"
 import { indentWithTab } from "@codemirror/commands"
@@ -11,7 +11,7 @@ const doc = `if (true) {
 }`;
 
 export default html`
-	<${unsafe('div')} @load=${({ target }) => {
+	<div! @load=${({ target }) => {
 		new EditorView({
 			doc,
 			extensions: [

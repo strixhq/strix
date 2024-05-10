@@ -4,30 +4,31 @@ const { crypto, Math_floor, Uint8Array } = globalGetter;
 
 const getPass = (() => {
 
-	const getValue = (() => {
+	const
+		getValue = (() => {
 
-		const memSize = 1024;
-		const baseArrayBuffer = new Uint8Array(memSize);
+			const memSize = 1024;
+			const baseArrayBuffer = new Uint8Array(memSize);
 
-		let count = memSize;
+			let count = memSize;
 
-		return () => {
-			if(count === memSize) {
-				crypto.getRandomValues(baseArrayBuffer);
-				count = 0;
+			return () => {
+				if(count === memSize) {
+					crypto.getRandomValues(baseArrayBuffer);
+					count = 0;
+				}
+				const baseToken = baseArrayBuffer[count];
+				count++;
+
+				return baseToken / 256;
 			}
-			const baseToken = baseArrayBuffer[count];
-			count++;
 
-			return baseToken / 256;
-		}
+		})(),
 
-	})();
+		tokens = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+		tokensLength = tokens.length;	
 
-	const tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-	const tokensLength = tokens.length;	
-
-	return (length) => {
+	return (length: number): string => {
 
 		let strBuffer = "";
 
