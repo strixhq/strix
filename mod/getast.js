@@ -28,6 +28,7 @@ export const getAST = (
 
 		for(let i = 0; i < TSALength; i++) {
 
+			const TSAFragment = TemplateStringsArray[i];
 			const TSAFragmentRef = TSAFragmentMapBuffer[TSAFragment]
 
 			if(!TSAFragmentRef) {
@@ -36,7 +37,9 @@ export const getAST = (
 				const TSAStructure = parseAST(TemplateStringsArray);
 
 				for(let j = i; j < TSALength; j++) {
+
 					const TSAFragment = TemplateStringsArray[j];
+
 					TSAFragmentMapBuffer[TSAFragment] = {};
 					TSAFragmentMapBuffer = TSAFragmentMapBuffer[TSAFragment];
 				}

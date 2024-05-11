@@ -1,3 +1,5 @@
+import { getAST } from "./getast";
+
 /**
  * 
  * @param { StrixHTMLElement } StrixHTMLElement 
@@ -10,8 +12,9 @@ export const initializeStrixHTMLElement = (
 	StrixHTMLElement,
 	propertyObject,
 
-	TSAStructureKeyMap,
-	TSAStructureMap,
+	TSAElementMap,
+	TSAFragmentMap,
+	TSAStructureMap
 ) => {
 
 	let elementType = undefined;
@@ -22,10 +25,18 @@ export const initializeStrixHTMLElement = (
 
 		elementType = "raw" in resultBuffer? "fragment" : "instance";
 
-		const [ TSARef, ValueRef ] = elementType === "fragment"
+		const [ TemplateStringsArray, ValueRef ] = elementType === "fragment"
 			? [ StrixHTMLElement(), resultBuffer ]
 			: [ resultBuffer, StrixHTMLElement() ];
 		
 		// パース済のASTオブジェクトを取得
+		const AST = getAST(
+		
+			TemplateStringsArray,
+			TSAElementMap,
+			TSAFragmentMap,
+			TSAStructureMap
+
+		);
 	}
 }
