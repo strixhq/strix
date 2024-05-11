@@ -52,6 +52,8 @@ export const resolveStrixHTMLElement = async (
 
 			} else {
 
+				resultBuffer = undefined;
+
 				throw "too curried, we've fucked up";	
 
 			}	
