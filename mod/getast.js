@@ -2,61 +2,61 @@ import { parseAST } from "./parseast";
 
 /**
  * 
- * @param { TemplateStringsArray } TemplateStringsArray 
- * @param { WeakMap } TSAElementMap
- * @param { object } TSAFragmentMap
- * @param { WeakMap } TSAStructureMap
+ * @param { TemplateStringsArray } ELEMENT_TSA 
+ * @param { WeakMap } TSA_TO_STRUCTURE
+ * @param { object } FRAGMENT_TO_REF
+ * @param { WeakMap } REF_TO_STRUCTURE
  */
 
 export const getAST = (
 
-	TemplateStringsArray,
+	ELEMENT_TSA,
 
-	TSAElementMap,
-	TSAFragmentMap,
-	TSAStructureMap
+	TSA_TO_STRUCTURE,
+	FRAGMENT_TO_REF,
+	REF_TO_STRUCTURE
 
 ) => {
 	// WeakMapから取得
-	return TSAElementMap.get(TemplateStringsArray) || (() => {
+	return TSA_TO_STRUCTURE.get(ELEMENT_TSA) || (() => {
 
 		// オブジェクトがWeakMapのキーに見つからなかった場合、TemplateStringsArrayをインデックスから探索する
 
 		// TemplateStringsArrayのlengthプロパティをキャッシュする
-		const TSALength = TemplateStringsArray.length;
-		let TSAFragmentMapBuffer = TSAFragmentMap;
+		const TSA_LENGTH = ELEMENT_TSA.length;
 
-		for(let i = 0; i < TSALength; i++) {
+		let TSAFragmentMap = FRAGMENT_TO_REF;
 
-			const TSAFragment = TemplateStringsArray[i];
-			const TSAFragmentRef = TSAFragmentMapBuffer[TSAFragment]
+		for(let i = 0; i < TSA_LENGTH; i++) {
 
-			if(!TSAFragmentRef) {
+			const TSA_FRAGMENT = ELEMENT_TSA[i];
+			const TSA_FRAGMENT_REF = TSAFragmentMap[TSA_FRAGMENT]
+
+			if(!TSA_FRAGMENT_REF) {
+
 				// 未パースのパターンであることが確定したので、探索用のforループから構築用のforループに移行し、参照オブジェクトを新規作成する
+				const BUF_AST = parseAST(ELEMENT_TSA);
 
-				const TSAStructure = parseAST(TemplateStringsArray);
+				for(let j = i; j < TSA_LENGTH; j++) {
 
-				for(let j = i; j < TSALength; j++) {
+					const BUF_TSAFragment = ELEMENT_TSA[j];
 
-					const TSAFragment = TemplateStringsArray[j];
-
-					TSAFragmentMapBuffer[TSAFragment] = {};
-					TSAFragmentMapBuffer = TSAFragmentMapBuffer[TSAFragment];
+					TSAFragmentMap[BUF_TSAFragment] = {};
+					TSAFragmentMap = TSAFragmentMap[BUF_TSAFragment];
 				}
 
-				TSAStructureMap.set(TSAFragmentMapBuffer, TSAStructure);
-				TSAElementMap.set(TemplateStringsArray, TSAStructure);
+				REF_TO_STRUCTURE.set(TSAFragmentMap, BUF_AST);
+				TSA_TO_STRUCTURE.set(ELEMENT_TSA, BUF_AST);
 
-				return TSAStructure;	
+				return BUF_AST;	
 			}
 
-			TSAFragmentMapBuffer = TSAFragmentRef;
-
+			TSAFragmentMap = TSA_FRAGMENT_REF;
 		}
 
-		const TSAStructure = TSAStructureMap.get(TSAFragmentMapBuffer);
-		TSAElementMap.set(TemplateStringsArray, TSAStructure);
+		const BUF_TSAStructure = REF_TO_STRUCTURE.get(TSAFragmentMap);
+		TSA_TO_STRUCTURE.set(ELEMENT_TSA, BUF_TSAStructure);
 
-		return TSAStructure;
+		return BUF_TSAStructure;
 	})();
 }
