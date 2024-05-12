@@ -9,9 +9,9 @@ const { crypto, Math_floor, Uint8Array } = globalGetter;
  * @returns { string }
  */
 
-export const GET_TAG = (() => {
+export const getTag = (() => {
 
-	const GET_VALUE = (() => {
+	const getValue = (() => {
 
 			const MEM_SIZE = 1024;
 			const BASE_ARRAYBUFFER = new Uint8Array(MEM_SIZE);
@@ -39,7 +39,7 @@ export const GET_TAG = (() => {
 		let strBuffer = "";
 
 		for(let passIndex = 0; passIndex < LENGTH; passIndex++) {
-			strBuffer += TOKENS[Math_floor(GET_VALUE() * TOKENS_LENGTH)];
+			strBuffer += TOKENS[Math_floor(getValue() * TOKENS_LENGTH)];
 		}
 
 		return strBuffer;

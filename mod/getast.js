@@ -1,4 +1,4 @@
-import { TSA_TO_AST } from "./parseast";
+import { parseAST } from "./parseast";
 
 /**
  * 
@@ -35,7 +35,7 @@ export const getAST = (
 			if(!TSA_FRAGMENT_REF) {
 
 				// 未パースのパターンであることが確定したので、探索用のforループから構築用のforループに移行し、参照オブジェクトを新規作成する
-				const BUF_AST = TSA_TO_AST(ELEMENT_TSA);
+				const BUF_AST = parseAST(ELEMENT_TSA);
 
 				for(let j = i; j < TSA_LENGTH; j++) {
 

@@ -27,39 +27,36 @@ export const initStrixHTMLElement = (
 
 ) => {
 
-	const RESULT_STAGE_ARRAY = [STRIX_HTML_ELEMENT];
+	const initStageArray = [STRIX_HTML_ELEMENT];
 	
 	let initRound = 0;
 	
 	for(null; initRound < 3; initRound++) {
 
-		const RESULT_BUFFER = RESULT_STAGE_ARRAY[initRound](ATTR_OBJECT);
-		RESULT_STAGE_ARRAY.push(RESULT_BUFFER);
+		const RESULT_BUFFER = initStageArray[initRound](ATTR_OBJECT);
+		initStageArray.push(RESULT_BUFFER);
 		if(Array_isArray(RESULT_BUFFER)) {
 			break
 		};
-
 	}
 
-	const IS_FRAGMENT = "raw" in RESULT_STAGE_ARRAY[initRound];
+	const IS_FIRST_RAW = "raw" in initStageArray[initRound];
 
-	if(initRound !== 0 && !IS_FRAGMENT) {
-		return 0
+	if(initRound !== 0 && !IS_FIRST_RAW) {
+		return undefined;
 	};
 
-	const ELEMENT_TYPE = [
+	const ELEMENT_TYPE = (() => {
+		switch(initRound) {
+			case 1: return IS_FIRST_RAW ? "fragment" : "instance";
+			case 2: return "transformer";
+			case 3: return "component"; 
+		}
+	})()
 
-		IS_FRAGMENT
-			? "fragment"
-			: "instance",
-		"transformer",
-		"component",
-
-	][initRound];
-
-	const [ ELEMENT_TSA, ELEMENT_VAL ] = IS_FRAGMENT
-		? [ RESULT_STAGE_ARRAY[initRound], RESULT_STAGE_ARRAY[initRound - 1]() ]
-		: [ RESULT_STAGE_ARRAY[initRound - 1](), RESULT_STAGE_ARRAY[initRound] ];
+	const [ ELEMENT_TSA, ELEMENT_VAL ] = IS_FIRST_RAW
+		? [ initStageArray[initRound], initStageArray[initRound - 1]() ]
+		: [ initStageArray[initRound - 1](), initStageArray[initRound] ];
 
 	// パース済のASTオブジェクトを取得
 	const AST_BUF = getAST(
@@ -72,11 +69,13 @@ export const initStrixHTMLElement = (
 
 	);
 
-	const REFRESH_FUNC = () => RESULT_STAGE_ARRAY[initRound](!IS_FRAGMENT);
+	const refreshFunc = initStageArray[initRound];
 
 	return {
 		type: ELEMENT_TYPE,
-		refresh: REFRESH_FUNC
+		refresh() {
+			return refreshFunc(!IS_FIRST_RAW)
+		}
 	}
 
 };
