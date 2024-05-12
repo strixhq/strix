@@ -2,43 +2,47 @@ import { globalGetter } from "./global.js";
 
 const { crypto, Math_floor, Uint8Array } = globalGetter;
 
-const getPass = (() => {
 
-	const
-		getValue = (() => {
+/**
+ * 
+ * @param { number } LENGTH 
+ * @returns { string }
+ */
 
-			const memSize = 1024;
-			const baseArrayBuffer = new Uint8Array(memSize);
+export const GET_TAG = (() => {
 
-			let count = memSize;
+	const GET_VALUE = (() => {
+
+			const MEM_SIZE = 1024;
+			const BASE_ARRAYBUFFER = new Uint8Array(MEM_SIZE);
+
+			let memIndex = MEM_SIZE;
 
 			return () => {
-				if(count === memSize) {
-					crypto.getRandomValues(baseArrayBuffer);
-					count = 0;
+				if(memIndex === MEM_SIZE) {
+					crypto.getRandomValues(BASE_ARRAYBUFFER);
+					memIndex = 0;
 				}
-				const baseToken = baseArrayBuffer[count];
-				count++;
+				const BASE_TOKEN = BASE_ARRAYBUFFER[memIndex];
+				memIndex++;
 
-				return baseToken / 256;
+				return BASE_TOKEN / 256;
 			}
 
-		})(),
+		})();
 
-		tokens = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-		tokensLength = tokens.length;	
+	const TOKENS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	const TOKENS_LENGTH = TOKENS.length;
 
-	return (length) => {
+	return (LENGTH) => {
 
 		let strBuffer = "";
 
-		for(let passIndex = 0; passIndex < length; passIndex++) {
-			strBuffer += tokens[Math_floor(getValue() * tokensLength)];
+		for(let passIndex = 0; passIndex < LENGTH; passIndex++) {
+			strBuffer += TOKENS[Math_floor(GET_VALUE() * TOKENS_LENGTH)];
 		}
 
 		return strBuffer;
 	}
 
 })();
-
-export const createTag = (length) => getPass(length)

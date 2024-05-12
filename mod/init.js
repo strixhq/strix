@@ -21,14 +21,15 @@ export const initStrixHTMLElement = (
 
 	TSA_TO_STRUCTURE,
 	FRAGMENT_TO_REF,
-	REF_TO_STRUCTURE
+	REF_TO_STRUCTURE,
+
+	ELEMENT_TO_STRUCTURE,
 
 ) => {
 
+	const RESULT_STAGE_ARRAY = [STRIX_HTML_ELEMENT];
 	
 	let initRound = 0;
-
-	const RESULT_STAGE_ARRAY = [STRIX_HTML_ELEMENT];
 	
 	for(null; initRound < 3; initRound++) {
 
@@ -44,22 +45,30 @@ export const initStrixHTMLElement = (
 		return 0;
 	}
 
-	const
-		ELEMENT_TYPE = [IS_INSTANCE? "fragment": "instance", "transformer", "component"][initRound],
-		[ ELEMENT_TSA, ELEMENT_VAL ] = IS_INSTANCE
-			? [ RESULT_STAGE_ARRAY[initRound - 1](), RESULT_STAGE_ARRAY[initRound] ]
-			: [ RESULT_STAGE_ARRAY[initRound], RESULT_STAGE_ARRAY[initRound - 1]() ],
+	const ELEMENT_TYPE = [
+
+		IS_INSTANCE
+			? "fragment"
+			: "instance",
+		"transformer",
+		"component",
+
+	][initRound];
+
+	const [ ELEMENT_TSA, ELEMENT_VAL ] = IS_INSTANCE
+		? [ RESULT_STAGE_ARRAY[initRound - 1](), RESULT_STAGE_ARRAY[initRound] ]
+		: [ RESULT_STAGE_ARRAY[initRound], RESULT_STAGE_ARRAY[initRound - 1]() ];
 
 	// パース済のASTオブジェクトを取得
-		BUF_AST = getAST(
+	const BUF_AST = getAST(
 
-			ELEMENT_TSA,
+		ELEMENT_TSA,
 
-			TSA_TO_STRUCTURE,
-			FRAGMENT_TO_REF,
-			REF_TO_STRUCTURE
+		TSA_TO_STRUCTURE,
+		FRAGMENT_TO_REF,
+		REF_TO_STRUCTURE
 
-		);
+	);
 
 	return {
 		[refresh]() {
