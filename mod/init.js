@@ -1,4 +1,4 @@
-import { getAST } from "./getast";
+import { getPipeline } from "./pipeline";
 import { refresh } from "./property";
 import { globalGetter } from "./global";
 
@@ -46,20 +46,18 @@ export const initStrixHTMLElement = (
 		return undefined;
 	};
 
-	const ELEMENT_TYPE = (() => {
-		switch(initRound) {
-			case 1: return IS_FIRST_RAW ? "fragment" : "instance";
-			case 2: return "transformer";
-			case 3: return "component"; 
-		}
-	})()
+	const ELEMENT_TYPE = [
+		IS_FIRST_RAW ? "fragment" : "instance",
+		"transformer",
+		"component",
+	][initRound];
 
 	const [ ELEMENT_TSA, ELEMENT_VAL ] = IS_FIRST_RAW
 		? [ initStageArray[initRound], initStageArray[initRound - 1]() ]
 		: [ initStageArray[initRound - 1](), initStageArray[initRound] ];
 
 	// パース済のASTオブジェクトを取得
-	const AST_BUF = getAST(
+	const AST_BUF = getPipeline(
 
 		ELEMENT_TSA,
 
@@ -74,7 +72,7 @@ export const initStrixHTMLElement = (
 	return {
 		type: ELEMENT_TYPE,
 		refresh() {
-			return refreshFunc(!IS_FIRST_RAW)
+			return refreshFunc(!IS_FIRST_RAW);
 		}
 	}
 
