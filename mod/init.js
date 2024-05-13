@@ -56,8 +56,8 @@ export const initStrixHTMLElement = (
 		? [ initStageArray[initRound], initStageArray[initRound - 1]() ]
 		: [ initStageArray[initRound - 1](), initStageArray[initRound] ];
 
-	// パース済のASTオブジェクトを取得
-	const AST_BUF = getPipeline(
+	// パース済のパイプラインオブジェクトを取得
+	const PIPELINE_BUF = getPipeline(
 
 		ELEMENT_TSA,
 

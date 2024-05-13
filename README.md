@@ -369,16 +369,6 @@ const ReactEmbedded = () => () => html`
 `;
 ```
 
-```javascript
-import { hx } from 'strix-hx';
-
-const RunLikeHTMX = () => {
-    return () => html`
-        <div ${hx.get}=/example; ${hx.swap}=afterend;></div>
-    `;
-};
-```
-
 ```jsx
 const withJsxImportSource = () => {
     let count = 0;
@@ -406,6 +396,16 @@ alert(primitive === anotherPrimitive); // false
 ```javascript
 html`<input type=text; @input=${({ target: { value } }) => alert(value)} />`
 html`<input type=text; @input.target.value=${value => alert(value)} />`
+```
+
+```javascript
+const animation = async ({ frame }) => {
+    let rgbValue = 0;
+    for(let i = 0; i < 60; i++) {
+        rgbValue++
+        await frame(html`*background-color=#${rgbValue.toString(16).padStart(6, "0")};`);
+    }
+}
 ```
 
 ### License
