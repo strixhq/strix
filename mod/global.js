@@ -21,3 +21,16 @@ export const globalGetter = new Proxy({}, {
 			return currentObjectCursor;
 		})())
 });
+
+export const {
+
+	Array: {
+		isArray: Array_isArray
+	},
+
+	Proxy,
+	Promise,
+	Error,
+	TypeError,
+
+} = window;
