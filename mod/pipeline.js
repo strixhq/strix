@@ -79,7 +79,7 @@ const createPipeline = (
 /**
  * 
  * @param { TemplateStringsArray } ELEMENT_TSA 
- * @param { WeakMap } TSA_TO_STRUCTURE
+ * @param { WeakMap } TSA_TO_PIPELINE
  * @param { object } FRAGMENT_TO_REF
  * @param { WeakMap } REF_TO_STRUCTURE
  * @param { string } INDEX_MAP
@@ -89,10 +89,10 @@ export const getPipeline = (
 
 	ELEMENT_TSA,
 
-	TSA_TO_STRUCTURE,
-	INDEX_TO_STRUCTURE,
+	TSA_TO_PIPELINE,
+	INDEX_TO_PIPELINE,
 
-) => TSA_TO_STRUCTURE.get(ELEMENT_TSA) || (() => {
+) => TSA_TO_PIPELINE.get(ELEMENT_TSA) || (() => {
 
 	let indexMapResultBuffer = "";
 
@@ -112,8 +112,8 @@ export const getPipeline = (
 		}
 	});
 
-	const PIPELINE_BUF = INDEX_TO_STRUCTURE[indexMapResultBuffer] || (INDEX_TO_STRUCTURE[indexMapResultBuffer] = createPipeline(ELEMENT_TSA));
-	TSA_TO_STRUCTURE.set(ELEMENT_TSA, PIPELINE_BUF);
+	const PIPELINE_BUF = INDEX_TO_PIPELINE[indexMapResultBuffer] || (INDEX_TO_PIPELINE[indexMapResultBuffer] = createPipeline(ELEMENT_TSA));
+	TSA_TO_PIPELINE.set(ELEMENT_TSA, PIPELINE_BUF);
 
 	return PIPELINE_BUF;
 
