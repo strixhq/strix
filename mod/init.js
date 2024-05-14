@@ -74,5 +74,4 @@ export const initStrixHTMLElement = (
 			return refreshFunc(!IS_FIRST_RAW);
 		}
 	}
-
 };

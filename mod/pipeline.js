@@ -6,7 +6,9 @@ const HTML_PARSETAG_LENGTH = 16;
 const HTML_PARSETAG = "sthtm-" + createTag(HTML_PARSETAG_LENGTH);
 const HTML_TAG_REGEX = new RegExp("<" + HTML_PARSETAG);
 
-const TEXTEND_REGEX = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
+// const TEXTEND_REGEX = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
+
+let indexMapBuffer = "";
 
 /**
  * 
@@ -80,6 +82,7 @@ const createPipeline = (
  * @param { WeakMap } TSA_TO_STRUCTURE
  * @param { object } FRAGMENT_TO_REF
  * @param { WeakMap } REF_TO_STRUCTURE
+ * @param { string } INDEX_MAP
  */
 
 export const getPipeline = (
@@ -87,50 +90,31 @@ export const getPipeline = (
 	ELEMENT_TSA,
 
 	TSA_TO_STRUCTURE,
-	FRAGMENT_TO_REF,
-	REF_TO_STRUCTURE
+	INDEX_TO_STRUCTURE,
 
 ) => TSA_TO_STRUCTURE.get(ELEMENT_TSA) || (() => {
 
-	// オブジェクトがWeakMapのキーに見つからなかった場合、TemplateStringsArrayをインデックスから探索する
+	let indexMapResultBuffer = "";
 
-	// TemplateStringsArrayのlengthプロパティをキャッシュする
-	const TSA_LENGTH = ELEMENT_TSA.length;
+	ELEMENT_TSA.forEach(INDEX_EL => {
 
-	let FragmentToRefBuffer = FRAGMENT_TO_REF;
+		const INDEX_BUFFER = indexMapBuffer.indexOf(INDEX_EL);
 
-	for(let i = 0; i < TSA_LENGTH; i++) {
+		if(INDEX_BUFFER == -1) {
 
-		const TSA_FRAGMENT = ELEMENT_TSA[i];
-		const TSA_FRAGMENT_REF = FragmentToRefBuffer[TSA_FRAGMENT]
+			indexMapResultBuffer += indexMapBuffer.length + "-";
+			indexMapBuffer += INDEX_EL;
 
-		if(!TSA_FRAGMENT_REF) {
+		} else {
 
-			// 未パースのパターンとして確定され、探索用のforループから構築用のforループに移行し、参照オブジェクトを新規作成する
-			const PIPELINE_BUF = createPipeline(ELEMENT_TSA);
+			indexMapResultBuffer += INDEX_BUFFER + "-";
 
-			for(let j = i; j < TSA_LENGTH; j++) {
-
-				const BUF_TSAFragment = ELEMENT_TSA[j];
-
-				FragmentToRefBuffer[BUF_TSAFragment] = {};
-				FragmentToRefBuffer = FragmentToRefBuffer[BUF_TSAFragment];
-			}
-
-			REF_TO_STRUCTURE.set(FragmentToRefBuffer, PIPELINE_BUF);
-			TSA_TO_STRUCTURE.set(ELEMENT_TSA, PIPELINE_BUF);
-
-			// 返却
-			return PIPELINE_BUF;	
 		}
+	});
 
-		FragmentToRefBuffer = TSA_FRAGMENT_REF;
-	}
-
-	const PIPELINE_BUF = REF_TO_STRUCTURE.get(FragmentToRefBuffer);
+	const PIPELINE_BUF = INDEX_TO_STRUCTURE[indexMapResultBuffer] || (INDEX_TO_STRUCTURE[indexMapResultBuffer] = createPipeline(ELEMENT_TSA));
 	TSA_TO_STRUCTURE.set(ELEMENT_TSA, PIPELINE_BUF);
 
-	// 返却
 	return PIPELINE_BUF;
 
 })();
