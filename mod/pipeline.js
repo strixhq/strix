@@ -1,12 +1,12 @@
-import { getTag } from "./tag";
-import { globalGetter } from "./global";
-
-const { RegExp } = globalGetter;
+import { RegExp } from "./global";
+import { createTag } from "./tag";
 
 const HTML_PARSETAG_LENGTH = 16;
 
-const HTML_PARSETAG = `sthtml${getTag(HTML_PARSETAG_LENGTH)}`;
-const HTML_PARSETAG_REGEX = new RegExp(HTML_PARSETAG);
+const HTML_PARSETAG = "sthtm-" + createTag(HTML_PARSETAG_LENGTH);
+const HTML_TAG_REGEX = new RegExp("<" + HTML_PARSETAG);
+
+const TEXTEND_REGEX = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
 
 /**
  * 
@@ -21,15 +21,55 @@ const createPipeline = (
 ) => {
 
 	const JOINED_HTML_TEMPLATE = ELEMENT_TSA.join(HTML_PARSETAG);
-	const HTML_VALUE_LOCATION_ARRAY = [];
+	const HTML_VALUE_LOCATION_ARRAY = ELEMENT_TSA.map(({ length }) => length);
 
-	while(!HTML_PARSETAG_REGEX.test(JOINED_HTML_TEMPLATE)) {
-		HTML_VALUE_LOCATION_ARRAY.push()
-	}
+	const HTML_TEXTEND_INDEX = JOINED_HTML_TEMPLATE.match(TEXTEND_REGEX);
 
 	const PIPELINE_BUFFER = new Function(`() => {
 
 	}`);
+
+	/**
+
+		const CustomTag = ({ name }) => html`<label>Hello, ${name}!</label>`
+
+		input --> html`
+			<div>count is ${count}</div>
+			<${CustomTag} .name=${'taro'}/>
+		`
+
+		join --> `
+			<div>stval-gaLoDO8NpfCkiNxP</div>
+			<stval-gaLoDO8NpfCkiNxP .name=stval-gaLoDO8NpfCkiNxP/>
+		`
+
+		output --> {
+			template: `
+				<div id=stid-gaLoDO8NpfCkiNxP-1>
+					count is <!-- sttxt-gaLoDO8NpfCkiNxP --> <!-- sttxt-gaLoDO8NpfCkiNxP -->
+				</div>
+				<label id=stid-lmoyyIxmjjNPZamU-1>Hello, <!-- sttxt-lmoyyIxmjjNPZamU --> <!-- sttxt-lmoyyIxmjjNPZamU -->!</label>`,
+			value: {
+				0: {
+					type: "text"
+				},
+
+				1: {
+					type: "tag"
+				},
+
+				2: {
+					type: "prop",
+					rel: {
+						to: 1,
+						key: "name"
+					}
+				}
+			}
+
+		}
+
+	 */
 
 }
 
@@ -50,47 +90,47 @@ export const getPipeline = (
 	FRAGMENT_TO_REF,
 	REF_TO_STRUCTURE
 
-) => {
-	// WeakMapから取得
-	return TSA_TO_STRUCTURE.get(ELEMENT_TSA) || (() => {
+) => TSA_TO_STRUCTURE.get(ELEMENT_TSA) || (() => {
 
-		// オブジェクトがWeakMapのキーに見つからなかった場合、TemplateStringsArrayをインデックスから探索する
+	// オブジェクトがWeakMapのキーに見つからなかった場合、TemplateStringsArrayをインデックスから探索する
 
-		// TemplateStringsArrayのlengthプロパティをキャッシュする
-		const TSA_LENGTH = ELEMENT_TSA.length;
+	// TemplateStringsArrayのlengthプロパティをキャッシュする
+	const TSA_LENGTH = ELEMENT_TSA.length;
 
-		let FragmentToRefBuffer = FRAGMENT_TO_REF;
+	let FragmentToRefBuffer = FRAGMENT_TO_REF;
 
-		for(let i = 0; i < TSA_LENGTH; i++) {
+	for(let i = 0; i < TSA_LENGTH; i++) {
 
-			const TSA_FRAGMENT = ELEMENT_TSA[i];
-			const TSA_FRAGMENT_REF = FragmentToRefBuffer[TSA_FRAGMENT]
+		const TSA_FRAGMENT = ELEMENT_TSA[i];
+		const TSA_FRAGMENT_REF = FragmentToRefBuffer[TSA_FRAGMENT]
 
-			if(!TSA_FRAGMENT_REF) {
+		if(!TSA_FRAGMENT_REF) {
 
-				// 未パースのパターンとして確定され、探索用のforループから構築用のforループに移行し、参照オブジェクトを新規作成する
-				const BUF_AST = createPipeline(ELEMENT_TSA);
+			// 未パースのパターンとして確定され、探索用のforループから構築用のforループに移行し、参照オブジェクトを新規作成する
+			const PIPELINE_BUF = createPipeline(ELEMENT_TSA);
 
-				for(let j = i; j < TSA_LENGTH; j++) {
+			for(let j = i; j < TSA_LENGTH; j++) {
 
-					const BUF_TSAFragment = ELEMENT_TSA[j];
+				const BUF_TSAFragment = ELEMENT_TSA[j];
 
-					FragmentToRefBuffer[BUF_TSAFragment] = {};
-					FragmentToRefBuffer = FragmentToRefBuffer[BUF_TSAFragment];
-				}
-
-				REF_TO_STRUCTURE.set(FragmentToRefBuffer, BUF_AST);
-				TSA_TO_STRUCTURE.set(ELEMENT_TSA, BUF_AST);
-
-				return BUF_AST;	
+				FragmentToRefBuffer[BUF_TSAFragment] = {};
+				FragmentToRefBuffer = FragmentToRefBuffer[BUF_TSAFragment];
 			}
 
-			FragmentToRefBuffer = TSA_FRAGMENT_REF;
+			REF_TO_STRUCTURE.set(FragmentToRefBuffer, PIPELINE_BUF);
+			TSA_TO_STRUCTURE.set(ELEMENT_TSA, PIPELINE_BUF);
+
+			// 返却
+			return PIPELINE_BUF;	
 		}
 
-		const BUF_AST = REF_TO_STRUCTURE.get(FragmentToRefBuffer);
-		TSA_TO_STRUCTURE.set(ELEMENT_TSA, BUF_AST);
+		FragmentToRefBuffer = TSA_FRAGMENT_REF;
+	}
 
-		return BUF_AST;
-	})();
-}
+	const PIPELINE_BUF = REF_TO_STRUCTURE.get(FragmentToRefBuffer);
+	TSA_TO_STRUCTURE.set(ELEMENT_TSA, PIPELINE_BUF);
+
+	// 返却
+	return PIPELINE_BUF;
+
+})();

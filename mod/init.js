@@ -1,5 +1,4 @@
 import { getPipeline } from "./pipeline";
-import { refresh } from "./property";
 import { globalGetter } from "./global";
 
 const { Array_isArray } = globalGetter;
