@@ -292,7 +292,7 @@ const ReverseStr = ($) => {
         <input
             type=text;
             .value=${textValuePtr};
-            @keydown=${async () => revText.v = value.split('').reverse().join('')}
+            @keydown=${async () => revText(value.split('').reverse().join(''))}
         />
         <h2>${revText}</h2>
     `;
@@ -361,11 +361,15 @@ const HowToCenterADiv = () => () => html`
 ```
 
 ```javascript
-import { React } from 'strix-react';
+import { react } from 'strix-react';
+
+import * as React from 'react@latest';
 import { Button } from '@shadcn/ui/components/ui/button';
 
+react.use(React);
+
 const ReactEmbedded = () => () => html`
-    <${React(Button)}>I am the Button from @shadcn/ui in Strix!</${React(Button)}>
+    <${Button} ${react}>I am the Button from @shadcn/ui in Strix!</${Button}>
 `;
 ```
 

@@ -1,7 +1,5 @@
 import { getPipeline } from "./pipeline";
-import { globalGetter } from "./keyword/global";
-
-const { Array_isArray } = globalGetter;
+import { Array_isArray } from "./keyword/global";
 
 /**
  * 
