@@ -37,6 +37,7 @@ export const {
 	Error,
 	TypeError,
 	RegExp,
+	WeakMap,
 	
 	Uint8Array,
 

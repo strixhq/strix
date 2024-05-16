@@ -1,4 +1,4 @@
-import { crypto, Math_floor, Uint8Array } from "./global.js";
+import { crypto, Math_floor, Uint8Array } from "./keyword/global.js";
 
 const MEM_SIZE = 1024;
 const BASE_ARRAYBUFFER = new Uint8Array(MEM_SIZE);

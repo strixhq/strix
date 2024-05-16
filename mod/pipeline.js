@@ -1,4 +1,4 @@
-import { RegExp } from "./global";
+import { RegExp } from "./keyword/global";
 import { createTag } from "./tag";
 
 const HTML_PARSETAG_LENGTH = 16;
@@ -8,17 +8,18 @@ const HTML_TAG_REGEX = new RegExp("<" + HTML_PARSETAG);
 
 // const TEXTEND_REGEX = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
 
-let indexMapBuffer = "";
-
 /**
  * 
  * @param { TemplateStringsArray } ELEMENT_TSA
+ * @param { number } ELEMENT_TSA_LENGTH
+ * 
  * @returns { Function }
  */
 
 const createPipeline = (
 
-	ELEMENT_TSA
+	ELEMENT_TSA,
+	ELEMENT_TSA_LENGTH,
 
 ) => {
 
@@ -45,7 +46,7 @@ const createPipeline = (
 			<stval-gaLoDO8NpfCkiNxP .name=stval-gaLoDO8NpfCkiNxP/>
 		`
 
-		output --> {
+		ast --> {
 			template: `
 				<div id=stid-gaLoDO8NpfCkiNxP-1>
 					count is <!-- sttxt-gaLoDO8NpfCkiNxP --> <!-- sttxt-gaLoDO8NpfCkiNxP -->
@@ -71,6 +72,30 @@ const createPipeline = (
 
 		}
 
+		result --> (() => {
+			let
+				PREV_0,
+				PREV_1,
+				PREV_2,
+
+				RES_0,
+				RES_1,
+				RES_2;
+
+			return ([ CURR_0, CURR_1, CURR_2 ], REFRESH_CALLBACK) => {
+
+				RES_0 = PREV_0 == CURR_0;
+				RES_1 = PREV_1 == CURR_1;
+				RES_2 = PREV_2 == CURR_2;
+
+				PREV_0 = CURR_0;
+				PREV_1 = CURR_1;
+				PREV_2 = CURR_2;
+
+				REFRESH_CALLBACK(RES_0, RES_1, RES_2);
+			}
+		})();
+
 	 */
 
 }
@@ -78,41 +103,29 @@ const createPipeline = (
 
 /**
  * 
- * @param { TemplateStringsArray } ELEMENT_TSA 
+ * @param { TemplateStringsArray } ELEMENT_TSA
+ * @param { number } ELEMENT_TSA_LENGTH
+ * 
  * @param { WeakMap } TSA_TO_PIPELINE
- * @param { object } FRAGMENT_TO_REF
- * @param { WeakMap } REF_TO_STRUCTURE
- * @param { string } INDEX_MAP
+ * @param { object } INDEX_TO_PIPELINE
  */
 
 export const getPipeline = (
 
 	ELEMENT_TSA,
+	ELEMENT_TSA_LENGTH,
 
 	TSA_TO_PIPELINE,
 	INDEX_TO_PIPELINE,
 
 ) => TSA_TO_PIPELINE.get(ELEMENT_TSA) || (() => {
 
-	let indexMapResultBuffer = "";
+	const JOINED_ELEMENT_TSA = ELEMENT_TSA.raw.join("\0");
 
-	ELEMENT_TSA.forEach(INDEX_EL => {
+	const PIPELINE_BUF = 
+		INDEX_TO_PIPELINE[JOINED_ELEMENT_TSA] ||
+		(INDEX_TO_PIPELINE[JOINED_ELEMENT_TSA] = createPipeline(ELEMENT_TSA, ELEMENT_TSA_LENGTH));
 
-		const INDEX_BUFFER = indexMapBuffer.indexOf(INDEX_EL);
-
-		if(INDEX_BUFFER == -1) {
-
-			indexMapResultBuffer += indexMapBuffer.length + "-";
-			indexMapBuffer += INDEX_EL;
-
-		} else {
-
-			indexMapResultBuffer += INDEX_BUFFER + "-";
-
-		}
-	});
-
-	const PIPELINE_BUF = INDEX_TO_PIPELINE[indexMapResultBuffer] || (INDEX_TO_PIPELINE[indexMapResultBuffer] = createPipeline(ELEMENT_TSA));
 	TSA_TO_PIPELINE.set(ELEMENT_TSA, PIPELINE_BUF);
 
 	return PIPELINE_BUF;

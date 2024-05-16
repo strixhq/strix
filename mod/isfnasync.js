@@ -1,1 +1,0 @@
-export const isFnAsync = fn => fn[Symbol.toStringTag] === "AsyncFunction";
