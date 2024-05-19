@@ -1,17 +1,13 @@
-const temp = i => (
+const tmp = i => (
 
-	str,
-	...val
+	a,
+	...b
 
-) => j => i
+) => j => i ^ j
 
-	? j
-		? str
-		: val
-	
-	: j
-		? val
-		: str
+	? a
+	: b
+
 
 /**
  * 
@@ -20,8 +16,17 @@ const temp = i => (
  * @returns { Function }
  */
 
-const html = temp(1);
+const html = tmp(1);
 
-html.new = temp(0);
+
+/**
+ * 
+ * @param { TemplateStringsArray } str 
+ * @param  { any[] } val 
+ * @returns { Function }
+ */
+
+html.new = tmp(0);
+
 
 export default html;
