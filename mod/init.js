@@ -3,8 +3,8 @@ import { Array_isArray } from "./keyword/global";
 
 /**
  * 
- * @param { StrixHTMLElement } STRIX_HTML_ELEMENT 
- * @param { object } ATTR_OBJECT 
+ * @param { StrixHTMLElement } STRIX_HTML_ELEMENT
+ * @param { object } ATTR_OBJECT
  * 
  * @param { WeakMap } TSA_TO_STRUCTURE
  * @param { object } FRAGMENT_TO_REF
@@ -73,3 +73,4 @@ export const initStrixHTMLElement = (
 		}
 	}
 };
+

@@ -116,12 +116,12 @@ html`
     <h1 *color=${titleColor}></h1>
 
     <!-- property -->
-    <input #inputWithProp type=text; .value=ok; />
+    <input #inputWithProp type=text; value=ok; />
 
-    <input type=checkbox; .value=${true}; /> <!-- CORRECT type -->
-    <input type=checkbox; .value=true; /> <!-- This is NOT boolean, this is string -->
+    <input type=checkbox; value=${true}; /> <!-- CORRECT type -->
+    <input type=checkbox; value=true; /> <!-- This is NOT boolean, this is string -->
 
-    <div .someprop.deeper='more deeper'; />
+    <div someprop.deeper='more deeper'; />
 
     <!-- embedding component -->
     <${DefinedComponent} my-attribute=1; />
@@ -131,7 +131,7 @@ html`
     <div ${alsoWithType}=${true}></div>
 
     <!-- to child elements -->
-    <div .value&input=${inputvalue}>...</div>
+    <div value&input=${inputvalue}>...</div>
 
     <!-- branching with psuedo class or booleanish -->
     <button *color:hover=red; *color${Date.now() % 2}=blue></button>
@@ -155,7 +155,7 @@ html`
 ### 4 Ways To Make View
 
 ```javascript
-const Instance = new html`
+const Instance = html.new`
     <div>It works!</div>
 `;
 
@@ -182,7 +182,7 @@ const Component = () => {
 write(document.body, html`
     <${Instance} />
     <${Primitive} />
-    <${Transformer} .color=red />
+    <${Transformer} color=red />
     <${Component} />
 `);
 ```
@@ -258,7 +258,7 @@ const Todo = () => {
     return () => html`
         <ul>${todoArray}</ul>
         <input @@keydown.Enter=${({ target }) => {
-            const newRow = html`
+            const newRow = html.new`
                 <div
                     *width=100%
                     @dragover=${({ target }) => {
@@ -266,12 +266,12 @@ const Todo = () => {
                 ></div>
                 <${TodoRow}
                     draggable=${true}
-                    .todoContent=${target.value}
-                    .swapRow=${(direction) => {
+                    todoContent=${target.value}
+                    swapRow=${(direction) => {
                         const i = todoArray.indexOf(newRow);
                         [todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
                     }}
-                    .deleteRow=${() => delete todoArray[todoArray.indexOf(newRow)]}
+                    deleteRow=${() => delete todoArray[todoArray.indexOf(newRow)]}
                 />
             `;
             todoArray.push(newRow);
@@ -291,7 +291,7 @@ const ReverseStr = ($) => {
     return () => html`
         <input
             type=text;
-            .value=${textValuePtr};
+            value=${textValuePtr};
             @keydown=${async () => revText(value.split('').reverse().join(''))}
         />
         <h2>${revText}</h2>
@@ -336,7 +336,7 @@ const sampleAttrModule = () => attr`
 
     &div[${someAttrModule}=${true}] {
         &span {
-            .amIDeeperChild=${true}
+            amIDeeperChild=${true}
         };
     };
 

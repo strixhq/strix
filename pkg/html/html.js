@@ -1,3 +1,18 @@
+const temp = i => (
+
+	str,
+	...val
+
+) => j => i
+
+	? j
+		? str
+		: val
+	
+	: j
+		? val
+		: str
+
 /**
  * 
  * @param { TemplateStringsArray } str 
@@ -5,25 +20,8 @@
  * @returns { Function }
  */
 
-const html = (
+const html = temp(1);
 
-	str,
-	...val
-
-) => function(i) {
-
-	return new.target
-
-		? j => j
-		
-			? val
-			: str
-		
-		: i
-
-			? str
-			: val
-
-}
+html.new = temp(0);
 
 export default html;
