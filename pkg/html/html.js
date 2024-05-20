@@ -1,14 +1,5 @@
-const tmp = i => (
-
-	a,
-	...b
-
-) => j => i ^ j
-
-	? a
-	: b
-
-;
+import { tmp } from "../../mod/tmp";
+import { STRIX_TYPE_HTML } from "../../mod/const/type/html";
 
 /**
  * 
@@ -17,15 +8,4 @@ const tmp = i => (
  * @returns { Function }
  */
 
-const html = tmp(1);
-
-/**
- * 
- * @param { TemplateStringsArray } str 
- * @param  { any[] } val 
- * @returns { Function }
- */
-
-html.new = tmp(0);
-
-export default html;
+export default tmp(0, STRIX_TYPE_HTML);

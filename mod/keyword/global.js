@@ -8,6 +8,10 @@ export const {
 		floor: Math_floor
 	},
 
+	Object: {
+		assign: Object_assign
+	},
+
 	Proxy,
 	Promise,
 	Error,
