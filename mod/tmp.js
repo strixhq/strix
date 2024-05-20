@@ -1,28 +1,15 @@
 /**
  * 
- * @param { number } isNew
+ * @param { number } i
  * @returns { Function }
  */
 
-export const tmp = isNew => Object.assign(
+export const tmp = i => (
 
-	(
+	a,
+	...b
 
-		a,
-		...b
+) => j => i ^ j
 
-	) => i => isNew ^ i
-
-		? a
-		: b
-
-	,
-
-	isNew
-
-		? 0
-		: {
-			new: tmp(1)
-		}
-
-);
+	? a
+	: b

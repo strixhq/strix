@@ -50,6 +50,7 @@ export const initStrixHTMLElement = (
 	][initRound];
 
 	const [ ELEMENT_TSA, ELEMENT_VAL ] = IS_FIRST_RAW
+
 		? [ initStageArray[initRound], initStageArray[initRound - 1]() ]
 		: [ initStageArray[initRound - 1](), initStageArray[initRound] ];
 
@@ -67,10 +68,15 @@ export const initStrixHTMLElement = (
 	const refreshFunc = initStageArray[initRound];
 
 	return {
+
 		type: ELEMENT_TYPE,
+
 		refresh() {
 			return refreshFunc(!IS_FIRST_RAW);
+		},
+
+		index: {
+			always: [0, 3, 5, 6, 7, 10]
 		}
 	}
 };
-

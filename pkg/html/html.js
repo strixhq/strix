@@ -7,4 +7,17 @@ import { tmp } from "../../mod/tmp";
  * @returns { Function }
  */
 
-export default tmp(0);
+const html = tmp(0);
+
+
+/**
+ * 
+ * @param { TemplateStringsArray } str 
+ * @param  { any[] } val 
+ * @returns { Function }
+ */
+
+html.new = tmp(1);
+
+
+export default html;
