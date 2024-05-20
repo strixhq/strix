@@ -1,16 +1,10 @@
 /**
  * 
- * @param { number } isNew 
- * @param { number } type 
- * @returns 
+ * @param { number } isNew
+ * @returns { Function }
  */
 
-export const tmp = (
-
-	isNew,
-	type,
-
-) => Object.assign(
+export const tmp = isNew => Object.assign(
 
 	(
 
@@ -24,13 +18,11 @@ export const tmp = (
 
 	,
 
-	{ type },
-
 	isNew
 
-		? null
+		? 0
 		: {
-			new: tmp(1, type)
+			new: tmp(1)
 		}
 
 );

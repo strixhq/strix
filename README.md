@@ -410,6 +410,16 @@ const animation = async ({ frame }) => {
         await frame(html`*background-color=#${rgbValue.toString(16).padStart(6, "0")};`);
     }
 }
+
+const deltaTime = async ({ delta }) => {
+    let rgbValue = 0;
+    for(let i = 0; i < 60; i++) {
+        rgbValue++
+        await delta(html`*background-color=#${rgbValue.toString(16).padStart(6, "0")};`);
+    }
+}
+
+html`<div @click=${animation}>woooaaah</div>`
 ```
 
 ### License

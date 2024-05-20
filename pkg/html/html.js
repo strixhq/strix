@@ -1,5 +1,4 @@
 import { tmp } from "../../mod/tmp";
-import { STRIX_TYPE_HTML } from "../../mod/const/type/html";
 
 /**
  * 
@@ -8,4 +7,4 @@ import { STRIX_TYPE_HTML } from "../../mod/const/type/html";
  * @returns { Function }
  */
 
-export default tmp(0, STRIX_TYPE_HTML);
+export default tmp(0);
