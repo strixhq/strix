@@ -8,6 +8,7 @@ const tmp = i => (
 	? a
 	: b
 
+;
 
 /**
  * 
@@ -18,7 +19,6 @@ const tmp = i => (
 
 const html = tmp(1);
 
-
 /**
  * 
  * @param { TemplateStringsArray } str 
@@ -27,6 +27,5 @@ const html = tmp(1);
  */
 
 html.new = tmp(0);
-
 
 export default html;
