@@ -6,6 +6,14 @@ const HTML_PARSETAG_LENGTH = 16;
 const HTML_PARSETAG = "sthtm-" + createTag(HTML_PARSETAG_LENGTH);
 const HTML_TAG_REGEX = new RegExp("<" + HTML_PARSETAG);
 
+const compileValueDiffer = (
+	
+	ELEMENT_VAL_LENGTH,
+	DIFFER_CALLBACK_COLLECTION,
+	INDEX = Array.from({ length: ELEMENT_VAL_LENGTH }, (_, i) => i),
+
+) => Function("cb", `let ${INDEX.map(x => `p${x},c${x}`).join()};return i=>{${INDEX.map(x => `c${x}=i[${x}];if(p${x}!=c${x}){cb[${x}]();p${x}=c${x}};`),join("")}}`)(DIFFER_CALLBACK_COLLECTION);
+
 // const TEXTEND_REGEX = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
 
 /**
@@ -18,13 +26,15 @@ const HTML_TAG_REGEX = new RegExp("<" + HTML_PARSETAG);
 const createValueDiffer = (
 
 	ELEMENT_VAL_LENGTH,
-	DIFFER_CALLBACK_COLLECTION
+	DIFFER_CALLBACK_COLLECTION,
+
+	REFRESH_ALWAYS_INDEX
 
 ) => {
 
 	const FILLED_ARRAY = Array.from({ length: ELEMENT_VAL_LENGTH }, (_, i) => i);
 
-	return Function(`cb=>{let ${FILLED_ARRAY.map(x => `p${x},c${x}`).join()};return i=>{${FILLED_ARRAY.map(x => `c${x}=i[${x}];if(p${x}!=c${x}){cb[${x}]();p${x}=c${x}};`),join("")}}}`)(DIFFER_CALLBACK_COLLECTION);
+	return [];
 }
 
 /**
@@ -47,7 +57,8 @@ const createPipeline = (
 
 	const HTML_TEXTEND_INDEX = JOINED_HTML_TEMPLATE.match(TEXTEND_REGEX);
 
-	const VALUE_DIFFER = createValueDiffer(ELEMENT_TSA_LENGTH - 1);
+	const VALUE_DIFFER_ACTIVE = compileValueDiffer(ELEMENT_TSA_LENGTH - 1, []);
+	const VALUE_DIFFER_INACTIVE = compileValueDiffer(ELEMENT_TSA_LENGTH - 1, []);
 
 	/**
 
