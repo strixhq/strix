@@ -1,7 +1,7 @@
 /**
  * 
  * @param { number } i
- * @returns { Function }
+ * @returns { (a: TemplateStringsArray, ...b: any[]) => (j: number) => (TemplateStringsArray | any[]) }
  */
 
 export const tmp = i => (
