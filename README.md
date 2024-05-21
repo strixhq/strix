@@ -108,9 +108,12 @@ html`
     <!-- identifier (not the id attribute) -->
     <img #mainImgRef/>
 
-    <!-- event handler -->
+    <!-- event listener -->
     <button @click=${() => console.log('clicked')}; />
     <input @@keydown=${() => console.log('cancelled')}; /> <!-- preventDefault() -->
+
+    <!-- StrixEffectEvent - triggered when the value changes -->
+    <h1 @effect=${() => console.log('changed')};>${count}</h1>
 
     <!-- style -->
     <h1 *color=${titleColor}></h1>

@@ -9,7 +9,6 @@ import { tmp } from "../../mod/tmp";
 
 const html = tmp(0);
 
-
 /**
  * 
  * @param { TemplateStringsArray } str 
@@ -18,6 +17,5 @@ const html = tmp(0);
  */
 
 html.new = tmp(1);
-
 
 export default html;
