@@ -10,6 +10,25 @@ const HTML_TAG_REGEX = new RegExp("<" + HTML_PARSETAG);
 
 /**
  * 
+ * @param { number } ELEMENT_VAL_LENGTH 
+ * @param { Function[] } DIFFER_CALLBACK_COLLECTION 
+ * @returns { (i: any[]) => void }
+ */
+
+const createValueDiffer = (
+
+	ELEMENT_VAL_LENGTH,
+	DIFFER_CALLBACK_COLLECTION
+
+) => {
+
+	const FILLED_ARRAY = Array.from({ length: ELEMENT_VAL_LENGTH }, (_, i) => i);
+
+	return Function(`cb=>{let ${FILLED_ARRAY.map(x => `p${x},c${x}`).join()};return i=>{${FILLED_ARRAY.map(x => `c${x}=i[${x}];if(p${x}!=c${x}){cb[${x}]();p${x}=c${x}};`),join("")}}}`)(DIFFER_CALLBACK_COLLECTION);
+}
+
+/**
+ * 
  * @param { TemplateStringsArray } ELEMENT_TSA
  * @param { number } ELEMENT_TSA_LENGTH
  * 
@@ -28,7 +47,7 @@ const createPipeline = (
 
 	const HTML_TEXTEND_INDEX = JOINED_HTML_TEMPLATE.match(TEXTEND_REGEX);
 
-	const PIPELINE_BUFFER = Function(`()=>{let ${Array.from({ length: ELEMENT_TSA_LENGTH - 1 }, (_, i) => i).map(x => "pr_" + x).join()};return(i)=>{i[0];}}`)();
+	const VALUE_DIFFER = createValueDiffer(ELEMENT_TSA_LENGTH - 1);
 
 	/**
 
