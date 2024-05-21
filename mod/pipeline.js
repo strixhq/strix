@@ -28,9 +28,7 @@ const createPipeline = (
 
 	const HTML_TEXTEND_INDEX = JOINED_HTML_TEMPLATE.match(TEXTEND_REGEX);
 
-	const PIPELINE_BUFFER = new Function(`() => {
-
-	}`);
+	const PIPELINE_BUFFER = Function(`()=>{let ${Array.from({ length: ELEMENT_TSA_LENGTH - 1 }, (_, i) => i).map(x => "pr_" + x).join()};return(i)=>{i[0];}}`)();
 
 	/**
 
