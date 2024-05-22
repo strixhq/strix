@@ -57,8 +57,7 @@ const createPipeline = (
 
 	const HTML_TEXTEND_INDEX = JOINED_HTML_TEMPLATE.match(TEXTEND_REGEX);
 
-	const VALUE_DIFFER_ACTIVE = compileValueDiffer(ELEMENT_TSA_LENGTH - 1, []);
-	const VALUE_DIFFER_INACTIVE = compileValueDiffer(ELEMENT_TSA_LENGTH - 1, []);
+	const [VALUE_DIFFER_ACTIVE, VALUE_DIFFER_INACTIVE] = compileValueDiffer(ELEMENT_TSA_LENGTH - 1, []);
 
 	/**
 

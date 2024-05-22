@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import html from 'https://strix.sh/html';
+import { html } from '@strix/html';
 
 const Counter = () => {
 
@@ -82,10 +82,16 @@ import html from 'https://strix.sh/html';
 const html = await import('https://strix.sh/html');
 ```
 
-#### NPM (HTTPS)
+#### NPM
 
 ```sh
-npm i git+https://github.com/ihasq/strix.git
+npm create strix@latest
+```
+
+#### Deno
+
+```sh
+deno init 
 ```
 
 ### Build From Source

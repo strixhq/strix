@@ -1,4 +1,4 @@
-import { tmp } from "../../mod/tmp";
+import { tmp } from "../../mod/tmp.js";
 
 /**
  * 
@@ -18,4 +18,4 @@ const html = tmp(0);
 
 html.new = tmp(1);
 
-export default html;
+export { html };
