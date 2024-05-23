@@ -412,18 +412,15 @@ html`<div @click=${animation}>woooaaah</div>`
 ```
 
 ```javascript
-const Bidirectional = () => {
-    "use bind";
+const Reactive = () => {
 
     const count = [0];
 
-    return () => html`
-
+    return html`
         <h1>${count}</h1>
         <button @click=${() => count[0]++}>
             Increment
         </button>
-
     `
 }
 ```
