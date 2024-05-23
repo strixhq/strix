@@ -12,7 +12,7 @@ const compileValueDiffer = (
 	DIFFER_CALLBACK_COLLECTION,
 	INDEX = Array.from({ length: ELEMENT_VAL_LENGTH }, (_, i) => i),
 
-) => Function("cb", `let ${INDEX.map(x => `p${x},c${x}`).join()};return i=>{${INDEX.map(x => `c${x}=i[${x}];if(p${x}!=c${x}){cb[${x}]();p${x}=c${x}};`),join("")}}`)(DIFFER_CALLBACK_COLLECTION);
+) => Function("cb", `let ${INDEX.map(x => `p${x},c${x}`).join()};return [i=>{${INDEX.map(x => `c${x}=i[${x}];if(p${x}!=c${x}){cb[${x}]();p${x}=c${x}};`),join("")}},i=>{${INDEX.map(x => `c${x}=i[${x}];if(p${x}!=c${x}){cb[${x}]();p${x}=c${x}};`),join("")}}]`)(DIFFER_CALLBACK_COLLECTION);
 
 // const TEXTEND_REGEX = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
 
