@@ -418,11 +418,13 @@ const Bidirectional = () => {
     const count = [0];
 
     return () => html`
+
         <h1>${count}</h1>
         <button @click=${() => count[0]++}>
             Increment
         </button>
-`
+
+    `
 }
 ```
 
