@@ -50,8 +50,7 @@ const createPipeline = (
 		join --> `
 			<div>stval-gaLoDO8NpfCkiNxP</div>
 			<stval-gaLoDO8NpfCkiNxP .name=stval-gaLoDO8NpfCkiNxP/>
-		`
-
+		
 		ast --> {
 			template: `
 				<div id=stid-gaLoDO8NpfCkiNxP-1>
@@ -125,6 +124,7 @@ export const getPipeline = (
 	INDEX_TO_PIPELINE,
 
 ) => TSA_TO_PIPELINE.get(ELEMENT_TSA) || (() => {
+
 
 	const JOINED_ELEMENT_TSA = ELEMENT_TSA.raw.join("\0");
 
