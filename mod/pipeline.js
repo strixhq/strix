@@ -18,27 +18,6 @@ const compileValueDiffer = (
 
 /**
  * 
- * @param { number } ELEMENT_VAL_LENGTH 
- * @param { Function[] } DIFFER_CALLBACK_COLLECTION 
- * @returns { (i: any[]) => void }
- */
-
-const createValueDiffer = (
-
-	ELEMENT_VAL_LENGTH,
-	DIFFER_CALLBACK_COLLECTION,
-
-	REFRESH_ALWAYS_INDEX
-
-) => {
-
-	const FILLED_ARRAY = Array.from({ length: ELEMENT_VAL_LENGTH }, (_, i) => i);
-
-	return [];
-}
-
-/**
- * 
  * @param { TemplateStringsArray } ELEMENT_TSA
  * @param { number } ELEMENT_TSA_LENGTH
  * 

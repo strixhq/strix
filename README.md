@@ -188,20 +188,20 @@ import html from "https://strix.sh/html"
 
 const Count = () => {
 
-    let count = 0,
-        buttonText = 'Hover me!',
+    const count = [0],
+        buttonText = ['Hover me!'],
         isHovering = () => value => {
-            buttonText = value? 'Click me!' : 'Hover me!'
+            buttonText[0] = value? 'Click me!' : 'Hover me!'
             return html`
                 *background-color=red;
                 *color=white;
             `;
         };
 
-    return () => html`
+    return html`
         <p>You clicked ${count} times</p>
         <button
-            @click=${() => count++};
+            @click=${() => count[0]++};
             ${isHovering}=${false};
             ${isHovering}:hover=${true};
         >
@@ -412,15 +412,12 @@ html`<div @click=${animation}>woooaaah</div>`
 ```
 
 ```javascript
-const Reactive = () => {
+const Bidirectional = () => {
 
-    const count = [0];
+    const count = [0, ({ value }) => console.log(value)];
 
-    return html`
-        <h1>${count}</h1>
-        <button @click=${() => count[0]++}>
-            Increment
-        </button>
+    return () => html`
+        <input type=text strix.bind=${count} />
     `
 }
 ```

@@ -18,4 +18,4 @@ const html = tmp(0);
 
 html.new = tmp(1);
 
-export { html };
+export default html;
