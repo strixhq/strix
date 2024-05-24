@@ -1,4 +1,3 @@
-import { RegExp } from "./keyword/global";
 import { createTag } from "./tag";
 
 const HTML_PARSETAG_LENGTH = 16;
