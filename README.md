@@ -414,9 +414,10 @@ html`<div @click=${animation}>woooaaah</div>`
 ```javascript
 const Bidirectional = () => {
 
-    const count = [0, ({ value }) => console.log(value)];
+    const count = [0];
 
     return () => html`
+        <h1>${count}</h1>
         <input type=text strix.bind=${count} />
     `
 }
