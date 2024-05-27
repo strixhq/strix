@@ -107,31 +107,43 @@ deno task build
 html`
     <!-- text -->
     <label>${text}</label>
+
     <!-- attribute -->
     <iframe src=${formURL}; />
+
     <!-- identifier (not the id attribute) -->
     <img #mainImgRef/>
+
     <!-- event listener -->
     <button @click=${() => console.log('clicked')}; />
     <input @@keydown=${() => console.log('cancelled')}; /> <!-- preventDefault() -->
+    
     <!-- StrixEffectEvent - triggered when the value changes -->
     <h1 @effect=${() => console.log('changed')};>${count}</h1>
+    
     <!-- style -->
-    <h1 *color=${titleColor}></h1>
+    <h1 *color=${titleColor}>with color!</h1>
+    <h1 .style.color=${titleColor}>same as above</h1>
+    
     <!-- property -->
     <input #inputWithProp type=text; value=ok; />
     <input type=checkbox; value=${true}; /> <!-- CORRECT type -->
     <input type=checkbox; value=true; /> <!-- This is NOT boolean, this is string -->
     <div someprop.deeper='more deeper'; />
+    
     <!-- embedding component -->
     <${DefinedComponent} my-attribute=1; />
+    
     <!-- custom attribute -->
     <div ${name}=taro></div>
     <div ${alsoWithType}=${true}></div>
+    
     <!-- to child elements -->
     <div value&input=${inputvalue}>...</div>
+    
     <!-- branching with psuedo class or booleanish -->
     <button *color:hover=red; *color${Date.now() % 2}=blue></button>
+    
     <!-- nesting -->
     <div
         #hasNested
@@ -419,6 +431,8 @@ const Bidirectional = () => {
     return () => html`
         <h1>${count}</h1>
         <input type=text strix.bind=${count} />
+
+        <input type=text strix.bind=${count} /> <!-- will be ignored -->
     `
 }
 ```
