@@ -73,25 +73,22 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Installation
 
-#### CDN
+#### CDN via ESM.SH
 
 ```javascript
-import html from 'https://strix.sh/html';
+import html from 'https://esm.sh/jsr/@strix/html';
 ```
 ```javascript
-const html = await import('https://strix.sh/html');
+const html = await import('https://esm.sh/jsr/@strix/html');
 ```
 
-#### NPM
+#### JSR
 
 ```sh
-npm create strix@latest
+npx jsr add @strix/html
 ```
-
-#### Deno
-
 ```sh
-deno init 
+deno add @strix/html
 ```
 
 ### Build From Source
@@ -238,7 +235,6 @@ const Todo = () => {
 
     const TodoRow = ({ todoContent, swapRow, deleteRow }) => {
 
-        let todoData = todoContent;
         let isEditable = false;
         let isDone = false;
 
@@ -250,7 +246,7 @@ const Todo = () => {
                 *text-decoration=${isDone? 'line-through' : 'none'}
                 *font-style=${isDone? 'italic' : 'normal'}
             >
-                ${todoData}
+                ${todoContent}
             </li>
             <button @click=${() => isEditable = true}>edit</button>
             <button @click=${() => isDone = true}>done</button>
@@ -270,7 +266,7 @@ const Todo = () => {
                     }}
                 ></div>
                 <${TodoRow}
-                    draggable=${true}
+                    strix.draggable=${true}
                     todoContent=${target.value}
                     swapRow=${(direction) => {
                         const i = todoArray.indexOf(newRow);
@@ -405,18 +401,14 @@ html`<input type=text; @input.target.value=${value => alert(value)} />`
 
 ```javascript
 const animation = async ({ frame }) => {
-    let rgbValue = 0;
-    for(let i = 0; i < 60; i++) {
-        rgbValue++
-        await frame(html`*background-color=#${rgbValue.toString(16).padStart(6, "0")};`);
-    }
-}
 
-const deltaTime = async ({ delta }) => {
     let rgbValue = 0;
+
     for(let i = 0; i < 60; i++) {
         rgbValue++
-        await delta(html`*background-color=#${rgbValue.toString(16).padStart(6, "0")};`);
+        await frame(html`
+            *background-color=#${rgbValue.toString(16).padStart(6, "0")}
+        `);
     }
 }
 
@@ -424,18 +416,31 @@ html`<div @click=${animation}>woooaaah</div>`
 ```
 
 ```javascript
+const bind = ({ ref, componentProperty }, value) => {
+    if(ref.tagName === "INPUT") {
+        ref.addEventListener("input", () => setTimeout(() => value[0] = ref.value), { passive: true });
+    }
+}
+
 const Bidirectional = () => {
 
-    const count = [0];
+    const name = [0];
 
     return () => html`
-        <h1>${count}</h1>
-        <input type=text strix.bind=${count} />
+        <input type=text strix.bind=${name} />
+        <h1>${name}</h1>
+    `
+}
 
-        <input type=text strix.bind=${count} /> <!-- will be ignored -->
+const VCSS = ({ $ }) => {
+    return () => html`
+        <div *width=100px>
+            <div *width=calc(super-width / 2)></div>
+        </div>
     `
 }
 ```
+
 
 ### License
 

@@ -13,8 +13,8 @@ const createDiff = (
 
 /**
  * 
- * @param { TemplateStringsArray } ELEMENT_TSA_FROM 
- * @param { TemplateStringsArray } ELEMENT_TSA_TO 
+ * @param { TemplateStringsArray } ELEMENT_TSA_FROM
+ * @param { TemplateStringsArray } ELEMENT_TSA_TO
  */
 
 export const getDiff = (

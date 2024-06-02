@@ -135,3 +135,26 @@ export const getFlow = (
 	return PIPELINE_BUF;
 
 })();
+
+const App = () => {
+
+	let count = 0;
+
+	const MainCanvas = document.createElement("canvas");
+
+	return () => html`
+		<${MainCanvas}
+
+			@load=${({ target: canvas }) => {
+				const context2d = canvas.getContext("2d");
+			}}
+
+			@frame=${() => {
+				
+			}}
+		/>
+	`
+}
+
+StrixFrameEvent
+StrixEffectEvent
