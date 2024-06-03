@@ -441,7 +441,6 @@ const VCSS = ({ $ }) => {
 }
 ```
 
-
 ### License
 
 Strix is MIT Licensed.
