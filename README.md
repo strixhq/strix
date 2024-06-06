@@ -415,21 +415,21 @@ html`<div @click=${animation}>woooaaah</div>`
 ```
 
 ```javascript
-const bind = ({ ref, componentProperty }, value) => {
-    if(ref.tagName === "INPUT") {
-        ref.addEventListener("input", () => setTimeout(() => value[0] = ref.value), { passive: true });
-    }
-}
-
 const Bidirectional = () => {
 
-    const name = ['JAMES'];
+    const name = [
+        'JAMES',
+        (newName) => console.log(`Name just changed to ${newName}`)
+    ];
 
     return () => html`
         <input type=text strix.bind=${name} />
         <h1>${name[0]}</h1>
     `
 }
+```
+
+```javascript
 
 const VCSS = ({ $ }) => {
     return () => html`
