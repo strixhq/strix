@@ -133,7 +133,6 @@ html`
     
     <!-- custom attribute -->
     <div ${name}=taro></div>
-    <div ${alsoWithType}=${true}></div>
     
     <!-- to child elements -->
     <div value&input=${inputvalue}>...</div>
@@ -424,11 +423,11 @@ const bind = ({ ref, componentProperty }, value) => {
 
 const Bidirectional = () => {
 
-    const name = [0];
+    const name = ['JAMES'];
 
     return () => html`
         <input type=text strix.bind=${name} />
-        <h1>${name}</h1>
+        <h1>${name[0]}</h1>
     `
 }
 
