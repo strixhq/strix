@@ -9,18 +9,18 @@
 ---
 
 ```javascript
-import { $, html } from '@strix/html';
+import { $ } from '@strix/html';
 
 const Counter = () => {
 
     const count = $(0);
 
-    return html`
-        <h1>${count}</h1>
-        <button @click=${() => $[count]++}>
+    return (
+        <h1>{count}</h1>
+        <button onClick={() => $[count]++}>
             Increment
         </button>
-    `;
+    );
 };
 
 export default Counter;
