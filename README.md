@@ -9,15 +9,15 @@
 ---
 
 ```javascript
-import { html } from '@strix/html';
+import { $, html } from '@strix/html';
 
 const Counter = () => {
 
-    let count = 0;
+    const count = $(0);
 
-    return () => html`
+    return html`
         <h1>${count}</h1>
-        <button @click=${() => count++}>
+        <button @click=${() => $[count]++}>
             Increment
         </button>
     `;
@@ -154,7 +154,7 @@ html`
 
 ```
 
-### 4 Ways To Make View
+### 3 Ways To Make View
 
 ```javascript
 const Instance = html.new`
@@ -192,27 +192,15 @@ write(document.body, html`
 ### Usage
 
 ```javascript
-import html from "https://strix.sh/html"
 
 const Count = () => {
 
-    const count = [0],
-        buttonText = ['Hover me!'],
-        isHovering = () => value => {
-            buttonText[0] = value? 'Click me!' : 'Hover me!'
-            return html`
-                *background-color=red;
-                *color=white;
-            `;
-        };
+    const count = $(0),
+        buttonText = $('Hover me!');
 
     return html`
         <p>You clicked ${count} times</p>
-        <button
-            @click=${() => count[0]++};
-            ${isHovering}=${false};
-            ${isHovering}:hover=${true};
-        >
+        <button @click=${() => $[count]++};>
             ${buttonText}
         </button>
     `;
@@ -282,19 +270,15 @@ const Todo = () => {
 ```
 
 ```javascript
-const ReverseStr = ($) => {
-    const { ptr } = $.std;
+const ReverseStr = () => {
 
-    const revText = ptr(''),
-        textValuePtr = ptr('', true);
+    const
+        text = $(''),
+        reversed = $(text, (newText) => newText.split("").reverse().join(""));
 
-    return () => html`
-        <input
-            type=text;
-            value=${textValuePtr};
-            @keydown=${async () => revText(value.split('').reverse().join(''))}
-        />
-        <h2>${revText}</h2>
+    return html`
+        <input type=text; strix.bind=${text};/>
+        <h2>${reversed}</h2>
     `;
 };
 ```
@@ -417,14 +401,11 @@ html`<div @click=${animation}>woooaaah</div>`
 ```javascript
 const Bidirectional = () => {
 
-    const name = [
-        'JAMES',
-        (newName) => console.log(`Name just changed to ${newName}`)
-    ];
+    const name = ['JAMES', (newName) => console.log(`Name just changed to ${newName}`)];
 
     return () => html`
         <input type=text strix.bind=${name} />
-        <h1>${name[0]}</h1>
+        <h1>${name}</h1>
     `
 }
 ```
