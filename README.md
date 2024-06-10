@@ -1,4 +1,4 @@
-# [Strix](https://strix.sh)
+# [Strix ☕🗿](https://strix.sh)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
