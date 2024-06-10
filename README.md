@@ -25,7 +25,7 @@ const Counter = ({ $ }) => {
 export default Counter;
 ```
 
-**Strix** is chimeric, boring, weird, confusing <s>dollar sign abuser<s> DOM manipulator.\
+**Strix** is chimeric, boring, weird, complex, dollar-sign-abusing DOM manipulator.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
