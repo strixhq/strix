@@ -9,13 +9,12 @@
 ---
 
 ```javascript
-import { $, html } from '@strix/html';
 
-const Counter = () => {
+const Counter = ({ $ }) => {
 
     const count = $(0);
 
-    return html`
+    return $`
         <h1>${count}</h1>
         <button @click=${() => $[count]++}>
             Increment
@@ -26,7 +25,7 @@ const Counter = () => {
 export default Counter;
 ```
 
-**Strix** is chimeric, boring, weird, confusing DOM manipulator.\
+**Strix** is chimeric, boring, weird, confusing <s>dollar sign abuser<s> DOM manipulator.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
