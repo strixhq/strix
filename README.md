@@ -9,24 +9,24 @@
 ---
 
 ```javascript
-import { $ } from '@strix/html';
+import { $, html } from '@strix/html';
 
 const Counter = () => {
 
     const count = $(0);
 
-    return <>
-        <h1>{count}</h1>
-        <button onClick={() => $[count]++}>
+    return () => html`
+        <h1>${count}</h1>
+        <button @click=${() => $[count]++}>
             Increment
         </button>
-    </>;
+    `;
 };
 
 export default Counter;
 ```
 
-**Strix** is light-weight DOM manipulation helper.\
+**Strix** is boring, complex, weird DOM manipulator.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
@@ -281,6 +281,20 @@ const ReverseStr = () => {
         <h2>${reversed}</h2>
     `;
 };
+```
+
+```javascript
+const Parent = () => {
+    return html`
+        <${Child} ${{ someProp: "hi" }}>
+    `;
+}
+
+const Child = ({ someProp }) => {
+    return html`
+        <label>${someProp}</label>
+    `;
+}
 ```
 
 ```javascript
