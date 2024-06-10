@@ -15,12 +15,12 @@ const Counter = () => {
 
     const count = $(0);
 
-    return (
+    return <>
         <h1>{count}</h1>
         <button onClick={() => $[count]++}>
             Increment
         </button>
-    );
+    </>;
 };
 
 export default Counter;
