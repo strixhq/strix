@@ -9,16 +9,16 @@
 ---
 
 ```javascript
-const Counter = ({ $, h }) => {
+const Counter = ({ $ }) => {
 
     const count = $(0);
 
-    return h`
+    return (`
         <h1>${count}</h1>
-        <button @click=${() => $[count]++}>
+        <button ${$({ onclick: () => $[count]++ })}>
             Increment
         </button>
-    `;
+    `);
 };
 
 export default Counter;
