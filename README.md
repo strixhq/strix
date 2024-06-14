@@ -9,13 +9,11 @@
 ---
 
 ```javascript
-import { h as html } from "@strix/html";
-
-const Counter = $ => {
+const Counter = ({ $ }) => {
 
     const count = $(0);
 
-    return html`
+    return $.html`
         <h1>${count}</h1>
         <button @click=${() => $[count]++}>
             Increment
