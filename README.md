@@ -9,11 +9,11 @@
 ---
 
 ```javascript
-const Counter = ({ $ }) => {
+const Counter = ({ $, h }) => {
 
     const count = $(0);
 
-    return $.html`
+    return h`
         <h1>${count}</h1>
         <button @click=${() => $[count]++}>
             Increment
