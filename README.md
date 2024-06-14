@@ -9,11 +9,11 @@
 ---
 
 ```javascript
-const Counter = ({ $ }) => {
+const Counter = ({ std: { $, html } }) => {
 
     const count = $(0);
 
-    return $.h`
+    return html`
         <h1>${count}</h1>
         <button ${{ onclick: () => $[count]++ }}>
             Increment
@@ -83,7 +83,7 @@ const html = await import('https://esm.sh/jsr/@strix/html');
 #### JSR
 
 ```sh
-npx jsr add @strix/html
+npx jsr exec @strix/create
 ```
 ```sh
 deno add @strix/html
@@ -152,53 +152,28 @@ html`
 
 ```
 
-### 3 Ways To Make View
-
-```javascript
-const Instance = html.new`
-    <div>It works!</div>
-`;
-
-const Primitive = html`
-    <div>It works!</div>
-`;
-
-const Transformer = ({ color }) => html`
-    <label *color=${color}>Label with colors!</label>
-`
-
-const Component = () => {
-
-    let count = 0;
-
-    return () => html`
-        <button @click=${() => {
-            count++;
-            alert(count);
-        }}>Fully working!</button>
-    `;
-};
-
-write(document.body, html`
-    <${Instance} />
-    <${Primitive} />
-    <${Transformer} color=red />
-    <${Component} />
-`);
-```
-
 ### Usage
 
 ```javascript
 
-const Count = () => {
+const Count = ({ std: { $, html } }) => {
 
     const count = $(0),
         buttonText = $('Hover me!');
 
     return html`
         <p>You clicked ${count} times</p>
-        <button @click=${() => $[count]++};>
+        <button ${{
+            onclick() {
+                $[count]++
+            },
+            onmouseenter() {
+                $[buttonText] = "Click me!"
+            },
+            onmouseout() {
+                $[buttonText] = "Hover me!"
+            }
+        }};>
             ${buttonText}
         </button>
     `;
