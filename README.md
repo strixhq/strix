@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-const Counter = ({ std: { $, html } }) => {
+const Counter = () => {
 
     const count = $(0);
 
@@ -20,8 +20,6 @@ const Counter = ({ std: { $, html } }) => {
         </button>
     `;
 };
-
-export default Counter;
 ```
 
 **Strix** is chimeric, boring, weird, complex library for building evolt.net frontend.\
@@ -155,8 +153,9 @@ html`
 ### Usage
 
 ```javascript
+import { $, html } from "@strix/std";
 
-const Count = ({ std: { $, html } }) => {
+const Count = () => {
 
     const count = $(0),
         buttonText = $('Hover me!');
