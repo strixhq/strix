@@ -22,7 +22,7 @@ const Counter = () => {
 };
 ```
 
-**Strix** is chimeric, boring, weird, complex library for building evolt.net frontend.\
+**Strix** provides some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
