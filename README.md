@@ -13,12 +13,12 @@ const Counter = ({ $ }) => {
 
     const count = $(0);
 
-    return (`
+    return $.h`
         <h1>${count}</h1>
-        <button ${$({ onclick: () => $[count]++ })}>
+        <button ${{ onclick: () => $[count]++ }}>
             Increment
         </button>
-    `);
+    `;
 };
 
 export default Counter;
