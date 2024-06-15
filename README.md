@@ -9,20 +9,26 @@
 ---
 
 ```javascript
+import { h as html, $ } from "@strix/std";
+import { click } from "@strix/event";
+import { start } from "@strix/start";
+
 const Counter = () => {
 
     const count = $(0);
 
     return html`
         <h1>${count}</h1>
-        <button ${{ onclick: () => $[count]++ }}>
+        <button ${{ [click]: () => $[count]++ }}>
             Increment
         </button>
     `;
 };
+
+document.body = Counter(start);
 ```
 
-**Strix** provides some weirder, but simpler ways to building web interface.\
+**Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
