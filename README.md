@@ -10,7 +10,7 @@
 
 ```javascript
 import { $, h: html } from "@strix/std"
-import * as on from "@strix/event"
+import { on } from "@strix/attr"
 
 const Counter = () => {
 
