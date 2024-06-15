@@ -9,7 +9,10 @@
 ---
 
 ```javascript
-const Counter = ({ $, h: html, on }) => {
+import { $, h: html } from "@strix/std"
+import * as on from "@strix/event"
+
+const Counter = () => {
 
     const count = $(0);
 
@@ -21,7 +24,7 @@ const Counter = ({ $, h: html, on }) => {
     `;
 };
 
-document.body = Counter(await import("@strix/start"));
+document.body = Counter()();
 ```
 
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
