@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { $, h: html } from "@strix/std"
+import { html, $ } from "@strix/std"
 import { on } from "@strix/attr"
 
 const Counter = () => {
