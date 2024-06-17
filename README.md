@@ -12,7 +12,6 @@
 import { html, $ } from "@strix/std"
 import { on } from "@strix/attr"
 
-
 const Counter = () => {
 
     const count = $(0);
