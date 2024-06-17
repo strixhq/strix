@@ -3,81 +3,64 @@ const PUBLISHED_SYMBOLS = {};
 const PTYPE_ORIGINAL = Symbol("PTYPE");
 const PTYPE_EXTENDED = Symbol("PTYPE");
 
-let bind_buffer,
-	is_gonnabe_init = false;
+export const $ = (value, options) => {
 
-const initializerProxy = new Proxy({}, {
+	const {
 
-	get(_, prop) {
+		get: OPTION_GET,
+		set: OPTION_SET,
+		dispose: OPTION_DISPOSE
 
-		if(is_gonnabe_init) {
+	} = options,
 
-			is_gonnabe_init = false;
+		BASE_SYMBOL = Symbol("STRIX_POINTER"),
 
-			let { value } = bind_buffer;
+		POINTER_TYPE = (typeof value == "symbol" && value in PUBLISHED_SYMBOLS)
+			? PTYPE_EXTENDED
+			: PTYPE_ORIGINAL;
 
-			const {
-				options: {
-					get: OPTION_GET,
-					set: OPTION_SET,
-					dispose: OPTION_DISPOSE
-				}
-			} = bind_buffer,
+	PUBLISHED_SYMBOLS[BASE_SYMBOL] = {
 
-				SYMBOL_BUFFER = Symbol("STRIX_POINTER"),
+		type: POINTER_TYPE,
 
-				POINTER_TYPE = (typeof value == "symbol" && value in PUBLISHED_SYMBOLS)
-					? PTYPE_EXTENDED
-					: PTYPE_ORIGINAL;
+		parent: POINTER_TYPE == PTYPE_EXTENDED
+			? PUBLISHED_SYMBOLS[value].parent
+			: value,
 
-			PUBLISHED_SYMBOLS[SYMBOL_BUFFER] = {
-				type: POINTER_TYPE,
-				parent: POINTER_TYPE == PTYPE_EXTENDED
-					? value
-					: undefined,
-				value: POINTER_TYPE == PTYPE_EXTENDED
-					? PUBLISHED_SYMBOLS[value].value
-					: value
-			}
-
-			Object.defineProperty($, SYMBOL_BUFFER, {
-
-				get() {
-					OPTION_GET?.();
-					return value;
-				},
-
-				set(newValue) {
-					return value = OPTION_SET?.(newValue);
-				}
-			})
-
-			return ({
-
-				toString() {
-					return SYMBOL_BUFFER;
-				},
-
-				get name() {
-					return prop;
-				},
-
-				[Symbol.dispose]() {
-					return OPTION_DISPOSE?.();
-				}
-			})
-		} else {
-
-			return undefined;
+		value: POINTER_TYPE == PTYPE_EXTENDED
+			? PUBLISHED_SYMBOLS[value].value
+			: value,
+		
+		setter(value) {
+			return;
 		}
 	}
-})
 
-export const $ = async (value, options) => {
+	Object.defineProperty($, BASE_SYMBOL, {
 
-	Object.assign(bind_buffer, { value, options });
+		get() {
+			OPTION_GET?.();
+			return PUBLISHED_SYMBOLS[BASE_SYMBOL].value;
+		},
 
-	is_gonnabe_init = true;
+		set(ARG_NEW_VALUE) {
+			PUBLISHED_SYMBOLS[BASE_SYMBOL].setter();
+			return value = OPTION_SET?.(ARG_NEW_VALUE);
+		}
+	})
 
-	return initializerProxy;
+	return ({
+
+		toString() {
+			return BASE_SYMBOL;
+		},
+
+		on(eventCallbacks) {
+			PUBLISHED_SYMBOLS[BASE_SYMBOL].assignEventCallbacks(eventCallbacks);
+		},
+
+		[Symbol.dispose]() {
+			return PUBLISHED_SYMBOLS[BASE_SYMBOL].value[Symbol.dispose]?.();
+		}
+	})
 }
