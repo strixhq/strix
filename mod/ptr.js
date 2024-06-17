@@ -56,11 +56,11 @@ export const $ = (value, options) => {
 		},
 
 		on(eventCallbacks) {
-			PUBLISHED_SYMBOLS[BASE_SYMBOL].assignEventCallbacks(eventCallbacks);
+			return PUBLISHED_SYMBOLS[BASE_SYMBOL]?.assignEventCallbacks?.(eventCallbacks);
 		},
 
 		[Symbol.dispose]() {
-			return PUBLISHED_SYMBOLS[BASE_SYMBOL].value[Symbol.dispose]?.();
+			return PUBLISHED_SYMBOLS[BASE_SYMBOL]?.value[Symbol.dispose]();
 		}
 	})
 }
