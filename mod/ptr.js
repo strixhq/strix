@@ -8,8 +8,7 @@ export const $ = (value, options) => {
 	const {
 
 		get: OPTION_GET,
-		set: OPTION_SET,
-		dispose: OPTION_DISPOSE
+		set: OPTION_SET
 
 	} = options,
 
@@ -63,4 +62,4 @@ export const $ = (value, options) => {
 			return PUBLISHED_SYMBOLS[BASE_SYMBOL]?.value[Symbol.dispose]();
 		}
 	})
-}
+};
