@@ -1,38 +1,61 @@
-// import { h, $ } from "@strix/std";
-// import { on, css } from "@strix/attr";
-import { hover, autofill, default_psuedo } from "./pkg/psuedo/mod.js";
+import { h, $ } from "@strix/std";
+import { on, prop, css, ref } from "@strix/attr";
+const h = (a, ...b) => [a, b]; 
 
-console.log(hover * default_psuedo)
+const Hello = () => h`
+	<label>Hello world!</label>
+`
 
-// const Hello = () => h`
-// 	<label>Hello world!</label>
-// `
+const Counter = () => {
 
-// const Counter = () => {
+	const count = $(0);
 
-// 	const count = $(0);
+	return h`
+		<h1>${count}</h1>
+		<button ${{ [on.click]: () => $[count]++ }}>
+			Increment
+		</button>
+	`
+}
 
-// 	return h`
-// 		<h1>${count}</h1>
-// 		<button ${{ [on.click]: () => $[count]++ }}>
-// 			Increment
-// 		</button>
-// 	`
-// }
+const Props = ({ labelColor }) => {
 
-// const Props = ({ labelColor }) => {
+	console.log(labelColor.permission) // ["read"]
 
-// 	console.log(labelColor.permission) // ["read"]
+	return h`
+		<label ${{ [css.color]: labelColor }}></label>
+	`
+}
 
-// 	return h`
-// 		<label ${{ [css.color(hover / autofill)]: labelColor }}></label>
-// 	`
-// }
+const Insert = () => h`
+	<${Hello} />
+`;
 
-// const Insert = () => h`
-// 	<${Hello} />
-// `
+const Binding = () => {
 
-// Hello; Counter; Props; Insert;
+	const input = $("", { open: true });
 
-// // UI = f(state);
+	return h`
+		<input ${{
+			type: "text",
+			[prop.value]: input
+		}}/>
+	`
+}
+
+const CanvasApp = () => {
+
+	const canvasRef = {};
+
+	return h`
+		<canvas ${{ [ref]: canvasRef }}></canvas>
+	`.then(() => {
+
+		canvasRef.getContext("2d");
+
+	})
+}
+
+Hello; Counter; Props; Insert; Binding;
+
+// UI = f(state);

@@ -84,10 +84,18 @@ import html from 'https://esm.sh/jsr/@strix/html';
 const html = await import('https://esm.sh/jsr/@strix/html');
 ```
 
-#### JSR
+#### Create Project
 
 ```sh
-npx jsr exec @strix/create
+npm create strix my-project
+cd my-project
+npm start
+```
+
+#### Add Packages (for Pros)
+
+```sh
+npx jsr run @strix/create
 ```
 ```sh
 deno add @strix/html
