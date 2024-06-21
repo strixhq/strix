@@ -1,6 +1,17 @@
-import { h, $ } from "@strix/std";
-import { on, prop, css, ref } from "@strix/attr";
-const h = (a, ...b) => [a, b]; 
+const {
+	std: { h, $ },
+	attribute: { on, prop, css, ref }
+} = await import("https://esm.sh/jsr/@strix/start")
+
+const click = $((value, ref) => {
+	ref.addEventListner("click", value, { passive: true })
+})
+
+const ondev = Object.assign($((value, ref) => {
+	
+}), {
+
+})
 
 const Hello = () => h`
 	<label>Hello world!</label>
@@ -33,7 +44,7 @@ const Insert = () => h`
 
 const Binding = () => {
 
-	const input = $("", { open: true });
+	const input = $("").open();
 
 	return h`
 		<input ${{
@@ -56,6 +67,6 @@ const CanvasApp = () => {
 	})
 }
 
-Hello; Counter; Props; Insert; Binding;
+Hello; Counter; Props; Insert; Binding; CanvasApp;
 
 // UI = f(state);

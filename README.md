@@ -167,24 +167,21 @@ html`
 ### Usage
 
 ```javascript
-import { $, html } from "@strix/std";
+import { $, h } from "@strix/std";
+import { on } from "@strix/attr";
 
 const Count = () => {
 
     const count = $(0),
         buttonText = $('Hover me!');
 
-    return html`
+    return h`
         <p>You clicked ${count} times</p>
         <button ${{
-            onclick() {
-                $[count]++
-            },
-            onmouseenter() {
-                $[buttonText] = "Click me!"
-            },
-            onmouseout() {
-                $[buttonText] = "Hover me!"
+            [on]: {
+                click: () => $[count]++,
+                mouseenter: () => $[buttonText] = "Click me!",
+                mouseout: () => $[buttonText] = "Hover me!",
             }
         }};>
             ${buttonText}
