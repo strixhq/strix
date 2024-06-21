@@ -59,3 +59,5 @@ const CanvasApp = () => {
 Hello; Counter; Props; Insert; Binding;
 
 // UI = f(state);
+
+// compile

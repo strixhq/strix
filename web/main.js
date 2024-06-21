@@ -52,3 +52,5 @@ export const Bidirectional = () => {
 
     `
 }
+
+// generative
