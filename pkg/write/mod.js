@@ -1,0 +1,1 @@
+export { write } from "./src/write.js"

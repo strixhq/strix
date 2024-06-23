@@ -1,1 +1,1 @@
-export { on } from "./on.js"
+export { on } from "./src/on.js"
