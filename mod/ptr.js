@@ -12,28 +12,24 @@ export const $ = (value, options) => {
 
 	} = options,
 
-		BASE_SYMBOL = Symbol("STRIX_POINTER"),
+		BASE_SYMBOL = Symbol("STRIX_POINTER")
+	;
 
-		POINTER_TYPE = (typeof value == "symbol" && value in PUBLISHED_SYMBOLS)
-			? PTYPE_EXTENDED
-			: PTYPE_ORIGINAL;
+	if(typeof value == "symbol" && value in PUBLISHED_SYMBOLS) {
+		return undefined;
+	}
 
 	PUBLISHED_SYMBOLS[BASE_SYMBOL] = {
-
-		type: POINTER_TYPE,
-
-		parent: POINTER_TYPE == PTYPE_EXTENDED
-			? PUBLISHED_SYMBOLS[value].parent
-			: value,
-
-		value: POINTER_TYPE == PTYPE_EXTENDED
-			? PUBLISHED_SYMBOLS[value].value
-			: value,
-		
-		setter(value) {
-			return;
+		value,
+		onchangeListenerAddressCollection: {},
+		onchangeListener: [],
+		addOnchange(callbackFn) {
+			
+			this.setterCollection[callbackSymbol] = callbackFn;
 		}
 	}
+
+	PUBLISHED_SYMBOLS[BASE_SYMBOL]
 
 	Object.defineProperty($, BASE_SYMBOL, {
 
@@ -43,9 +39,11 @@ export const $ = (value, options) => {
 		},
 
 		set(ARG_NEW_VALUE) {
-			PUBLISHED_SYMBOLS[BASE_SYMBOL].setter();
-			return value = OPTION_SET?.(ARG_NEW_VALUE);
-		}
+			PUBLISHED_SYMBOLS[BASE_SYMBOL].onchangeListener.forEach(x => x(ARG_NEW_VALUE));
+			return value = OPTION_SET?.(ARG_NEW_VALUE) || ARG_NEW_VALUE;
+		},
+
+		configurable: false,
 	})
 
 	return ({
@@ -54,12 +52,14 @@ export const $ = (value, options) => {
 			return BASE_SYMBOL;
 		},
 
-		on(eventCallbacks) {
-			return PUBLISHED_SYMBOLS[BASE_SYMBOL]?.assignEventCallbacks?.(eventCallbacks);
+		addOnchangeListener(eventCallback) {
+			const callbackSymbol = Symbol("STRIX_ONCHANGE");
+			PUBLISHED_SYMBOLS[BASE_SYMBOL]?.setterCollection[callbackSymbol] = eventCallback;
+			return callbackSymbol;
 		},
 
-		[Symbol.dispose]() {
-			return PUBLISHED_SYMBOLS[BASE_SYMBOL]?.value[Symbol.dispose]();
+		removeOnchangeListener(callbackSymbol) {
+			delete PUBLISHED_SYMBOLS[BASE_SYMBOL]?.setterCollection[callbackSymbol];
 		}
 	})
 };

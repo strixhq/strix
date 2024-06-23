@@ -1,6 +1,8 @@
 const {
+
 	std: { h, $ },
 	attribute: { on, prop, css, ref }
+
 } = await import("https://esm.sh/jsr/@strix/start")
 
 const click = $((value, ref) => {
@@ -8,9 +10,24 @@ const click = $((value, ref) => {
 })
 
 const ondev = Object.assign($((value, ref) => {
-	
+
+
+
+	for(const index in value) {
+	}
+
 }), {
 
+	click: $((value, ref) => ref.addEventListener("click", e => $[value](e), { passive: true })),
+
+	mousehover: $((value, ref) => ref.addEventListener("mousehover", e => $[value](e), { passive: true }))
+
+})
+
+const myAttribute = $((value, ref) => {
+	value.onchange = v => {
+		ref.addEventListener(v)
+	}
 })
 
 const Hello = () => h`

@@ -1,0 +1,5 @@
+{
+	"name": "@strix/std",
+	"version": "0.0.1",
+	"exports": "./mod.js"
+}
