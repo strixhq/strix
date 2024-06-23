@@ -1,0 +1,8 @@
+{
+  "name": "@strix/attr",
+  "version": "0.0.1",
+  "imports": {
+    "@strix/std": "jsr:@strix/std@^0.0.1"
+  },
+  "exports": "./mod.js"
+}

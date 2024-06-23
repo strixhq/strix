@@ -12,24 +12,28 @@ export const $ = (value, options) => {
 
 	} = options,
 
-		BASE_SYMBOL = Symbol("STRIX_POINTER")
-	;
+		BASE_SYMBOL = Symbol("STRIX_POINTER"),
 
-	if(typeof value == "symbol" && value in PUBLISHED_SYMBOLS) {
-		return undefined;
-	}
+		POINTER_TYPE = (typeof value == "symbol" && value in PUBLISHED_SYMBOLS)
+			? PTYPE_EXTENDED
+			: PTYPE_ORIGINAL;
 
 	PUBLISHED_SYMBOLS[BASE_SYMBOL] = {
-		value,
-		onchangeListenerAddressCollection: {},
-		onchangeListener: [],
-		addOnchange(callbackFn) {
-			
-			this.setterCollection[callbackSymbol] = callbackFn;
+
+		type: POINTER_TYPE,
+
+		parent: POINTER_TYPE == PTYPE_EXTENDED
+			? PUBLISHED_SYMBOLS[value].parent
+			: value,
+
+		value: POINTER_TYPE == PTYPE_EXTENDED
+			? PUBLISHED_SYMBOLS[value].value
+			: value,
+		
+		setter(value) {
+			return;
 		}
 	}
-
-	PUBLISHED_SYMBOLS[BASE_SYMBOL]
 
 	Object.defineProperty($, BASE_SYMBOL, {
 
@@ -39,12 +43,10 @@ export const $ = (value, options) => {
 		},
 
 		set(ARG_NEW_VALUE) {
-			PUBLISHED_SYMBOLS[BASE_SYMBOL].onchangeListener.forEach(x => x(ARG_NEW_VALUE));
-			return value = OPTION_SET?.(ARG_NEW_VALUE) || ARG_NEW_VALUE;
-		},
-
-		configurable: false,
-	})
+			PUBLISHED_SYMBOLS[BASE_SYMBOL].setter();
+			return value = OPTION_SET?.(ARG_NEW_VALUE);
+		}
+	});
 
 	return ({
 
@@ -52,14 +54,25 @@ export const $ = (value, options) => {
 			return BASE_SYMBOL;
 		},
 
-		addOnchangeListener(eventCallback) {
-			const callbackSymbol = Symbol("STRIX_ONCHANGE");
-			PUBLISHED_SYMBOLS[BASE_SYMBOL]?.setterCollection[callbackSymbol] = eventCallback;
-			return callbackSymbol;
+		on(eventCallbacks) {
+			return PUBLISHED_SYMBOLS[BASE_SYMBOL]?.assignEventCallbacks?.(eventCallbacks);
 		},
 
-		removeOnchangeListener(callbackSymbol) {
-			delete PUBLISHED_SYMBOLS[BASE_SYMBOL]?.setterCollection[callbackSymbol];
+		isOpen: false,
+
+		open() {
+			this.isOpen = true;
+			return this;
+		},
+
+		close() {
+			this.isOpen = false;
+			return this;
+		},
+
+		configure(additionalOptions) {
+			Object.assign({}, additionalOptions);
+			return this;
 		}
 	})
 };

@@ -1,1 +1,0 @@
-declare function html(str: TemplateStringsArray, ...val: any[]): Function

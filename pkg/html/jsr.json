@@ -1,5 +1,0 @@
-{
-	"name": "@strix/html",
-	"version": "0.1.2",
-	"exports": "./dist/mod.js"
-}

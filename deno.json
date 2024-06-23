@@ -5,5 +5,8 @@
         "indentWidth": 4,
         "semiColons": true,
         "singleQuote": true
+    },
+    "imports": {
+        "@strix/std": "jsr:@strix/std@^0.0.1"
     }
 }
