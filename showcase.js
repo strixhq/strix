@@ -87,3 +87,12 @@ const CanvasApp = () => {
 Hello; Counter; Props; Insert; Binding; CanvasApp;
 
 // UI = f(state);
+
+import { client } from "@evolt/sdk"
+
+await client.ready();
+
+const projectDirectory = await client.project.getDirectory({ mode: "read" });
+
+const directoryHandle = intj();
+
