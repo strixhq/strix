@@ -9,8 +9,10 @@
 ---
 
 ```javascript
+import { html, $ } from "@strix/std"
+import { on } from "@strix/attr"
 
-const Counter = () => {
+function Counter() {
 
     let count = 0;
 
@@ -18,7 +20,7 @@ const Counter = () => {
 
     return () => html`
         <h1>${count}</h1>
-        <button @click=${$(() => count++)}>
+        <button ${{ [on.click]: () => $[count]++ }}>
             Increment
         </button>
     `;
@@ -27,10 +29,20 @@ const Counter = () => {
 export default Counter;
 ```
 
-**Strix** is chimeric, boring, weird, complex library for building evolt.net frontend.\
+**Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
+
+### Installation
+
+#### Create Project
+
+```sh
+npm create strix my-project
+cd my-project
+npm start
+```
 
 ### Directories
 
@@ -72,7 +84,6 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 | **[attr](./mod/attr.js)**   | Attribute template parser |
 | **[event](./mod/event.js)** | Event router              |
 
-### Installation
 
 #### CDN via ESM.SH
 
@@ -83,10 +94,10 @@ import html from 'https://esm.sh/jsr/@strix/html';
 const html = await import('https://esm.sh/jsr/@strix/html');
 ```
 
-#### JSR
+#### Add Packages (for Pros)
 
 ```sh
-npx jsr add @strix/html
+npx jsr run @strix/create
 ```
 ```sh
 deno add @strix/html
@@ -107,101 +118,61 @@ html`
     <label>${text}</label>
 
     <!-- attribute -->
-    <iframe src=${formURL}; />
+    <iframe ${{ [at.src]: "./my.html" }} />
 
     <!-- identifier (not the id attribute) -->
-    <img #mainImgRef/>
+    <img ${{ [id]: imgEl }}/>
 
     <!-- event listener -->
-    <button @click=${() => console.log('clicked')}; />
-    <input @@keydown=${() => console.log('cancelled')}; /> <!-- preventDefault() -->
-    
-    <!-- StrixEffectEvent - triggered when the value changes -->
-    <h1 @effect=${() => console.log('changed')};>${count}</h1>
+    <button ${{ [on.click]: () => console.log('clicked') }}; />
+    <input ${{ [on.click({ passive: false })]: () => console.log('cancelled') }}; /> <!-- preventDefault() -->
     
     <!-- style -->
-    <h1 *color=${titleColor}>with color!</h1>
-    <h1 .style.color=${titleColor}>same as above</h1>
+    <h1 ${{ [css.color]: titleColor }}>with color!</h1>
     
     <!-- property -->
-    <input #inputWithProp type=text; value=ok; />
-    <input type=checkbox; value=${true}; /> <!-- CORRECT type -->
-    <input type=checkbox; value=true; /> <!-- This is NOT boolean, this is string -->
-    <div someprop.deeper='more deeper'; />
+    <input ${{ type: "text", value: "app" }}/>
     
     <!-- embedding component -->
-    <${DefinedComponent} my-attribute=1; />
+    <${DefinedComponent} ${{ myProp: true }}/>
     
     <!-- custom attribute -->
-    <div ${name}=taro></div>
+    <div ${{ [name]: "taro" }}></div>
     
     <!-- to child elements -->
     <div value&input=${inputvalue}>...</div>
     
     <!-- branching with psuedo class or booleanish -->
-    <button *color:hover=red; *color${Date.now() % 2}=blue></button>
-    
-    <!-- nesting -->
-    <div
-        #hasNested
-        :hover {
-            *color=red;
-        };
-        ${window.clientHeight >= 100} {
-            *color=blue;
-        };
-    ></div>
+    <button ${{
+        [css.color]: {
+            default: "blue",
+            [sel`:hover`]: "red",
+        }
+    }}>Hover me!</button>
 `;
 
-```
-
-### 3 Ways To Make View
-
-```javascript
-const Instance = html.new`
-    <div>It works!</div>
-`;
-
-const Primitive = html`
-    <div>It works!</div>
-`;
-
-const Transformer = ({ color }) => html`
-    <label *color=${color}>Label with colors!</label>
-`
-
-const Component = () => {
-
-    let count = 0;
-
-    return () => html`
-        <button @click=${() => {
-            count++;
-            alert(count);
-        }}>Fully working!</button>
-    `;
-};
-
-write(document.body, html`
-    <${Instance} />
-    <${Primitive} />
-    <${Transformer} color=red />
-    <${Component} />
-`);
 ```
 
 ### Usage
 
 ```javascript
+import { html, $ } from "@strix/std";
+import { on } from "@strix/attr";
 
-const Count = () => {
+function Count() {
 
-    const count = $(0),
-        buttonText = $('Hover me!');
+    const count = $(0);
+    
+    const buttonText = $('Hover me!');
 
     return html`
         <p>You clicked ${count} times</p>
-        <button @click=${() => $[count]++};>
+        <button ${{
+            [sel`:hover`]: {
+                [buttonText]: "Click me!
+            },
+            [on.click]: () => $[count]++
+        }}>
             ${buttonText}
         </button>
     `;
@@ -217,7 +188,7 @@ export default Count;
 ```
 
 ```javascript
-const Todo = () => {
+function Todo() {
 
     const todoArray = [];
 

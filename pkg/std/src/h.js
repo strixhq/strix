@@ -1,0 +1,1 @@
+export const h = (a, ...b) => [a, b, performance.now()];
