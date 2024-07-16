@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { html, $ } from "@strix/std"
+import { html, $ } from "@strix/std";
 import { on } from "@strix/attr"
 
 function Counter() {

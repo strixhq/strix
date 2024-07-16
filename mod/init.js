@@ -1,6 +1,8 @@
 import { getPipeline } from "./pipeline";
 import { Array_isArray } from "./keyword/global";
 
+import { createId } from "./id.js";
+
 /**
  * 
  * @param { StrixHTMLElement } STRIX_HTML_ELEMENT
@@ -80,3 +82,54 @@ export const initStrixHTMLElement = (
 		}
 	}
 };
+
+const fragmentBuffer = document.createDocumentFragment();
+
+const initComponent = (componentFn, initObject) => {
+
+	const [
+
+		HTMLBuffer,
+		valueBuffer,
+		initTimestamp
+
+	] = componentFn.constructor.name == "AsyncFunction"
+		? await componentFn(initObject)
+		: componentFn(initObject)
+	;
+
+	const HTMLBufferLength = HTMLBuffer.length;
+
+	const tokenId = `strix-${createId({
+		length: 16,
+	})}`;
+
+	const joinedHTMLBuffer = HTMLBuffer
+		.map((x, i) => x + (i + 1 == HTMLBufferLength)
+			? ""
+			: `${tokenId}-${i}`
+		)
+		.join("")
+	;
+
+	fragmentBuffer.innerHTML = joinedHTMLBuffer;
+
+	const indexDef = [];
+
+	let selectBuffer = undefined;
+	let valueSelectBuffer = undefined;
+
+	for(let i = 0; i < HTMLBufferLength, i++;) {
+		if(!indexDef[i]) {
+			valueSelectBuffer = valueBuffer[i];
+			if(selectBuffer = fragmentBuffer.getElementByTagName(`${tokenId}-${i}`.toUpperCase())) {
+				indexDef[i] = "tag";
+			} else if(selectBuffer = fragmentBuffer.querySelector(`[${tokenId}-${i}]`)) {
+				bindAttribute(selectBuffer, valueSelectBuffer);
+			} else {
+				indexDef[i] = "text"
+			}
+		}
+	}
+}
+
