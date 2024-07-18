@@ -241,21 +241,21 @@ function Todo() {
 ```
 
 ```javascript
-const ReverseStr = () => {
+import { bind } from "@strix/std";
 
-    const
-        text = $(''),
-        reversed = $(text, (newText) => newText.split("").reverse().join(""));
+function ReverseStr() {
+
+    const text = $('');
 
     return html`
-        <input type=text; strix.bind=${text};/>
-        <h2>${reversed}</h2>
+        <input ${{ type: "text", [bind]: text }}/>
+        <h2>${$(text, (newText) => newText.split("").reverse().join(""))}</h2>
     `;
 };
 ```
 
 ```javascript
-const Parent = () => {
+function Parent() {
     return html`
         <${Child} ${{ someProp: "hi" }}>
     `;
