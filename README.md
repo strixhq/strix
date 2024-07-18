@@ -14,11 +14,9 @@ import { html, $, on } from "@strix/std";
 
 function Counter() {
 
-    let count = 0;
+    const count = $(0);
 
-    // count.toString() === "\0strix-BJTDWKho2TChrhVU-JigOsKHV2P9AHmPo\0"
-
-    return () => html`
+    return html`
         <h1>${count}</h1>
         <button ${{ [on.click]: () => $[count]++ }}>
             Increment

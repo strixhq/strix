@@ -1,23 +1,42 @@
+const PUBLISHED_PTR = [];
+
+/**
+ * 
+ * @param { any } value 
+ * @param { object } options 
+ * @returns any
+ */
+
 export const $ = (value, options) => {
 
-	const isHeritance = (typeof value == "symbol" && value in $)
+	const isHeritance = PUBLISHED_PTR.includes(value);
 
 	const BASE_SYMBOL = Symbol("STRIX_POINTER");
 
-	Object.defineProperty($, BASE_SYMBOL, {
+	const BASE_PTR = {
+		toString() {
+			return BASE_SYMBOL;
+		}
+	};
+
+	Object.defineProperty($, BASE_PTR.toString(), {
 		get() {
-			options.get();
+			options.onget();
 			return isHeritance
 				? $[value]
-				: value;
+				: value
+			;
 		},
 		set(newValue) {
-			options.set();
+			options.onset();
 			return isHeritance
 				? ($[value] = newValue)
 				: (value = newValue)
+			;
 		}
 	});
 
-	return BASE_SYMBOL;
+	PUBLISHED_PTR.push(BASE_PTR);
+
+	return BASE_PTR;
 }
