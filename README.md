@@ -9,8 +9,8 @@
 ---
 
 ```javascript
-import { html, $ } from "@strix/std";
-import { on } from "@strix/attr"
+import { html, $, on } from "@strix/std";
+
 
 function Counter() {
 
@@ -23,6 +23,7 @@ function Counter() {
         </button>
     `;
 };
+
 
 export default Counter;
 ```
