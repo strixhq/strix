@@ -37,7 +37,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 #### Create Project
 ```sh
-deno run --allow-write https://strix.sh/create
+deno run --allow-write https://strix.sh
 cd my-project
 deno task dev
 ```
