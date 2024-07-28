@@ -7,36 +7,41 @@ const PUBLISHED_PTR = [];
  * @returns any
  */
 
-export const $ = (value, options) => {
+export const $ = (value, setterFn = newValue => newValue) => {
 
 	const isHeritance = PUBLISHED_PTR.includes(value);
 
 	const BASE_SYMBOL = Symbol("STRIX_POINTER");
 
-	const BASE_PTR = {
-		toString() {
-			return BASE_SYMBOL;
-		}
-	};
+	const callbacks = {
+		set: []
+	}
 
-	Object.defineProperty($, BASE_PTR.toString(), {
+	Object.defineProperty($, BASE_SYMBOL, {
 		get() {
-			options.onget();
 			return isHeritance
 				? $[value]
 				: value
 			;
 		},
 		set(newValue) {
-			options.onset();
+			callbacks.set.forEach(x => x(newValue));
 			return isHeritance
-				? ($[value] = newValue)
-				: (value = newValue)
+				? ($[value] = setterFn(newValue))
+				: (value = setterFn(newValue))
 			;
-		}
+		},
+		enumerable: false
 	});
 
-	PUBLISHED_PTR.push(BASE_PTR);
+	PUBLISHED_PTR.push(BASE_SYMBOL);
 
-	return BASE_PTR;
+	return {
+		toString() {
+			return BASE_SYMBOL;
+		},
+		on(eventName, callbackFn) {
+			callbacks[eventName].push(callbackFn);
+		}
+	}
 }

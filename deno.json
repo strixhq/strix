@@ -5,5 +5,8 @@
         "indentWidth": 4,
         "semiColons": true,
         "singleQuote": true
+    },
+    "imports": {
+        "@ptr": "./mod/ptr.js"
     }
 }

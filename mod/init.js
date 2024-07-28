@@ -85,7 +85,7 @@ export const initStrixHTMLElement = (
 
 const fragmentBuffer = document.createDocumentFragment();
 
-const initComponent = async (componentFn, initObject) => {
+export const initComponent = async (componentFn, initObject) => {
 
 	const [
 
@@ -111,24 +111,28 @@ const initComponent = async (componentFn, initObject) => {
 
 	fragmentBuffer.innerHTML = joinedHTMLBuffer;
 
-	const indexDef = [];
+	const resultObject = {
+		element: fragmentBuffer,
+		index: []
+	};
 
-	let selectBuffer = undefined;
-	let valueSelectBuffer = undefined;
+	let selectBuffer, valueSelectBuffer;
 
 	for(let i = 0; i < HTMLBufferLength, i++;) {
-		if(!indexDef[i]) {
+		if(!resultObject.index[i]) {
 			valueSelectBuffer = valueBuffer[i];
 			if(selectBuffer = fragmentBuffer.getElementByTagName(`${tokenId}-${i}`.toUpperCase())) {
-				indexDef[i] = "tag";
-				// valueBuffer[i] is a component function
 				const result = await initComponent(valueBuffer[i]);
+				resultObject.index[i] = {
+					type: "tag",
+				};
+				// valueBuffer[i] is a component function
 			} else if(selectBuffer = fragmentBuffer.querySelector(`[${tokenId}-${i}]`)) {
-				bindAttribute(selectBuffer, valueSelectBuffer);
+				resultObject.index[i] = "attr";
 			} else {
-				indexDef[i] = "text"
+				resultObject.index[i] = "text"
 			}
 		}
 	}
+	return resultObject;
 }
-

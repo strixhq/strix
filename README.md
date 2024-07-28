@@ -288,28 +288,6 @@ const StyleImport = () => {
 };
 ```
 
-```javascript
-const sampleAttrModule = () => attr`
-    *background-color=${attr.value === 'system' ? '#000' : attr.value === 'dark' ? '#fff' : '#000'}
-    *color=red;
-    ${anotherAttrModule}=${true}
-    :hover {
-        *color=blue;
-        @click=${() => alert('I am hovered')}
-    };
-    button {
-        @@click=${() => alert('prevented by parent!')}
-    };
-    &div[${someAttrModule}=${true}] {
-        &span {
-            amIDeeperChild=${true}
-        };
-    };
-    ::selection {
-        *background-color=black; 
-    };
-`; // psuedo elements are style attributes only
-
 const WithAttributeModule = () => () => html`
     <div ${sampleAttrModule}=system;>
         <button></button>
@@ -318,11 +296,15 @@ const WithAttributeModule = () => () => html`
 ```
 
 ```javascript
-import { center } from 'strix-layout';
+import { center } from '@strix/layout';
 
-const HowToCenterADiv = () => () => html`
-    <div ${center}>Now I am a centered div!</div>
-`;
+function Centered() {
+    return html`
+        <div ${{ [center]: true }}>
+            I am a centered div!
+        </div>
+    `
+}
 ```
 
 ```javascript
