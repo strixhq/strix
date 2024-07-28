@@ -36,9 +36,14 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 ### Installation
 
 #### Create Project
+```sh
+deno run --allow-write https://strix.sh
+cd my-project
+deno task dev
+```
 
 ```sh
-npm create strix my-project
+npm create strix
 cd my-project
 npm start
 ```
