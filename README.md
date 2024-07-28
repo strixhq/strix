@@ -1,5 +1,7 @@
 # [Strix ☕🗿](https://strix.sh)
 
+# WARNING: This repo is still under development
+
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
 
