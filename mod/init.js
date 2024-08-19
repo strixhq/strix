@@ -131,8 +131,17 @@ export const initComponent = async (componentFn, initObject) => {
 				resultObject.index[i] = "attr";
 			} else {
 				resultObject.index[i] = "text"
+				valueBuffer[i]
 			}
 		}
 	}
 	return resultObject;
 }
+
+/*
+	in
+	<label>I got clicked ${count} times!</label>
+
+	out
+	<label><!-- -->0<!-- --></label>
+*/

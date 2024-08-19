@@ -17,7 +17,7 @@ export const $ = (value, setterFn = newValue => newValue) => {
 		set: []
 	}
 
-	Object.defineProperty($, BASE_SYMBOL, {
+	Object.defineProperty(window, BASE_SYMBOL, {
 		get() {
 			return isHeritance
 				? $[value]
@@ -36,12 +36,14 @@ export const $ = (value, setterFn = newValue => newValue) => {
 
 	PUBLISHED_PTR.push(BASE_SYMBOL);
 
-	return {
-		toString() {
-			return BASE_SYMBOL;
-		},
-		on(eventName, callbackFn) {
-			callbacks[eventName].push(callbackFn);
+	return Object.defineProperties({}, {
+		toString: {
+			value() {
+				return BASE_SYMBOL
+			},
+			enumerable: false
 		}
-	}
+	})
+
+
 }

@@ -1,7 +1,5 @@
 # [Strix ☕🗿](https://strix.sh)
 
-# WARNING: This repo is still under development
-
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
 
@@ -126,12 +124,9 @@ html`
     <!-- attribute -->
     <iframe ${{ [at.src]: "./my.html" }} />
 
-    <!-- identifier (not the id attribute) -->
-    <img ${{ [id]: imgEl }}/>
-
     <!-- event listener -->
     <button ${{ [on.click]: () => console.log('clicked') }}; />
-    <input ${{ [on.click({ passive: false })]: () => console.log('cancelled') }}; /> <!-- preventDefault() -->
+    <input ${{ [on.click.passive(false)]: () => console.log('cancelled') }}; /> <!-- preventDefault() -->
     
     <!-- style -->
     <h1 ${{ [css.color]: titleColor }}>with color!</h1>
@@ -144,9 +139,6 @@ html`
     
     <!-- custom attribute -->
     <div ${{ [name]: "taro" }}></div>
-    
-    <!-- to child elements -->
-    <div value&input=${inputvalue}>...</div>
     
     <!-- branching with psuedo class or booleanish -->
     <button ${{
@@ -175,9 +167,11 @@ function Count() {
         <p>You clicked ${count} times</p>
         <button ${{
             [sel`:hover`]: {
-                [buttonText]: "Click me!
+                [buttonText]: "Click me!"
             },
-            [on.click]: () => $[count]++
+            [on.click]() {
+                $[count]++
+            }
         }}>
             ${buttonText}
         </button>
@@ -188,7 +182,7 @@ export default Count;
 ```
 
 ```html
-<body onload='
+<body src="./main.js" onload='
     import("https://strix.sh/write").then(write => write(this, import(this.src)))
 '></body>
 ```
@@ -221,7 +215,7 @@ function Todo() {
         `
     }
 
-    return () => html`
+    return html`
         <ul>${todoArray}</ul>
         <input @@keydown.Enter=${({ target }) => {
             const newRow = html.new`
@@ -230,15 +224,17 @@ function Todo() {
                     @dragover=${({ target }) => {
                     }}
                 ></div>
-                <${TodoRow}
-                    strix.draggable=${true}
-                    todoContent=${target.value}
-                    swapRow=${(direction) => {
+                <${TodoRow} ${{
+                    [draggable]: true,
+                    todoContent: target.value,
+                    swapRow(direction) {
                         const i = todoArray.indexOf(newRow);
                         [todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
-                    }}
-                    deleteRow=${() => delete todoArray[todoArray.indexOf(newRow)]}
-                />
+                    },
+                    deleteRow() {
+                        delete todoArray[todoArray.indexOf(newRow)]
+                    }
+                }} />
             `;
             todoArray.push(newRow);
             target.value = "";
