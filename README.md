@@ -35,13 +35,6 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Installation
 
-#### Create Project
-```sh
-deno run --allow-write https://strix.sh
-cd my-project
-deno task dev
-```
-
 ```sh
 npm create strix
 cd my-project
@@ -244,27 +237,13 @@ function Todo() {
 ```
 
 ```javascript
-import { bind } from "@strix/std";
-
-function ReverseStr() {
-
-    const text = $('');
-
-    return html`
-        <input ${{ type: "text", [bind]: text }}/>
-        <h2>${$(text, (newText) => newText.split("").reverse().join(""))}</h2>
-    `;
-};
-```
-
-```javascript
 function Parent() {
     return html`
         <${Child} ${{ someProp: "hi" }}>
     `;
 }
 
-const Child = ({ someProp }) => {
+function Child({ someProp }) {
     return html`
         <label>${someProp}</label>
     `;
@@ -273,30 +252,26 @@ const Child = ({ someProp }) => {
 
 ```javascript
 const C2DApp = html`
-    <canvas @load=${({ target: canvas }) => {
-        const ctx = canvas.getContext('2d');
-        // ...
-    }};></canvas>
+    <canvas ${{
+        [on.load]({ target: canvas }) {
+            const ctx = canvas.getContext('2d');
+            // ...
+        }
+    }}></canvas>
 `;
 ```
 
 ```javascript
-import nitro from 'https://esm.sh/strix-nitro';
+import { nitro } from 'https://esm.sh/strix-nitro';
 // Nitro Design - The Design System By Strix
 
-const StyleImport = () => {
-    return () => html`
+function StyleImport() {
+    return html`
         <button ${nitro}>I am themed by Nitro Design!</button>
     `;
 };
 ```
 
-const WithAttributeModule = () => () => html`
-    <div ${sampleAttrModule}=system;>
-        <button></button>
-    </div>
-`;
-```
 
 ```javascript
 import { center } from '@strix/layout';

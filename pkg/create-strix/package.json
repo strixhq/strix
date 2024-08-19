@@ -1,14 +1,17 @@
 {
   "name": "create-strix",
   "version": "0.0.4",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ihasq",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "prompts": "^2.4.2"
+  },
+  "bin": {
+    "create-strix": "main.js"
   }
 }

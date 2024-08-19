@@ -1,15 +1,14 @@
 const prompts = require('prompts');
-
-const questions = [
-	{
-		type: 'text',
-		name: 'username',
-		message: 'Enter your project name'
-	}
-];
+const fs = require("node:fs");
 
 (async () => {
-	const response = await prompts(questions);
+	const response = await prompts([
+		{
+			type: 'text',
+			name: 'projectName',
+			message: 'Enter your project name'
+		}
+	]);
 
-	// => response => { username, age, about }
+	fs.mkdirSync(response.projectName)
 })();
