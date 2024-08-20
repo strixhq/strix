@@ -9,7 +9,7 @@
 ---
 
 ```javascript
-import { html, $, on } from "@strix/std";
+import { h as html, $, on } from "@strix/std";
 
 
 function Counter() {
@@ -53,17 +53,16 @@ npm start
 
 ### Packages
 
-| package                          | about                      | exports         |
-| -------------------------------- | -------------------------- | --------------- |
-| **[html](./pkg/html)**           | HTML in JavaScript library | `html`          |
-| **[write](./pkg/write)**         | Client-side HTML Writer    | `write`         |
-| **[define](./pkg/define)**       | Defining Web Components    | `define`        |
-| **[set](./pkg/set)**             | Signal-like Hook           | `set`           |
-| **[layout](./pkg/layout)**       | Layout manager             | `layout`        |
-| **[nitro](./pkg/nitro)**         | Design systems             | `nitro`         |
-| **[material3](./pkg/material3)** | Material Design 3 port     | `m3`            |
-| **[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`            |
-| **[react](./pkg/react)**         | React compatibility hook   | `React`         |
+| package                          | about                      | exports                     |
+| -------------------------------- | -------------------------- | --------------------------- |
+| **[std](./pkg/std)**             | Strix standard library     | `h`, `$`, `on`, `css`, `at` |
+| **[write](./pkg/write)**         | Client-side HTML Writer    | `write`                     |
+| **[define](./pkg/define)**       | Defining Web Components    | `define`                    |
+| **[layout](./pkg/layout)**       | Layout manager             | `layout`                    |
+| **[nitro](./pkg/nitro)**         | Design systems             | `nitro`                     |
+| **[material3](./pkg/material3)** | Material Design 3 port     | `m3`                        |
+| **[md](./pkg/md)**               | Markdown-to-HTML Plugin    | `md`                        |
+| **[react](./pkg/react)**         | React compatibility hook   | `React`                     |
 
 ### SDK
 

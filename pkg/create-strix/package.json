@@ -12,6 +12,7 @@
     "prompts": "^2.4.2"
   },
   "bin": {
-    "create-strix": "main.js"
+    "create-strix": "dist/index.js"
   }
 }
+
