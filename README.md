@@ -31,7 +31,7 @@ export default Counter;
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/web-platform-ja6uim?file=src%2FApp.js)
 
 ### Installation
 Requires Node.js and npm.
