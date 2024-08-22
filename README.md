@@ -1,4 +1,4 @@
-# [Strix ☕🗿](https://strix.sh)
+# [Strix 🦉](https://strix.sh)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
@@ -34,10 +34,10 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/js-qfh42g?file=index.js)
 
 ### Installation
-
+Requires Node.js and npm.
 ```sh
 npm create strix
-cd my-project
+cd my-strix-project
 npm start
 ```
 
@@ -136,7 +136,7 @@ html`
     <button ${{
         [css.color]: {
             default: "blue",
-            [sel`:hover`]: "red",
+            [sel.hover]: "red",
         }
     }}>Hover me!</button>
 `;
@@ -158,8 +158,8 @@ function Count() {
     return html`
         <p>You clicked ${count} times</p>
         <button ${{
-            [sel`:hover`]: {
-                [buttonText]: "Click me!"
+            [sel`:hover`]() {
+                $[buttonText] = "Click me!"
             },
             [on.click]() {
                 $[count]++
@@ -231,6 +231,24 @@ function Todo() {
             todoArray.push(newRow);
             target.value = "";
         }} />
+    `
+}
+```
+
+```javascript
+function Transition() {
+
+    const colorNum = $(0);
+
+    return html`
+        <label ${{
+            [css.color]: $(
+                colorNum.to(0xFFFFFF, 1000, true),
+                x => parseInt(x, 16).padStart(6, "0")
+            )
+        }}>
+            Gradient!
+        </label>
     `
 }
 ```

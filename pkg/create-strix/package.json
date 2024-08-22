@@ -1,18 +1,19 @@
 {
   "name": "create-strix",
+  "type": "module",
   "version": "0.0.4",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sex": "node ./main"
   },
   "author": "ihasq",
   "license": "MIT",
   "description": "",
-  "devDependencies": {
-    "prompts": "^2.4.2"
-  },
   "bin": {
     "create-strix": "dist/index.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0"
   }
 }
-
