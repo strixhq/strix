@@ -41,12 +41,15 @@ fs.writeFileSync(`${__dirname}/${name}/package.json`, `{
 	"imports": {
 		"@strix/std": "./node_modules/lib_strix/std/mod.js",
 		"@strix/client": "./node_modules/lib_strix/client/mod.js"
+	},
+	"scripts": {
+		"start": "npx jsr add @strix/std"
 	}
 }`)
 
 console.log(`\n🦉 \x1b[01mDone. now, enter these following commands: \x1b[0m 🦉
-
-	cd ${name}
-	npx vite@latest
-
+╭─────────────────╮
+│ $ ${`cd ${name}`.padEnd(14, "\u0020")}│
+│ $ npm start     │
+╰─────────────────╯
 `)
