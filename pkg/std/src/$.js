@@ -27,7 +27,7 @@ const $ = new Proxy((value, refreshCallback = value => value) => {
 			),
 			watch: createPropertyFn((callbackFn) => {
 				if(callbackFn) {
-					BASE_WATCHER_POOL.push(callbackFn? callbackFn);
+					BASE_WATCHER_POOL.push(callbackFn);
 				}
 			}),
 			[Symbol.dispose]: createPropertyFn(() => hasDisposed = true),
