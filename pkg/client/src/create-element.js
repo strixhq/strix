@@ -49,12 +49,9 @@ const createElement = ([TSA, TVA]) => {
 			BUF_RESULT.push([true, {
 				value: VALUE_BUF,
 				callback(ref) {
-					console.log(this.value)
 					Reflect.ownKeys(this.value).forEach((x, i) => {
 	
 						const BUF_VALUE = this.value[x];
-
-						console.log(BUF_VALUE)
 			
 						if(
 							typeof x == "symbol" &&
@@ -81,13 +78,10 @@ const createElement = ([TSA, TVA]) => {
 
 	}
 
-	console.log(BUF_STR)
-
 	BASE_TEMP.innerHTML = BUF_STR;
 	BUF_RESULT.forEach((SEL_BUF, i) => {
 		const TEMP_BUF = BASE_TEMP.querySelector(`#${TSA_UUID}-${i}`);
 		if(SEL_BUF[0]) {
-			console.log(SEL_BUF[1])
 			SEL_BUF[1].callback(TEMP_BUF);
 			TEMP_BUF.removeAttribute("id")
 		} else {

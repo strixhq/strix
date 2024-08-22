@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "@strix/std": "jsr:@strix/std@^0.0.1"
-  },
-  "export": "./mod.js"
-}
