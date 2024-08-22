@@ -242,10 +242,7 @@ function Transition() {
 
     return html`
         <label ${{
-            [css.color]: $(
-                colorNum.to(0xFFFFFF, 1000, true),
-                x => parseInt(x, 16).padStart(6, "0")
-            )
+            [css.color]: colorNum.to(0xFFFFFF, 1000, true).into(x => `#${parseInt(x, 16).padStart(6, "0")}`)
         }}>
             Gradient!
         </label>
@@ -256,7 +253,7 @@ function Transition() {
 ```javascript
 function Parent() {
     return html`
-        <${Child} ${{ someProp: "hi" }}>
+        ${Child({ someProp: "hi" })}
     `;
 }
 
@@ -284,7 +281,7 @@ import { nitro } from 'https://esm.sh/strix-nitro';
 
 function StyleImport() {
     return html`
-        <button ${nitro}>I am themed by Nitro Design!</button>
+        <button ${{ nitro }}>I am themed by Nitro Design!</button>
     `;
 };
 ```

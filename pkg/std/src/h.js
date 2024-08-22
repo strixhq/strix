@@ -1,1 +1,1 @@
-export const h = (...x) => x;
+export const h = (s, ...v) => [s, v];

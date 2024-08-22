@@ -15,31 +15,22 @@ const name = await prompts.text({
 });
 
 const language = await prompts.select({
-	message: '🦉💬 LANGUAGE',
+	message: '🦉💬 LANGUAGE:',
 	options: [
-		{ value: 'JS', label: "\x1b[01;93mJavaScript\x1b[0m" },
-		{ value: 'TS', label: "\x1b[01;94mTypeScript\x1b[0m" },
-		{ value: 'JS', label: "\x1b[01;93mJSX\x1b[0m", hint: "experimental" },
-		{ value: 'TS', label: "\x1b[01;94mTSX\x1b[0m", hint: "experimental" },
+		{ value: 'js', label: "\x1b[01;93mJavaScript\x1b[0m" },
+		{ value: 'ts', label: "\x1b[01;94mTypeScript\x1b[0m" },
+	],
+});
+
+const template = await prompts.select({
+	message: '🦉💬 TEMPLATE USAGE:',
+	options: [
+		{ value: true, label: "\x1b[01;93mPre-built template\x1b[0m" },
+		{ value: false, label: "\x1b[01;94mBlank project\x1b[0m" },
 	],
 });
 
 fs.mkdirSync(`./${name}`);
-fs.mkdirSync(`./${name}/src`);
-fs.writeFileSync(`./${name}/src/main.js`,
-`import { h as html, $, on } from "@strix/std";
+fs.cpSync(`./temp/${language}`, `./${name}`, { recursive: true });
 
-function App() {
-
-  const count = $(0);
-
-  return html\`
-    <h1>\${count}</h1>
-    <button \${{ [on.click]: () => $[count]++ }}>
-      Increment
-    </button>
-  \`;
-}
-
-export default App;
-`);
+console.log("\n🦉 \x1b[01mDone. now, enter these following commands: \x1b[0m 🦉")

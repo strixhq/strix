@@ -1,1 +1,1 @@
-export { write } from "./src/write.js"
+export { createElement } from "./src/create-element.js"

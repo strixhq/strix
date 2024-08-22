@@ -3,7 +3,7 @@ const createPropertyFn = callbackFn => ({
 	value: callbackFn
 })
 
-export const $ = new Proxy((value, refreshCallback = value => value) => {
+const $ = new Proxy((value, refreshCallback = value => value) => {
 
 	let hasDisposed = false;
 
@@ -25,9 +25,9 @@ export const $ = new Proxy((value, refreshCallback = value => value) => {
 				? undefined
 				: BASE_SYMBOL
 			),
-			watch: createPropertyFn(() => {
+			watch: createPropertyFn((callbackFn) => {
 				if(callbackFn) {
-					BASE_WATCHER_POOL.push(callbackFn);
+					BASE_WATCHER_POOL.push(callbackFn? callbackFn);
 				}
 			}),
 			[Symbol.dispose]: createPropertyFn(() => hasDisposed = true),
@@ -50,5 +50,10 @@ export const $ = new Proxy((value, refreshCallback = value => value) => {
 }, {
 	get(t, prop) {
 		return window[prop]
+	},
+	set(t, prop, newValue) {
+		return window[prop] = newValue
 	}
 });
+
+export { $ }
