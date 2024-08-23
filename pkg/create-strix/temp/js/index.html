@@ -4,6 +4,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<script type="module" src="./src/index.js"></script>
+	<script type="module">
+		import App from "./App.js";
+		import { createElement } from "@strix/client";
+
+		document.body.appendChild(createElement(App()));
+	</script>
 </head>
 </html>
