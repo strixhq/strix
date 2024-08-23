@@ -56,6 +56,15 @@ function App() {
 }
 ```
 
+### Create Element
+```javascript
+// ...
+
+import { createElement } from "@strix/client";
+
+document.body.append(...createElement(App()))
+```
+
 <!-- ### Directories
 
 | directory          | about             |
