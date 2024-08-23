@@ -43,7 +43,7 @@ fs.writeFileSync(`${__dirname}/${name}/package.json`, `{
 		"@strix/client": "./node_modules/lib_strix/client/mod.js"
 	},
 	"scripts": {
-		"start": "npx jsr add @strix/std"
+		"start": "npx jsr add @strix/std @strix/client"
 	}
 }`)
 
