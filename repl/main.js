@@ -8,21 +8,9 @@ import { on } from "@strix/attr";
 
 import { attrGen } from "@strix/macro";
 
-const on = ({
-	toString() {
-		return Symbol("abc");
-	},
-
-	load: {
-		toString() {
-			return Symbol("load");
-		}
-	}
-})
-
-const Main = () => {
-	return h`
-		<div! ${{
+export default h`
+	<div ${{ [layout]: { vertical: [1, 1] } }}>
+		<div ${{
 			[on.load]({ target }) {
 				new EditorView({
 					doc,
@@ -35,7 +23,5 @@ const Main = () => {
 				});
 			}
 		}}/>
-	`;
-}
-
-export default Main;
+	</div>
+`;;

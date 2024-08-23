@@ -12,23 +12,26 @@ const createElement = ([TSA, TVA]) => {
 	BASE_DF.appendChild(BASE_TEMP);
 	
 	let
-		BUF_STR = BASE_TEMP.innerHTML = TSA.map((x, i) => {
-			let
-				BUF_TVA = TVA[i],
-				BUF_ADDR
-			;
+		BUF_STR = BASE_TEMP.innerHTML = TSA
+			.map((x, i) => {
+				let
+					BUF_TVA = TVA[i],
+					BUF_ADDR
+				;
 
-			BUF_TVA = (
-				typeof BUF_TVA == "object" &&
-				typeof (BUF_ADDR = BUF_TVA.toString()) == "symbol" &&
-				BUF_ADDR in window
-			)
-				? window[BUF_ADDR]
-				: BUF_TVA
-			;
+				BUF_TVA = (
+					typeof BUF_TVA == "object" &&
+					typeof (BUF_ADDR = BUF_TVA.toString()) == "symbol" &&
+					BUF_ADDR in window
+				)
+					? window[BUF_ADDR]
+					: BUF_TVA
+				;
 
-			return x + (i == TSA_LENGTH ? "" : `${TSA_UUID}-${i}`)
-		}).join(""),
+				return x + (i == TSA_LENGTH ? "" : `${TSA_UUID}-${i}`)
+			})
+			.join("")
+		,
 		SEL_BUF,
 		COMMENT_BUF
 	;
@@ -105,6 +108,8 @@ const createElement = ([TSA, TVA]) => {
 	});
 
 	return BASE_TEMP.childNodes;
+
+	queueMicrotask(() => BASE_TEMP.remove());
 }
 
 export { createElement }
