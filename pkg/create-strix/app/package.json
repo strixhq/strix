@@ -1,0 +1,15 @@
+{
+	"name": "app",
+	"version": "0.0.1",
+	"imports": {
+		"@strix/std": "./node_modules/lib_strix/std/mod.js",
+		"@strix/client": "./node_modules/lib_strix/client/mod.js"
+	},
+	"scripts": {
+		"start": "npx jsr add @strix/std @strix/client"
+	},
+	"dependencies": {
+		"@strix/client": "npm:@jsr/strix__client@^0.0.2",
+		"@strix/std": "npm:@jsr/strix__std@^0.0.3"
+	}
+}

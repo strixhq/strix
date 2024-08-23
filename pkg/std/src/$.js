@@ -9,7 +9,7 @@ const $ = new Proxy((value, refreshCallback = value => value) => {
 
 	const
 		BASE_SYMBOL = Symbol(performance.now()),
-		BASE_WATCHER_POOL = [];
+		BASE_WATCHER_POOL = [],
 		BASE_PROPERTY = {
 			enumerable: false,
 			get() {
