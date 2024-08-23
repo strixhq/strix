@@ -10,7 +10,7 @@
   "license": "MIT",
   "description": "",
   "bin": {
-    "create-strix": "dist/index.js"
+    "create-strix": "main.js"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0"
