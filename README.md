@@ -34,14 +34,29 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/web-platform-ja6uim?file=src%2FApp.js)
 
 ### Installation
-Requires Node.js and npm.
 ```sh
-npm create strix
-cd my-strix-project
-npm start
+npx jsr add @strix/std @strix/client
 ```
 
-### Directories
+### Programmable Attributes
+
+```javascript
+import { h as html, $ } from "@strix/std";
+
+const onDoubleClick = $((callbackFn, ref) => {
+    ref.addEventListener("dblclick", callbackFn, { passive: true })
+});
+
+function App() {
+    return html`
+        <textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
+            Doubleclick me!
+        </textarea>
+    `
+}
+```
+
+<!-- ### Directories
 
 | directory          | about             |
 | ------------------ | ----------------- |
@@ -106,42 +121,6 @@ git clone https://github.com/ihasq/strix
 deno task build
 ```
 
-### Smart Attributes on strix-HTML
-
-```javascript
-html`
-    <!-- text -->
-    <label>${text}</label>
-
-    <!-- attribute -->
-    <iframe ${{ [at.src]: "./my.html" }} />
-
-    <!-- event listener -->
-    <button ${{ [on.click]: () => console.log('clicked') }}; />
-    <input ${{ [on.click.passive(false)]: () => console.log('cancelled') }}; /> <!-- preventDefault() -->
-    
-    <!-- style -->
-    <h1 ${{ [css.color]: titleColor }}>with color!</h1>
-    
-    <!-- property -->
-    <input ${{ type: "text", value: "app" }}/>
-    
-    <!-- embedding component -->
-    <${DefinedComponent} ${{ myProp: true }}/>
-    
-    <!-- custom attribute -->
-    <div ${{ [name]: "taro" }}></div>
-    
-    <!-- branching with psuedo class or booleanish -->
-    <button ${{
-        [css.color]: {
-            default: "blue",
-            [sel.hover]: "red",
-        }
-    }}>Hover me!</button>
-`;
-
-```
 
 ### Usage
 
@@ -382,4 +361,4 @@ const VCSS = ({ $ }) => {
 
 ### License
 
-Strix is MIT Licensed.
+Strix is MIT Licensed. -->

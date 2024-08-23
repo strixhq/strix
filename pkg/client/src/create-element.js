@@ -104,7 +104,7 @@ const createElement = ([TSA, TVA]) => {
 		}
 	});
 
-	return BASE_TEMP;
+	return BASE_TEMP.childNodes;
 }
 
 export { createElement }
