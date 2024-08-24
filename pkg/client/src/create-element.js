@@ -1,3 +1,5 @@
+import { rand }
+
 const BASE_DF = document.createDocumentFragment();
 
 const createElement = ([{ raw: TSA }, TVA]) => {

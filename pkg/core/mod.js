@@ -1,0 +1,1 @@
+export { getRandomToken } from "./src/rand.js";

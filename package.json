@@ -22,5 +22,8 @@
         }
     },
     "author": "ihasq",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "@strix/core": "npm:@jsr/strix__core@^0.0.1"
+    }
 }

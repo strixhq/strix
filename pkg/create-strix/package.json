@@ -13,6 +13,7 @@
     "create-strix": "dist.cjs"
   },
   "dependencies": {
-    "@clack/prompts": "^0.7.0"
+    "@clack/prompts": "^0.7.0",
+    "@strix/core": "npm:@jsr/strix__core@^0.0.1"
   }
 }
