@@ -2,4 +2,4 @@ export { h } from "./src/h.js";
 export { on } from "./src/on.js";
 export { at } from "./src/at.js";
 
-export { $ } from "@ihasq/esptr";
+export { $ } from "jsr:@ihasq/esptr@latest";
