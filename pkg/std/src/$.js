@@ -1,7 +1,9 @@
 const createPropertyFn = callbackFn => ({
 	enumerable: false,
 	value: callbackFn
-})
+});
+
+const PUBLISHED_PTR = [];
 
 const $ = new Proxy((value, refreshCallback = value => value) => {
 
@@ -45,14 +47,33 @@ const $ = new Proxy((value, refreshCallback = value => value) => {
 
 	Object.defineProperty(window, BASE_SYMBOL, BASE_PROPERTY);
 
+	PUBLISHED_PTR.push(BASE_POINTER);
+
 	return BASE_POINTER;
 
 }, {
 	get(t, prop) {
-		return window[prop]
+		switch(typeof prop) {
+			case "symbol": {
+				return window[prop]
+			}
+			case "string": switch(prop) {
+				case "isPointer": {
+					return function(pointer) {
+						return PUBLISHED_PTR.includes(pointer)
+					}
+				}
+			}
+		}
 	},
 	set(t, prop, newValue) {
-		return window[prop] = newValue
+		switch(typeof prop) {
+			case "symbol": {
+				window[prop] = newValue;
+				
+			}
+		}
+		return true;
 	}
 });
 

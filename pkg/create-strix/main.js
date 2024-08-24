@@ -40,7 +40,7 @@ console.log("\n🦉 \x1b[01mWelcome to Strix!\x1b[0m 🦉");
 		"name": "${name}",
 		"version": "0.0.1",
 		"scripts": {
-			"start": "npx jsr add @strix/std @strix/client && npx vite"
+			"start": "npx jsr add @strix/std@latest @strix/client@latest && npx vite"
 		}
 	}`)
 	

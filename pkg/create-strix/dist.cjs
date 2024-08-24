@@ -24,7 +24,7 @@ ${a.default.cyan(iu)}
 		"name": "${e}",
 		"version": "0.0.1",
 		"scripts": {
-			"start": "npx jsr add @strix/std @strix/client && npx vite"
+			"start": "npx jsr add @strix/std@latest @strix/client@latest && npx vite"
 		}
 	}`),console.log(`
 \u{1F989} \x1B[01mDone. now, enter these following commands: \x1B[0m \u{1F989}

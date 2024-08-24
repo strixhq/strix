@@ -35,6 +35,55 @@ const createPointer = (value, refreshCallback = value => value) => {
 	return BASE_POINTER;
 }
 
+const $ = (value, setterFn = x => x) => {
+
+	const
+		BASE_SYMBOL = Symbol(performance.now()),
+		WATCHER_CALLBACKS = [],
+		GETTER_FN = {
+			get() {
+				return value;
+			}
+		}
+	;
+
+	Object.defineProperty(window, BASE_SYMBOL, GETTER_FN);
+
+	Object.defineProperty($, BASE_SYMBOL, {
+		set(newValue) {
+			WATCHER_CALLBACKS.forEach(x => x ? x(newValue) : undefined);
+			value = setterFn(newValue);
+			return true;
+		},
+		...GETTER_FN,
+	});
+
+	return {
+		toString() {
+			return BASE_SYMBOL;
+		},
+		watch(callbackFn) {
+			WATCHER_CALLBACKS.push(callbackFn);
+			return this;
+		},
+		into(transformerFn) {
+			return 
+		},
+		fork() {
+			return $(value);
+		},
+	}
+};
+
+function App() {
+
+	const count = $(0);
+
+	return html`
+		<div>
+	`;
+}
+
 const ptr = new Proxy((value, refreshCallback = value => value) => {
 
 	let hasDisposed = false;
