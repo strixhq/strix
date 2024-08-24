@@ -9,8 +9,7 @@
 ---
 
 ```javascript
-import { h as html, on } from "@strix/std";
-import { $ } from "esptr";
+import { h as html, $, on } from "@strix/std";
 
 
 function Counter() {
