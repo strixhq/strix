@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "ihasq",
   "license": "MIT",
   "dependencies": {
     "@ihasq/esptr": "npm:@jsr/ihasq__esptr@^0.1.0"
