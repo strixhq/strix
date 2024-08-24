@@ -51,15 +51,35 @@ const createElement = ([{ raw: TSA }, TVA]) => {
 	for(let TVA_index = 0; TVA_index < TVA_LENGTH; TVA_index++) {
 
 		const
-			TOKEN_STR = `id="${TSA_UUID}-${TVA_index.toString(36).padStart(8, "0")}"`
+			ID_STR = `${TSA_UUID}-${TVA_index.toString(36).padStart(8, "0")}`
+			TOKEN_STR = `id="${ID_STR}"`,
+			TVA_BUF = TVA[TVA_index],
+			TVA_BUF_TYPE = (
+				typeof TVA_BUF == "object" &&
+				typeof TVA_BUF.toString() == "symbol" &&
+				TVA_BUF in window
+			)
+				? "POINTER"
+				: "PRIMITIVE"
 		;
 
 		if(!ATTR_INDEX.includes(TVA_index)) {
-			BUF_STR = BUF_STR.replace(TOKEN_STR, `<span ${TOKEN_STR} ${PLACEHOLDER_UUID}></span>`)
+			BUF_STR = BUF_STR.replace(TOKEN_STR, `<span ${TOKEN_STR} ${PLACEHOLDER_UUID}></span>`);
+			BUF_RESULT.push(() => {
+				const TEXT_BUF = new Text();
+				const TEMP_BUF = BASE_TEMP.querySelector(`#${ID_STR}`);
+			})
+		} else {
+			BUF_RESULT.push(() => {
+				const TEMP_BUF = BASE_TEMP.querySelector(`#${ID_STR}`);
+
+			})
 		}
 	}
 
 	BASE_TEMP.innerHTML = BUF_STR;
+
+	BUF_RESULT.forEach(x => x());
 
 	// for(let TVA_index = 0; TVA_index < TVA_LENGTH; TVA_index++) {
 	// 	const TOKEN_STR = `id="${TSA_UUID}-${TVA_index}"`;
