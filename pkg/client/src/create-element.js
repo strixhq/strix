@@ -1,11 +1,11 @@
-import { rand }
+import { getRandomToken } from "@strix/core"
 
 const BASE_DF = document.createDocumentFragment();
 
 const createElement = ([{ raw: TSA }, TVA]) => {
 
 	const
-		TSA_UUID = "strix-" + crypto.randomUUID(),
+		TSA_UUID = "strix-" + getRandomToken(32),
 		TSA_LENGTH = TSA.length - 1,
 		TVA_LENGTH = TVA.length,
 		BASE_TEMP = document.createElement("div")
@@ -48,7 +48,7 @@ const createElement = ([{ raw: TSA }, TVA]) => {
 		ATTR_INDEX.push(parseInt(matchedTemp.slice(-10, -2), 36))
 	});
 
-	const PLACEHOLDER_UUID = crypto.randomUUID();
+	const PLACEHOLDER_UUID = getRandomToken(32);
 
 	for(let TVA_index = 0; TVA_index < TVA_LENGTH; TVA_index++) {
 

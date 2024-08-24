@@ -1,6 +1,6 @@
 {
   "name": "@strix/client",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "mod.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,6 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@strix/core": "npm:@jsr/strix__core@^0.0.1"
+    "@strix/core": "npm:@jsr/strix__core@^0.0.2"
   }
 }
