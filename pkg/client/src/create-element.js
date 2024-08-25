@@ -81,7 +81,7 @@ const createElement = ([{ raw: TSA }, TVA]) => {
 
 	BASE_TEMP.innerHTML = BUF_STR;
 
-	BUF_RESULT.forEach(x => x());
+	// BUF_RESULT.forEach(x => x());
 
 	// for(let TVA_index = 0; TVA_index < TVA_LENGTH; TVA_index++) {
 	// 	const TOKEN_STR = `id="${TSA_UUID}-${TVA_index}"`;
