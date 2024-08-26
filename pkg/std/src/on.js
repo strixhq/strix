@@ -1,4 +1,11 @@
-import { $ } from "jsr:@ihasq/esptr@0.1.0"
+import { $ } from "jsr:@ihasq/esptr@0.1.2"
+
+const REGISTER_FN = (prop, value, ref) => {
+	return BUF_VALUE.PTR_IDENTIFIER in window
+		? BUF_VALUE.watch(newValue => ref.setAttribute(prop, newValue))
+		: ref.setAttribute(prop, newValue)
+	;
+};
 
 export const on = new Proxy(
 	{},

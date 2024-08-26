@@ -1,6 +1,6 @@
 {
 	"name": "@strix/std",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"imports": {
 		"@ihasq/esptr": "jsr:@ihasq/esptr"
 	},
