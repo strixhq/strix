@@ -1,4 +1,4 @@
-import { $ } from "@ihasq/esptr"
+import { $ } from "jsr:@ihasq/esptr@0.1.0"
 
 export const on = new Proxy(
 	$((value, ref) => {
