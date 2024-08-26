@@ -1,7 +1,7 @@
 /**
  * @param	{ TemplateStringsArray } s 
  * @param	{ ...any} v 
- * @returns	{ Array }
+ * @returns	{ any[] }
  */
 
 export const h = (s, ...v) => [s, v];
