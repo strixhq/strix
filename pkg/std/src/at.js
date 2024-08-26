@@ -3,7 +3,7 @@ import { $ } from "jsr:@ihasq/esptr@0.1.2"
 const REGISTER_FN = (prop, value, ref) => {
 	return window[value.PTR_IDENTIFIER]
 		? value.watch(newValue => ref.setAttribute(prop, newValue))
-		: ref.setAttribute(prop, newValue)
+		: ref.setAttribute(prop, value)
 	;
 };
 
