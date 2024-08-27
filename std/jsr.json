@@ -1,0 +1,8 @@
+{
+	"name": "@strix/std",
+	"version": "0.0.12",
+	"imports": {
+		"@ihasq/esptr": "jsr:@ihasq/esptr"
+	},
+	"exports": "./mod.js"
+}
