@@ -4,4 +4,4 @@
  * @returns	{ any[] }
  */
 
-export const h = (s, ...v) => [s, v];
+export const h = (s, ...v) => [s, v, { "strix-type": "html" }];
