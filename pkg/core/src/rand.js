@@ -11,7 +11,7 @@ const getBufferIndex = () => {
 	return RAND_BUF[index++];
 };
 
-export const getRandomToken = (length, sample = "0123457689abcdefghijklmnopqrstuvwxyz") => {
+export const getRandomToken = (length = 16, sample = "0123457689abcdefghijklmnopqrstuvwxyz") => {
 	const SAMPLE_LENGTH = sample.length;
 	return Array(length)
 		.fill(0)
