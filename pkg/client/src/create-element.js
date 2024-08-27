@@ -72,11 +72,14 @@ const resolveTemplate = (
 					TSA_BEGIN_INDEX++;
 
 				} else if(TVA_BUF[2]?.hasOwnProperty("strix-type")) {
+
 					const [RESOLVED_STR, RESOLVED_TVA_CALLBACKS, RESOLVED_TOTAL_TVA] = resolveTemplate(TVA_BUF, TSA_UUID, TSA_BEGIN_INDEX, TSA_REGEX);
 					TSA_BEGIN_INDEX = RESOLVED_TOTAL_TVA;
 					BUF_STR = BUF_STR.replace(UUID_BUF, RESOLVED_STR);
 					TVA_CALLBACKS.push(RESOLVED_TVA_CALLBACKS);
+
 				} else {
+
 					BUF_STR = BUF_STR.replace(UUID_BUF, `<span ${RESOLVED_UUID_BUF}></span>`);
 					TVA_CALLBACKS.push(ref => {
 						const TEXT_BUF = new Text();
@@ -88,6 +91,7 @@ const resolveTemplate = (
 						ref.replaceWith(TEXT_BUF);
 					});
 					TSA_BEGIN_INDEX++;
+
 				}
 			}
 
