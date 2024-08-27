@@ -103,6 +103,12 @@ const resolveTemplate = (
 
 const BASE_DF = document.createDocumentFragment();
 
+/**
+ * 
+ * @param {Array<TemplateStringsArray | any>} param0 
+ * @returns { NodeList }
+ */
+
 const createElement = ([TSA, TVA]) => {
 
 
