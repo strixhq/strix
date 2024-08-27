@@ -11,7 +11,7 @@ export const on = new Proxy(
 	{},
 	{
 		get: (t, prop) => (prop == Symbol.toPrimitive)
-			? () => $((value, ref) => Object.keys(value).forEach(x => ref.addEventListener(x, value[x], { passive: true })))
+			? () => $((value, ref) => Object.keys(value).forEach(x => ref.addEventListener(x, value[x], { passive: true }))).toString()
 			: $((value, ref) => ref.addEventListener(prop, value, { passive: true }))
 	}
 )
