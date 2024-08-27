@@ -6,7 +6,7 @@ import { javascript } from "@codemirror/lang-javascript"
 import { h } from "@strix/std";
 import { on } from "@strix/attr";
 
-import { attrGen } from "@strix/macro";
+import { attrGen } from "@strix/util";
 
 export default h`
 	<div ${{ [layout]: { vertical: [1, 1] } }}>

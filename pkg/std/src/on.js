@@ -15,3 +15,4 @@ export const on = new Proxy(
 			: $((value, ref) => ref.addEventListener(prop, value, { passive: true }))
 	}
 )
+
