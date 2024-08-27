@@ -35,7 +35,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Installation
 ```sh
-npx jsr add @strix/std @strix/client
+npx jsr add @strix/std@0.0.12 @strix/client@0.0.6
 ```
 
 ### Programmable Attributes

@@ -1,6 +1,6 @@
 {
   "name": "@strix/std",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "### Install ```javascript npx jsr add @strix/std ```",
   "main": "mod.js",
   "scripts": {
