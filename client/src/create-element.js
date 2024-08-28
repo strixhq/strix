@@ -29,8 +29,6 @@ const resolveTemplate = (
 			let
 				BUF_STR
 			;
-		
-			console.log(TVA_LENGTH);
 				
 			(BUF_STR = TSA
 				.map((x, i) => {
@@ -58,6 +56,7 @@ const resolveTemplate = (
 				;
 
 				if(ATTR_INDEX.includes(i)) {
+
 					BUF_STR = BUF_STR.replace(UUID_BUF, RESOLVED_UUID_BUF);
 					TVA_CALLBACKS.push(ref => Reflect.ownKeys(TVA_BUF).forEach(x => {
 						const TVA_VALUE_BUF = TVA_BUF[x];
@@ -130,7 +129,7 @@ const createElement = ([TSA, TVA]) => {
 
 	BASE_TEMP.querySelectorAll(`[${UUID}]`).forEach((x, i) => {
 		x.removeAttribute(UUID);
-		TVA_CALLBACKS[i](x);
+		TVA_CALLBACKS[i]?.(x);
 	});
 
 	return BASE_TEMP.childNodes;
