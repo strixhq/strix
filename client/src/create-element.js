@@ -128,7 +128,10 @@ const createElement = ([TSA, TVA]) => {
 
 	BASE_TEMP.innerHTML = STR;
 
-	BASE_TEMP.querySelectorAll(`[${UUID}]`).forEach((x, i) => TVA_CALLBACKS[i](x));
+	BASE_TEMP.querySelectorAll(`[${UUID}]`).forEach((x, i) => {
+		x.removeAttribute(UUID);
+		TVA_CALLBACKS[i](x);
+	});
 
 	return BASE_TEMP.childNodes;
 
