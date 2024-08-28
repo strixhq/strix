@@ -4,19 +4,29 @@ const RESOLVER_BUFFER = new WeakMap();
 const TSA_ATTR_BUFFER = new WeakMap();
 
 const resolveTSA = (
-	RAW_TSA, RAW_TSA_BEGININDEX, PARSER_UUID, PARSER_UUID_REGEX = new RegExp(`<[a-z\\-]+\\s+${TSA_UUID}="`, "g")) => {
-	const ATTR_INDEX = TSA_ATTR_BUFFER.has(RAW_TSA)
+
+	RAW_TSA: TemplateStringsArray,
+	PARSER_UUID: string,
+	PARSER_UUID_REGEX: RegExp = new RegExp(`<[a-z\\-]+\\s+${PARSER_UUID}="`, "g"),
+
+): number[] => (
+
+	TSA_ATTR_BUFFER.has(RAW_TSA)
+
 		? TSA_ATTR_BUFFER.get(RAW_TSA)
+
 		: (() => {
-			const ATTR_INDEX = [];
+
+			const
+				ATTR_INDEX: number[] = [],
+				TVA_LENGTH: number = RAW_TSA.length - 1;
+
 			RAW_TSA
-				.map((x, i) => {
-					return x + (
-						(i == TVA_LENGTH)
-							? ""
-							: UUID_ARR[i] = `\u0020${PARSER_UUID}="${i.toString(36).padStart(8, "0")}"`
-					)
-				})
+				.map((x, i) => x + (
+					(i == TVA_LENGTH)
+						? ""
+						: `\u0020${PARSER_UUID}="${i.toString(36).padStart(8, "0")}"`
+				))
 				.join("")
 				.matchAll(TSA_REGEX)
 				.forEach(({ 0: { length: matchedTempLength }, index }) => {
@@ -24,10 +34,13 @@ const resolveTSA = (
 					ATTR_INDEX.push(parseInt(BUF_STR.slice(BUF_SLICE_POINT, BUF_SLICE_POINT + 8), 36));
 				})
 			;
+
 			TSA_ATTR_BUFFER.set(TSA, ATTR_INDEX);
+
 			return ATTR_INDEX;
+
 		})()
-}
+);
 
 const resolveTemplate = (
 
@@ -37,6 +50,8 @@ const resolveTemplate = (
 	TSA_REGEX = new RegExp(`<[a-z\\-]+\\s+${TSA_UUID}="`, "g"),
 
 ) => {
+
+	const RESOLVED_ATTR_INDEX = resolveTSA(TSA, TSA_BEGIN_INDEX, TSA_UUID, TSA_REGEX);
 
 	const
 		TVA_LENGTH = TVA.length,
