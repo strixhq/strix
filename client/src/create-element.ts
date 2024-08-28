@@ -51,7 +51,35 @@ const resolveTemplate = (
 
 ) => {
 
-	const RESOLVED_ATTR_INDEX = resolveTSA(TSA, TSA_BEGIN_INDEX, TSA_UUID, TSA_REGEX);
+	const
+		TVA_LENGTH = TVA.length,
+		RESOLVED_ATTR_INDEX = resolveTSA(TSA, TSA_UUID, TSA_REGEX)
+	;
+
+	const RESOLVER_BUFFER: function[] = [];
+
+	for(let i = 0; i < TVA_LENGTH; i++) {
+		const BUF_TVA = TVA[i];
+		if(RESOLVED_ATTR_INDEX.includes(i)) {
+			RESOLVER_BUFFER[i] = ref => Reflect.ownKeys(BUF_TVA).forEach(x => {
+				const TVA_VALUE_BUF = BUF_TVA[x];
+				if(typeof x == "symbol" && x in window) {
+					window[x](TVA_VALUE_BUF, ref);
+				} else if(window[TVA_VALUE_BUF.PTR_IDENTIFIER]) {
+					TVA_VALUE_BUF.watch(newValue => ref[x] = newValue)
+				} else {
+					ref[x] = TVA_VALUE_BUF;
+				}
+			});
+		} else if(BUF_TVA[2]?.hasOwnProperty("strix-type")) {
+			const [RESOLVED_TVA_CALLBACKS, RESOLVED_TOTAL_TVA] = resolveTemplate(BUF_TVA, TSA_UUID, TSA_BEGIN_INDEX, TSA_REGEX);
+			RESOLVER_BUFFER[i] = RESOLVED_TVA_CALLBACKS;
+		} else {
+
+		}
+	}
+
+	return [RESOLVER_BUFFER];
 
 	const
 		TVA_LENGTH = TVA.length,
