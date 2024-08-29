@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx esbuild ./mod.js --bundle --minify --platform=browser --outfile=dist/mod.js --format=esm"
+    "build": "npx esbuild ./mod.ts --bundle --minify --platform=browser --outfile=dist/mod.js --format=esm"
   },
   "author": "ihasq",
   "license": "MIT",
