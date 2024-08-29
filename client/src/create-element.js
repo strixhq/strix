@@ -1,4 +1,4 @@
-import { getRandomToken } from "@strix/core"
+import { random as getRandomToken } from "@ihasq/random"
 
 const RESOLVER_BUFFER = new WeakMap();
 const TSA_ATTR_BUFFER = new WeakMap();
@@ -71,7 +71,7 @@ const resolveTemplate = (
 
 	const
 		TVA_LENGTH = TVA.length,
-		[RESOLVED_ATTR_INDEX, TSA] = resolveTSA(RAW_TSA, TSA_UUID, TSA_REGEX),
+		[RESOLVED_ATTR_INDEX, TSA] = resolveTSA(RAW_TSA, TSA_UUID, TSA_REGEX)
 	;
 
 	const RESOLVER_BUFFER = [];

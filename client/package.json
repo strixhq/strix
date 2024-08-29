@@ -11,6 +11,6 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@strix/core": "npm:@jsr/strix__core@^0.0.4"
+    "@ihasq/random": "npm:@jsr/ihasq__random@^0.1.5"
   }
 }
