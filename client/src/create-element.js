@@ -83,8 +83,9 @@ const resolveTemplate = (
 		if(RESOLVED_ATTR_INDEX.includes(i)) {
 			RESOLVER_BUFFER.push(ref => Reflect.ownKeys(BUF_TVA).forEach(x => {
 				const TVA_VALUE_BUF = BUF_TVA[x];
-				if(typeof x == "symbol" && x in window) {
-					window[x](TVA_VALUE_BUF, ref);
+				let SYMBOL_TOKEN;
+				if(typeof x == "symbol" && (SYMBOL_TOKEN = x.toString()) in window) {
+					window[SYMBOL_TOKEN](x)?.(TVA_VALUE_BUF, ref);
 				} else if(window[TVA_VALUE_BUF.PTR_IDENTIFIER]) {
 					BUF_TVA.watch(newValue => ref[x] = newValue)
 				} else {
