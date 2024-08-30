@@ -287,6 +287,12 @@ const resolveFragment = ([TemplateStringsArray, TemplateValuesArray, STRIX_HTML_
 	commandBuffer.push([undefined, TemplateStringsArray[TemplateStringsArray.length - 1]]);
 }
 
+const resolveFragmentRoot = (template) => {
+	const CMD_BUFFER = [[undefined, template[0][0]]];
+	resolveFragment(template, CMD_BUFFER);
+	return CMD_BUFFER
+}
+
 const createElementNew = (fragment) => {
 
 	const
