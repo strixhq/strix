@@ -14,6 +14,45 @@ const morphTSA = (target) => {
 	return target.flat().filter(Boolean);
 }
 
+const parseTSA = (
+
+	RAW_TSA,
+	PARSER_UUID,
+	PARSER_UUID_REGEX,
+
+) => {
+
+
+	let BUF_STR;
+
+	const
+		ATTR_INDEX = [],
+		TVA_LENGTH = RAW_TSA.length - 1
+	;
+
+	(BUF_STR = RAW_TSA
+		.map((x, i) => x + (
+			(i == TVA_LENGTH)
+				? ""
+				: `\u0020${PARSER_UUID}="${i.toString(36).padStart(8, "0")}"`
+		))
+		.join("")
+	)
+		.matchAll(PARSER_UUID_REGEX)
+		.forEach(({ 0: { length: matchedTempLength }, index }) => {
+			const BUF_SLICE_POINT = index + matchedTempLength;
+			ATTR_INDEX.push(parseInt(BUF_STR.slice(BUF_SLICE_POINT, BUF_SLICE_POINT + 8), 36));
+		})
+	;
+
+	const EXTENDABLE_TSA = Array.from(RAW_TSA);
+
+	TSA_ATTR_BUFFER.set(RAW_TSA, [ATTR_INDEX, EXTENDABLE_TSA]);
+
+	return [ATTR_INDEX, EXTENDABLE_TSA];
+
+}
+
 const resolveTSA = (
 
 	RAW_TSA,
@@ -26,38 +65,7 @@ const resolveTSA = (
 
 		? TSA_ATTR_BUFFER.get(RAW_TSA)
 
-		: (() => {
-
-
-			let BUF_STR;
-
-			const
-				ATTR_INDEX = [],
-				TVA_LENGTH = RAW_TSA.length - 1
-			;
-
-			(BUF_STR = RAW_TSA
-				.map((x, i) => x + (
-					(i == TVA_LENGTH)
-						? ""
-						: `\u0020${PARSER_UUID}="${i.toString(36).padStart(8, "0")}"`
-				))
-				.join("")
-			)
-				.matchAll(PARSER_UUID_REGEX)
-				.forEach(({ 0: { length: matchedTempLength }, index }) => {
-					const BUF_SLICE_POINT = index + matchedTempLength;
-					ATTR_INDEX.push(parseInt(BUF_STR.slice(BUF_SLICE_POINT, BUF_SLICE_POINT + 8), 36));
-				})
-			;
-
-			const EXTENDABLE_TSA = Array.from(RAW_TSA);
-
-			TSA_ATTR_BUFFER.set(RAW_TSA, [ATTR_INDEX, EXTENDABLE_TSA]);
-
-			return [ATTR_INDEX, EXTENDABLE_TSA];
-
-		})()
+		: parseTSA(RAW_TSA, PARSER_UUID, PARSER_UUID_REGEX)
 )
 
 const resolveTemplate = (
