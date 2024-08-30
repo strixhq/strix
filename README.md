@@ -65,6 +65,13 @@ import { createElement } from "@strix/client";
 document.body.append(...createElement(App()))
 ```
 
+```mermaid
+graph TD;
+    @ihasq/esptr-->@strix/std;
+    @ihasq/random-->@strix/std;
+    @ihasq/random-->@strix/client;
+```
+
 <!-- ### Directories
 
 | directory          | about             |
