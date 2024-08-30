@@ -66,7 +66,7 @@ document.body.append(...createElement(App()))
 ```
 
 ```mermaid
-graph TD;
+graph TD
     @ihasq/esptr-->@strix/std;
     @ihasq/random-->@strix/std;
     @ihasq/random-->@strix/client;
