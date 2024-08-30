@@ -10,7 +10,7 @@
   "author": "ihasq",
   "license": "MIT",
   "dependencies": {
-    "@ihasq/esptr": "npm:@jsr/ihasq__esptr@^0.1.6",
+    "@ihasq/esptr": "npm:@jsr/ihasq__esptr@^0.1.7",
     "@ihasq/random": "npm:@jsr/ihasq__random@^0.1.5",
     "@strix/core": "npm:@jsr/strix__core@^0.0.2"
   }
