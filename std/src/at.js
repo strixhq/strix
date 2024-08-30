@@ -1,4 +1,4 @@
-import { $ } from "jsr:@ihasq/esptr@0.1.5"
+import { $ } from "jsr:@ihasq/esptr@0.1.6"
 
 const REGISTER_FN = (prop, value, ref) => {
 	return window[value.PTR_IDENTIFIER]
