@@ -1,9 +1,6 @@
 # [Strix 🦉](https://strix.sh)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix)
-![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
-
-![GitHub License](https://img.shields.io/github/license/ihasq/strix)
+![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix) ![GitHub License](https://img.shields.io/github/license/ihasq/strix)
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
 ---
@@ -34,10 +31,10 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js)
 
 ### Releases
-|  | Version | Description |
-| --- | --- | --- |
-| **[@strix/std](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std) | Strix Standard Library
-| **[@strix/client](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | Client Modules |
+|  | Version | Description | Exports |
+| --- | --- | --- | --- |
+| **[@strix/std](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std) | Standard Library | **[```h```](https://jsr.io/@strix/std/doc/~/h)** **[```$```](https://jsr.io/@ihasq/esptr/doc/~/$)** **[```on```](https://jsr.io/@strix/std/doc/~/on)** **[```at```](https://jsr.io/@strix/std/doc/~/at)**   
+| **[@strix/client](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | Client Modules | **[```createElement```](https://jsr.io/@strix/client/doc/~/createElement)** 
 
 
 ### Installation
