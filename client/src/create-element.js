@@ -1,5 +1,4 @@
 import { random } from "@ihasq/random"
-import { resolveFragmentRoot } from "./resolve.js";
 
 const BASE_DF = document.createDocumentFragment();
 
