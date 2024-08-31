@@ -31,10 +31,10 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js)
 
 ### Releases
-|  | Version | Description | Exports |
+|  | Version | Exports | Description |
 | --- | --- | --- | --- |
-| **[@strix/std](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std) | Standard Library | **[```h```](https://jsr.io/@strix/std/doc/~/h)** **[```$```](https://jsr.io/@ihasq/esptr/doc/~/$)** **[```on```](https://jsr.io/@strix/std/doc/~/on)** **[```at```](https://jsr.io/@strix/std/doc/~/at)**   
-| **[@strix/client](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | Client Modules | **[```createElement```](https://jsr.io/@strix/client/doc/~/createElement)** 
+| **[std](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std) | **[```h```](https://jsr.io/@strix/std/doc/~/h)** **[```$```](https://jsr.io/@ihasq/esptr/doc/~/$)** **[```on```](https://jsr.io/@strix/std/doc/~/on)** **[```at```](https://jsr.io/@strix/std/doc/~/at)** | Standard Library |
+| **[client](https://jsr.io/@strix/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[```createElement```](https://jsr.io/@strix/client/doc/~/createElement)** | Client Modules |
 
 
 ### Installation
