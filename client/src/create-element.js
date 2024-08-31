@@ -31,7 +31,9 @@ const resolveFragmentRoot = (template) => {
 };
 
 export const createElement = (fragment) => {
-	const CMD_BUFFER = resolveFragmentRoot(fragment),
+
+	const
+		CMD_BUFFER = resolveFragmentRoot(fragment),
 		BASE_TEMP = document.createElement('div'),
 		PARSER_UUID = `strix-${random(32)}`,
 		CONCATTED_TEMPLATE = CMD_BUFFER.map(
@@ -41,32 +43,40 @@ export const createElement = (fragment) => {
 						? `<span ${PARSER_UUID}-ptr="${i}"></span>`
 						: `${PARSER_UUID}-attr="${i}"`
 					: '') + x1
-		).join('');
+		).join('')
+	;
 
 	BASE_DF.appendChild(BASE_TEMP);
 	BASE_TEMP.innerHTML = CONCATTED_TEMPLATE;
-	BASE_TEMP.querySelectorAll(`[${PARSER_UUID}-attr]`).forEach((targetRef) => {
-		const ATTR_BUFFER =
-			CMD_BUFFER[Number(targetRef.getAttribute(`${PARSER_UUID}-attr`))][0];
-		Reflect.ownKeys(ATTR_BUFFER).forEach((attrIndex) => {
-			if (typeof attrIndex == 'symbol') {
-				window[attrIndex.toString()](attrIndex)(
-					ATTR_BUFFER[attrIndex],
-					targetRef
-				);
-			} else {
-				targetRef[attrIndex] = ATTR_BUFFER[attrIndex];
-			}
-		});
-		targetRef.removeAttribute(`${PARSER_UUID}-attr`);
-	});
-	BASE_TEMP.querySelectorAll(`[${PARSER_UUID}-ptr]`).forEach((targetRef) => {
-		const PTR_BUFFER =
-			CMD_BUFFER[Number(targetRef.getAttribute(`${PARSER_UUID}-ptr`))][0];
-		const TEXT_BUF = new Text();
-		PTR_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
-		targetRef.replaceWith(TEXT_BUF);
-	});
+	BASE_TEMP.querySelectorAll(`[${PARSER_UUID}-attr], [${PARSER_UUID}-ptr]`).forEach((targetRef) => {
+		if(targetRef.hasAttribute(`${PARSER_UUID}-attr`)) {
+
+			const
+				ATTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(`${PARSER_UUID}-attr`))][0]
+			;
+
+			Reflect.ownKeys(ATTR_BUFFER).forEach((attrIndex) => {
+				if (typeof attrIndex == 'symbol') {
+					window[attrIndex.toString()](attrIndex)(
+						ATTR_BUFFER[attrIndex],
+						targetRef
+					);
+				} else {
+					targetRef[attrIndex] = ATTR_BUFFER[attrIndex];
+				}
+			});
+			targetRef.removeAttribute(`${PARSER_UUID}-attr`);
+		} else {
+
+			const
+				PTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(`${PARSER_UUID}-ptr`))][0],
+				TEXT_BUF = new Text()
+			;
+
+			PTR_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
+			targetRef.replaceWith(TEXT_BUF);
+		}
+	}); 
 
 	return BASE_TEMP.childNodes;
 };

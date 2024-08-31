@@ -1,10 +1,10 @@
 # [Strix 🦉](https://strix.sh)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/libh)
+![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix)
 ![npm](https://img.shields.io/npm/dt/libh?logo=stackblitz)
 
-![GitHub License](https://img.shields.io/github/license/ihasq/libh)
-![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh)
+![GitHub License](https://img.shields.io/github/license/ihasq/strix)
+<!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
 ---
 
