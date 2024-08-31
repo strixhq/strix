@@ -36,29 +36,37 @@ const resolveFragmentRoot = (template) => {
 	return CMD_BUFFER;
 };
 
+/**
+ * 
+ * @param { any[] } fragment 
+ * @returns 
+ */
+
 export const createElement = (fragment) => {
 
 	const
 		CMD_BUFFER = resolveFragmentRoot(fragment),
 		BASE_TEMP = document.createElement('div'),
 		PARSER_UUID = `strix-${random(32)}`,
+		PARSER_TOKEN_ATTR = `${PARSER_UUID}-attr`,
+		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`,
 		CONCATTED_TEMPLATE = CMD_BUFFER.map(
 			([x0, x1], i) =>
 				(typeof x0 == 'object'
 					? x0[Symbol.for('PTR_IDENTIFIER')]
-						? `<span ${PARSER_UUID}-ptr="${i}"></span>`
-						: `${PARSER_UUID}-attr="${i}"`
+						? `<span ${PARSER_TOKEN_PTR}="${i}"></span>`
+						: ` ${PARSER_TOKEN_ATTR}="${i}"`
 					: '') + x1
 		).join('')
 	;
 
 	BASE_DF.appendChild(BASE_TEMP);
 	BASE_TEMP.innerHTML = CONCATTED_TEMPLATE;
-	BASE_TEMP.querySelectorAll(`[${PARSER_UUID}-attr], [${PARSER_UUID}-ptr]`).forEach((targetRef) => {
-		if(targetRef.hasAttribute(`${PARSER_UUID}-attr`)) {
+	BASE_TEMP.querySelectorAll(`[${PARSER_TOKEN_ATTR}], [${PARSER_TOKEN_PTR}]`).forEach((targetRef) => {
+		if(targetRef.hasAttribute(PARSER_TOKEN_ATTR)) {
 
 			const
-				ATTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(`${PARSER_UUID}-attr`))][0]
+				ATTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(PARSER_TOKEN_ATTR))][0]
 			;
 
 			Reflect.ownKeys(ATTR_BUFFER).forEach((attrIndex) => {
@@ -71,11 +79,11 @@ export const createElement = (fragment) => {
 					targetRef[attrIndex] = ATTR_BUFFER[attrIndex];
 				}
 			});
-			targetRef.removeAttribute(`${PARSER_UUID}-attr`);
+			targetRef.removeAttribute(PARSER_TOKEN_ATTR);
 		} else {
 
 			const
-				PTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(`${PARSER_UUID}-ptr`))][0],
+				PTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(PARSER_TOKEN_PTR))][0],
 				TEXT_BUF = new Text()
 			;
 
