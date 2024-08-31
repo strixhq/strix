@@ -1,4 +1,4 @@
-<h1 href="https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js" align="center" target="_blank" style="">🦉 <b>Strix</b></h1>
+<h1>Strix 🦉</h1>
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix) ![GitHub License](https://img.shields.io/github/license/ihasq/strix)
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
@@ -39,7 +39,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Installation
 ```sh
-deno run -A https://new.strix.sh
+npx jsr add @strix/std@0.0.17 @strix/client@0.0.8
 ```
 
 ### Programmable Attributes
