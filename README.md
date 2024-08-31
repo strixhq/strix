@@ -18,9 +18,6 @@ function Counter() {
         </button>
     `;
 };
-
-
-export default Counter;
 ```
 
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\

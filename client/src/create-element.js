@@ -1,4 +1,5 @@
 import { random } from "@ihasq/random"
+import { resolveFragmentRoot } from "./resolve.js";
 
 const BASE_DF = document.createDocumentFragment();
 
@@ -23,6 +24,12 @@ const resolveFragment = (
 		TemplateStringsArray[TemplateStringsArray.length - 1],
 	]);
 };
+
+/**
+ * 
+ * @param { any[] } template 
+ * @returns any[]
+ */
 
 const resolveFragmentRoot = (template) => {
 	const CMD_BUFFER = [[undefined, template[0][0]]];
