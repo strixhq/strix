@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="./md.css"/>
-<span id="title" href="https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js" align="center" target="_blank" style="">🦉 <b>Strix</b></span>
+<h1 href="https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js" align="center" target="_blank" style="">🦉 <b>Strix</b></h1>
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix) ![GitHub License](https://img.shields.io/github/license/ihasq/strix)
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
