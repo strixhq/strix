@@ -40,7 +40,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 npx jsr add @strix/std@0.0.17 @strix/client@0.0.8
 ```
 
-![badge](https://strix.sh/badge.svg)
+![badge](./page/badge.svg)
 
 ### Programmable Attributes
 
