@@ -1,14 +1,14 @@
 <h1>Strix 🦉</h1>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix) ![GitHub License](https://img.shields.io/github/license/ihasq/strix)
+![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix)
+![GitHub License](https://img.shields.io/github/license/ihasq/strix)
+
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
 ```javascript
-import { h as html, $, on } from "@strix/std";
-
+import { $, h as html, on } from '@strix/std';
 
 function Counter() {
-
     const count = $(0);
 
     return html`
@@ -17,7 +17,7 @@ function Counter() {
             Increment
         </button>
     `;
-};
+}
 ```
 
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
@@ -26,13 +26,14 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js)
 
 ### Releases
-|  | Version | Exports | Description |
-| --- | --- | --- | --- |
-| **[std](https://jsr.io/@strix/std)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std) | **[```h```](https://jsr.io/@strix/std/doc/~/h)** **[```$```](https://jsr.io/@ihasq/esptr/doc/~/$)** **[```on```](https://jsr.io/@strix/std/doc/~/on)** **[```at```](https://jsr.io/@strix/std/doc/~/at)** | Standard Library |
-| **[client](https://jsr.io/@strix/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[```createElement```](https://jsr.io/@strix/client/doc/~/createElement)** | Client Modules |
 
+|                                            | Version                                                                                                                                              | Exports                                                                                                                                                                                   | Description      |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| **[std](https://jsr.io/@strix/std)**       | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std)       | **[`h`](https://jsr.io/@strix/std/doc/~/h)** **[`$`](https://jsr.io/@ihasq/esptr/doc/~/$)** **[`on`](https://jsr.io/@strix/std/doc/~/on)** **[`at`](https://jsr.io/@strix/std/doc/~/at)** | Standard Library |
+| **[client](https://jsr.io/@strix/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[`createElement`](https://jsr.io/@strix/client/doc/~/createElement)**                                                                                                                   | Client Modules   |
 
 ### Installation
+
 ```sh
 npx jsr add @strix/std@0.0.17 @strix/client@0.0.8
 ```
@@ -42,10 +43,10 @@ npx jsr add @strix/std@0.0.17 @strix/client@0.0.8
 ### Programmable Attributes
 
 ```javascript
-import { h as html, $ } from "@strix/std";
+import { $, h as html } from '@strix/std';
 
 const onDoubleClick = $((callbackFn, ref) => {
-    ref.addEventListener("dblclick", callbackFn, { passive: true })
+    ref.addEventListener('dblclick', callbackFn, { passive: true });
 });
 
 function App() {
@@ -53,19 +54,19 @@ function App() {
         <textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
             Doubleclick me!
         </textarea>
-    `
+    `;
 }
 ```
 
 ### Create Element
+
 ```javascript
 // ...
 
-import { createElement } from "@strix/client";
+import { createElement } from '@strix/client';
 
-document.body.append(...createElement(App()))
+document.body.append(...createElement(App()));
 ```
-
 
 <!-- ### Directories
 
@@ -142,7 +143,7 @@ import { on } from "@strix/attr";
 function Count() {
 
     const count = $(0);
-    
+
     const buttonText = $('Hover me!');
 
     return html`

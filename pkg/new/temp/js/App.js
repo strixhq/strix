@@ -1,10 +1,9 @@
-import { h as html, $, on } from "@strix/std";
+import { $, h as html, on } from '@strix/std';
 
 function App() {
+    const count = $(0);
 
-  const count = $(0);
-
-  return html`
+    return html`
     <h1>Welcome to Strix!</h1>
     <button ${{ [on.click]: () => $[count]++ }}>
       I got clicked ${count} times!

@@ -1,17 +1,16 @@
-import { h as html, $, on, at } from "@strix/std";
-import { logo, card, readTheDocs } from "./Style.js";
+import { $, at, h as html, on } from '@strix/std';
+import { card, logo, readTheDocs } from './Style.js';
 
 function App() {
+    const count = $(0);
 
-  const count = $(0);
-
-  return html`
+    return html`
     <div>
-      <a ${{ [at]: { href: "https://vite.dev", target: "_blank", class: "" } }}>
-        <img ${{ [at]: { src: viteLogo, alt: "Vite logo" }, logo }} />
+      <a ${{ [at]: { href: 'https://vite.dev', target: '_blank', class: '' } }}>
+        <img ${{ [at]: { src: viteLogo, alt: 'Vite logo' }, logo }} />
       </a>
-      <a ${{ [at]: { href: "https://strix.sh", target: "_blank" } }}>
-        <img ${{ [at]: { src: strixLogo, alt: "Strix logo" }, logo }} />
+      <a ${{ [at]: { href: 'https://strix.sh', target: '_blank' } }}>
+        <img ${{ [at]: { src: strixLogo, alt: 'Strix logo' }, logo }} />
       </a>
     </div>
     <h1>Vite + Strix</h1>
@@ -30,4 +29,3 @@ function App() {
 }
 
 export default App;
-

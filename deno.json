@@ -1,5 +1,6 @@
 {
     "fmt": {
+        "exclude": ["./dist/", "./page/"],
         "useTabs": false,
         "lineWidth": 120,
         "indentWidth": 4,
