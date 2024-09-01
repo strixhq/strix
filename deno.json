@@ -5,5 +5,8 @@
         "indentWidth": 4,
         "semiColons": true,
         "singleQuote": true
+    },
+    "tasks": {
+        "build": "deno run -A ./build.js"
     }
 }

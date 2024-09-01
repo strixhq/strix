@@ -1,4 +1,4 @@
-import { $ } from "jsr:@ihasq/esptr@0.1.8"
+import { $ } from "jsr:@ihasq/esptr@0.1.9"
 
 const REGISTER_FN = (prop, value, ref) => {
 	return BUF_VALUE.PTR_IDENTIFIER in window
@@ -7,12 +7,16 @@ const REGISTER_FN = (prop, value, ref) => {
 	;
 };
 
+const
+	BUNDLED_EVENT = $((value, ref) => Object.keys(value).forEach(x => ref.addEventListener(x, value[x], { passive: true })))[Symbol.toPrimitive]()
+;
+
 export const on = new Proxy(
 	{},
 	{
-		get: (t, prop) => (prop == Symbol.toPrimitive)
-			? () => $((value, ref) => Object.keys(value).forEach(x => ref.addEventListener(x, value[x], { passive: true }))).toString()
-			: $((value, ref) => ref.addEventListener(prop, value, { passive: true }))
+		get: (t, proxyProp) => ((proxyProp) == Symbol.toPrimitive)
+			? () => BUNDLED_EVENT
+			: $((value, ref) => ref.addEventListener(proxyProp, value, { passive: true }))
 	}
 )
 

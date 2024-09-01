@@ -1,4 +1,4 @@
-import { random } from "@ihasq/random"
+import { random } from "jsr:@ihasq/random@0.1.6"
 
 const BASE_DF = document.createDocumentFragment();
 
@@ -50,15 +50,19 @@ export const createElement = (fragment) => {
 		PARSER_UUID = `strix-${random(32)}`,
 		PARSER_TOKEN_ATTR = `${PARSER_UUID}-attr`,
 		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`,
-		CONCATTED_TEMPLATE = CMD_BUFFER.map(
-			([x0, x1], i) =>
-				(typeof x0 == 'object'
-					? x0[Symbol.for('PTR_IDENTIFIER')]
-						? `<span ${PARSER_TOKEN_PTR}="${i}"></span>`
-						: ` ${PARSER_TOKEN_ATTR}="${i}"`
-					: '') + x1
-		).join('')
+		CONCATTED_TEMPLATE = CMD_BUFFER
+			.map(
+				([x0, x1], i) =>
+					(typeof x0 == 'object'
+						? x0[Symbol.for('PTR_IDENTIFIER')]
+							? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${i}"></${PARSER_UUID}>`
+							: ` ${PARSER_TOKEN_ATTR}="${i}"`
+						: '') + x1
+			)
+			.join('')
 	;
+
+	console.log(CONCATTED_TEMPLATE);
 
 	BASE_DF.appendChild(BASE_TEMP);
 	BASE_TEMP.innerHTML = CONCATTED_TEMPLATE;
@@ -70,16 +74,30 @@ export const createElement = (fragment) => {
 			;
 
 			Reflect.ownKeys(ATTR_BUFFER).forEach((attrIndex) => {
+
+				const
+					ATTR_BUFFER_VALUE = ATTR_BUFFER[attrIndex]
+				;
+
 				if (typeof attrIndex == 'symbol') {
-					window[attrIndex.toString()](attrIndex)(
+
+					window[attrIndex.toString()]?.(attrIndex)?.$(
 						ATTR_BUFFER[attrIndex],
 						targetRef
 					);
+
 				} else {
-					targetRef[attrIndex] = ATTR_BUFFER[attrIndex];
+
+					if(ATTR_BUFFER_VALUE?.[Symbol.for("PTR_IDENTIFIER")]) {
+						ATTR_BUFFER_VALUE.watch(newValue => targetRef[attrIndex] = newValue);
+					} else {
+						targetRef[attrIndex] = ATTR_BUFFER_VALUE;
+					}
+
 				}
 			});
 			targetRef.removeAttribute(PARSER_TOKEN_ATTR);
+
 		} else {
 
 			const
@@ -87,8 +105,8 @@ export const createElement = (fragment) => {
 				TEXT_BUF = new Text()
 			;
 
-			PTR_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
 			targetRef.replaceWith(TEXT_BUF);
+			PTR_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
 		}
 	}); 
 
