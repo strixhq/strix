@@ -7,6 +7,6 @@
         "singleQuote": true
     },
     "tasks": {
-        "build": "deno run -A ./build.js"
+        "build": "deno run -A ./task/build.js"
     }
 }
