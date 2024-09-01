@@ -1,43 +1,53 @@
 import { random } from 'jsr:@ihasq/random@0.1.6';
 
-const BASE_DF = document.createDocumentFragment();
+const BASE_DF = document.createDocumentFragment(),
+    CMD_ASSIGN_DIRECT = Symbol('CMD'),
+    CMD_ASSIGN_OBJECT = Symbol('CMD'),
+    CMD_ASSIGN_PTR = Symbol('CMD'),
+    CMD_ASSIGN_RAW = Symbol('CMD');
 
 const resolveFragment = (
     [TemplateStringsArray, TemplateValuesArray, STRIX_HTML_FRAGMENT],
     commandBuffer,
 ) => {
+    commandBuffer.push([
+        CMD_ASSIGN_DIRECT,
+        TemplateStringsArray[0],
+    ]);
+
     TemplateValuesArray.forEach((x, i) => {
         if (Array.isArray(x) && x[2] === STRIX_HTML_FRAGMENT) {
-            commandBuffer.push([undefined, x[0][0]]);
             resolveFragment(x, commandBuffer);
-            commandBuffer.push([undefined, TemplateStringsArray[i + 1]]);
+            commandBuffer.push([
+                CMD_ASSIGN_DIRECT,
+                TemplateStringsArray[i + 1],
+            ]);
         } else {
-            commandBuffer.push(
-                typeof x == 'object' ? [x, TemplateStringsArray[i + 1]] : [undefined, x],
-            );
+            commandBuffer.push([
+                typeof x == 'object'
+                    ? x[Symbol.for('PTR_IDENTIFIER')] ? CMD_ASSIGN_PTR : CMD_ASSIGN_OBJECT
+                    : CMD_ASSIGN_RAW,
+                TemplateStringsArray[i + 1],
+                x,
+            ]);
         }
     });
-
-    commandBuffer.push([
-        undefined,
-        TemplateStringsArray[TemplateStringsArray.length - 1],
-    ]);
 };
 
 /**
  * @param { any[] } template
- * @returns any[]
+ * @returns { any[] }
  */
 
 const resolveFragmentRoot = (template) => {
-    const CMD_BUFFER = [[undefined, template[0][0]]];
+    const CMD_BUFFER = [];
     resolveFragment(template, CMD_BUFFER);
     return CMD_BUFFER;
 };
 
 /**
  * @param { any[] } fragment
- * @returns
+ * @returns { NodeList }
  */
 
 export const createElement = (fragment) => {
@@ -48,22 +58,22 @@ export const createElement = (fragment) => {
         PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`,
         CONCATTED_TEMPLATE = CMD_BUFFER
             .map(
-                ([x0, x1], i) =>
-                    (typeof x0 == 'object'
-                        ? x0[Symbol.for('PTR_IDENTIFIER')]
-                            ? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${i}"></${PARSER_UUID}>`
-                            : ` ${PARSER_TOKEN_ATTR}="${i}"`
-                        : '') + x1,
+                ([CMD, TEMP_STR, TEMP_VAL], i) =>
+                    CMD == CMD_ASSIGN_DIRECT
+                        ? TEMP_STR
+                        : CMD == CMD_ASSIGN_OBJECT
+                        ? ` ${PARSER_TOKEN_ATTR}="${i}"${TEMP_STR}`
+                        : CMD == CMD_ASSIGN_PTR
+                        ? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${i}"></${PARSER_UUID}>${TEMP_STR}`
+                        : TEMP_VAL + TEMP_STR,
             )
             .join('');
-
-    console.log(CONCATTED_TEMPLATE);
 
     BASE_DF.appendChild(BASE_TEMP);
     BASE_TEMP.innerHTML = CONCATTED_TEMPLATE;
     BASE_TEMP.querySelectorAll(`[${PARSER_TOKEN_ATTR}], [${PARSER_TOKEN_PTR}]`).forEach((targetRef) => {
         if (targetRef.hasAttribute(PARSER_TOKEN_ATTR)) {
-            const ATTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(PARSER_TOKEN_ATTR))][0];
+            const ATTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(PARSER_TOKEN_ATTR))][2];
 
             Reflect.ownKeys(ATTR_BUFFER).forEach((attrIndex) => {
                 const ATTR_BUFFER_VALUE = ATTR_BUFFER[attrIndex];
@@ -83,7 +93,7 @@ export const createElement = (fragment) => {
             });
             targetRef.removeAttribute(PARSER_TOKEN_ATTR);
         } else {
-            const PTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(PARSER_TOKEN_PTR))][0],
+            const PTR_BUFFER = CMD_BUFFER[Number(targetRef.getAttribute(PARSER_TOKEN_PTR))][2],
                 TEXT_BUF = new Text();
 
             targetRef.replaceWith(TEXT_BUF);
