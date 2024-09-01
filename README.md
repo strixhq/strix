@@ -7,8 +7,11 @@
 
 ```javascript
 import { $, h as html, on } from '@strix/std';
+import { createElement } from '@strix/client';
+
 
 function Counter() {
+
     const count = $(0);
 
     return html`
@@ -18,6 +21,9 @@ function Counter() {
         </button>
     `;
 }
+
+
+document.body.append(...createElement(App()));
 ```
 
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
