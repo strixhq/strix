@@ -8,6 +8,7 @@
         "singleQuote": true
     },
     "tasks": {
-        "build": "deno run -A ./task/build.js"
+        "build": "deno run -A ./task/build.js",
+        "pushall": "deno fmt;git add -A;git commit -a;git push"
     }
 }
