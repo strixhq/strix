@@ -13,11 +13,11 @@ function Counter() {
 	const count = $(0);
 
 	return html`
-        <h1>${count}</h1>
-        <button ${{ [on.click]: () => $[count]++ }}>
-            Increment
-        </button>
-    `;
+		<h1>${count}</h1>
+		<button ${{ [on.click]: () => $[count]++ }}>
+			Increment
+		</button>
+	`;
 }
 
 document.body.append(...createElement(App()));
@@ -54,10 +54,10 @@ const onDoubleClick = $((callbackFn, ref) => {
 
 function App() {
 	return html`
-        <textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
-            Doubleclick me!
-        </textarea>
-    `;
+		<textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
+			Doubleclick me!
+		</textarea>
+	`;
 }
 ```
 
@@ -145,23 +145,23 @@ import { on } from "@strix/attr";
 
 function Count() {
 
-    const count = $(0);
+	const count = $(0);
 
-    const buttonText = $('Hover me!');
+	const buttonText = $('Hover me!');
 
-    return html`
-        <p>You clicked ${count} times</p>
-        <button ${{
-            [sel`:hover`]() {
-                $[buttonText] = "Click me!"
-            },
-            [on.click]() {
-                $[count]++
-            }
-        }}>
-            ${buttonText}
-        </button>
-    `;
+	return html`
+		<p>You clicked ${count} times</p>
+		<button ${{
+			[sel`:hover`]() {
+				$[buttonText] = "Click me!"
+			},
+			[on.click]() {
+				$[count]++
+			}
+		}}>
+			${buttonText}
+		</button>
+	`;
 };
 
 export default Count;
@@ -169,103 +169,103 @@ export default Count;
 
 ```html
 <body src="./main.js" onload='
-    import("https://strix.sh/write").then(write => write(this, import(this.src)))
+	import("https://strix.sh/write").then(write => write(this, import(this.src)))
 '></body>
 ```
 
 ```javascript
 function Todo() {
 
-    const todoArray = [];
+	const todoArray = [];
 
-    const TodoRow = ({ todoContent, swapRow, deleteRow }) => {
+	const TodoRow = ({ todoContent, swapRow, deleteRow }) => {
 
-        let isEditable = false;
-        let isDone = false;
+		let isEditable = false;
+		let isDone = false;
 
-        return () => html`
-            <li
-                contenteditable=${isEditable? 'plaintext-only' : undefined}
-                @input=${async ({ target }) => todoData = (await target).data}
-                @blur=${() => isEditable = false}
-                *text-decoration=${isDone? 'line-through' : 'none'}
-                *font-style=${isDone? 'italic' : 'normal'}
-            >
-                ${todoContent}
-            </li>
-            <button @click=${() => isEditable = true}>edit</button>
-            <button @click=${() => isDone = true}>done</button>
-            <button @click=${() => deleteRow()}>delete</button>
-            <button @click=${() => swapRow(1)}>swap above</button>
-            <button @click=${() => swapRow(-1)}>swap below</button>
-        `
-    }
+		return () => html`
+			<li
+				contenteditable=${isEditable? 'plaintext-only' : undefined}
+				@input=${async ({ target }) => todoData = (await target).data}
+				@blur=${() => isEditable = false}
+				*text-decoration=${isDone? 'line-through' : 'none'}
+				*font-style=${isDone? 'italic' : 'normal'}
+			>
+				${todoContent}
+			</li>
+			<button @click=${() => isEditable = true}>edit</button>
+			<button @click=${() => isDone = true}>done</button>
+			<button @click=${() => deleteRow()}>delete</button>
+			<button @click=${() => swapRow(1)}>swap above</button>
+			<button @click=${() => swapRow(-1)}>swap below</button>
+		`
+	}
 
-    return html`
-        <ul>${todoArray}</ul>
-        <input @@keydown.Enter=${({ target }) => {
-            const newRow = html.new`
-                <div
-                    *width=100%
-                    @dragover=${({ target }) => {
-                    }}
-                ></div>
-                <${TodoRow} ${{
-                    [draggable]: true,
-                    todoContent: target.value,
-                    swapRow(direction) {
-                        const i = todoArray.indexOf(newRow);
-                        [todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
-                    },
-                    deleteRow() {
-                        delete todoArray[todoArray.indexOf(newRow)]
-                    }
-                }} />
-            `;
-            todoArray.push(newRow);
-            target.value = "";
-        }} />
-    `
+	return html`
+		<ul>${todoArray}</ul>
+		<input @@keydown.Enter=${({ target }) => {
+			const newRow = html.new`
+				<div
+					*width=100%
+					@dragover=${({ target }) => {
+					}}
+				></div>
+				<${TodoRow} ${{
+					[draggable]: true,
+					todoContent: target.value,
+					swapRow(direction) {
+						const i = todoArray.indexOf(newRow);
+						[todoArray[i], todoArray[i + direction]] = [todoArray[i + direction],todoArray[i]];
+					},
+					deleteRow() {
+						delete todoArray[todoArray.indexOf(newRow)]
+					}
+				}} />
+			`;
+			todoArray.push(newRow);
+			target.value = "";
+		}} />
+	`
 }
 ```
 
 ```javascript
 function Transition() {
 
-    const colorNum = $(0);
+	const colorNum = $(0);
 
-    return html`
-        <label ${{
-            [css.color]: colorNum.to(0xFFFFFF, 1000, true).into(x => `#${parseInt(x, 16).padStart(6, "0")}`)
-        }}>
-            Gradient!
-        </label>
-    `
+	return html`
+		<label ${{
+			[css.color]: colorNum.to(0xFFFFFF, 1000, true).into(x => `#${parseInt(x, 16).padStart(6, "0")}`)
+		}}>
+			Gradient!
+		</label>
+	`
 }
 ```
 
 ```javascript
 function Parent() {
-    return html`
-        ${Child({ someProp: "hi" })}
-    `;
+	return html`
+		${Child({ someProp: "hi" })}
+	`;
 }
 
 function Child({ someProp }) {
-    return html`
-        <label>${someProp}</label>
-    `;
+	return html`
+		<label>${someProp}</label>
+	`;
 }
 ```
 
 ```javascript
 const C2DApp = html`
-    <canvas ${{
-        [on.load]({ target: canvas }) {
-            const ctx = canvas.getContext('2d');
-            // ...
-        }
-    }}></canvas>
+	<canvas ${{
+		[on.load]({ target: canvas }) {
+			const ctx = canvas.getContext('2d');
+			// ...
+		}
+	}}></canvas>
 `;
 ```
 
@@ -274,9 +274,9 @@ import { nitro } from 'https://esm.sh/strix-nitro';
 // Nitro Design - The Design System By Strix
 
 function StyleImport() {
-    return html`
-        <button ${{ nitro }}>I am themed by Nitro Design!</button>
-    `;
+	return html`
+		<button ${{ nitro }}>I am themed by Nitro Design!</button>
+	`;
 };
 ```
 
@@ -285,11 +285,11 @@ function StyleImport() {
 import { center } from '@strix/layout';
 
 function Centered() {
-    return html`
-        <div ${{ [center]: true }}>
-            I am a centered div!
-        </div>
-    `
+	return html`
+		<div ${{ [center]: true }}>
+			I am a centered div!
+		</div>
+	`
 }
 ```
 
@@ -302,17 +302,17 @@ import { Button } from '@shadcn/ui/components/ui/button';
 react.use(React);
 
 const ReactEmbedded = () => () => html`
-    <${Button} ${react}>I am the Button from @shadcn/ui in Strix!</${Button}>
+	<${Button} ${react}>I am the Button from @shadcn/ui in Strix!</${Button}>
 `;
 ```
 
 ```jsx
 const withJsxImportSource = () => {
-    let count = 0;
-    return () => (
-        <div>{count}</div>
-        <button @click={() => count++}></button>
-    );
+	let count = 0;
+	return () => (
+		<div>{count}</div>
+		<button @click={() => count++}></button>
+	);
 }
 ```
 
@@ -338,14 +338,14 @@ html`<input type=text; @input.target.value=${value => alert(value)} />`
 ```javascript
 const animation = async ({ frame }) => {
 
-    let rgbValue = 0;
+	let rgbValue = 0;
 
-    for(let i = 0; i < 60; i++) {
-        rgbValue++
-        await frame(html`
-            *background-color=#${rgbValue.toString(16).padStart(6, "0")}
-        `);
-    }
+	for(let i = 0; i < 60; i++) {
+		rgbValue++
+		await frame(html`
+			*background-color=#${rgbValue.toString(16).padStart(6, "0")}
+		`);
+	}
 }
 
 html`<div @click=${animation}>woooaaah</div>`
@@ -354,23 +354,23 @@ html`<div @click=${animation}>woooaaah</div>`
 ```javascript
 const Bidirectional = () => {
 
-    const name = ['JAMES', (newName) => console.log(`Name just changed to ${newName}`)];
+	const name = ['JAMES', (newName) => console.log(`Name just changed to ${newName}`)];
 
-    return () => html`
-        <input type=text strix.bind=${name} />
-        <h1>${name}</h1>
-    `
+	return () => html`
+		<input type=text strix.bind=${name} />
+		<h1>${name}</h1>
+	`
 }
 ```
 
 ```javascript
 
 const VCSS = ({ $ }) => {
-    return () => html`
-        <div *width=100px>
-            <div *width=calc(super-width / 2)></div>
-        </div>
-    `
+	return () => html`
+		<div *width=100px>
+			<div *width=calc(super-width / 2)></div>
+		</div>
+	`
 }
 ```
 
