@@ -2,9 +2,9 @@ import { $, at, h as html, on } from '@strix/std';
 import { card, logo, readTheDocs } from './Style.js';
 
 function App() {
-    const count = $(0);
+	const count = $(0);
 
-    return html`
+	return html`
     <div>
       <a ${{ [at]: { href: 'https://vite.dev', target: '_blank', class: '' } }}>
         <img ${{ [at]: { src: viteLogo, alt: 'Vite logo' }, logo }} />

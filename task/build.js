@@ -6,21 +6,21 @@ import * as esbuild from 'npm:esbuild@0.20.2';
 import { denoPlugins } from 'jsr:@luca/esbuild-deno-loader@^0.10.3';
 
 await esbuild.build({
-    plugins: [...denoPlugins()],
-    entryPoints: ['./pkg/std/mod.js'],
-    outfile: './dist/std.mod.js',
-    bundle: true,
-    minify: true,
-    format: 'esm',
+	plugins: [...denoPlugins()],
+	entryPoints: ['./pkg/std/mod.js'],
+	outfile: './dist/std.mod.js',
+	bundle: true,
+	minify: true,
+	format: 'esm',
 });
 
 await esbuild.build({
-    plugins: [...denoPlugins()],
-    entryPoints: ['./pkg/client/mod.js'],
-    outfile: './dist/client.mod.js',
-    bundle: true,
-    minify: true,
-    format: 'esm',
+	plugins: [...denoPlugins()],
+	entryPoints: ['./pkg/client/mod.js'],
+	outfile: './dist/client.mod.js',
+	bundle: true,
+	minify: true,
+	format: 'esm',
 });
 
 esbuild.stop();

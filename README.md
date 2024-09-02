@@ -10,9 +10,9 @@ import { $, h as html, on } from '@strix/std';
 import { createElement } from '@strix/client';
 
 function Counter() {
-    const count = $(0);
+	const count = $(0);
 
-    return html`
+	return html`
         <h1>${count}</h1>
         <button ${{ [on.click]: () => $[count]++ }}>
             Increment
@@ -49,11 +49,11 @@ npx jsr add @strix/std@0.0.17 @strix/client@0.0.8
 import { $, h as html } from '@strix/std';
 
 const onDoubleClick = $((callbackFn, ref) => {
-    ref.addEventListener('dblclick', callbackFn, { passive: true });
+	ref.addEventListener('dblclick', callbackFn, { passive: true });
 });
 
 function App() {
-    return html`
+	return html`
         <textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
             Doubleclick me!
         </textarea>

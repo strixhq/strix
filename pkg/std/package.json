@@ -1,17 +1,17 @@
 {
-    "name": "strix-std",
-    "version": "0.0.7",
-    "description": "### Install ```javascript npx jsr add @strix/std ```",
-    "main": "dist/mod.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "npx esbuild ./mod.js --bundle --minify --platform=browser --outfile=dist/mod.js --format=esm"
-    },
-    "author": "ihasq",
-    "license": "MIT",
-    "dependencies": {
-        "@ihasq/esptr": "npm:@jsr/ihasq__esptr@^0.1.9",
-        "@ihasq/random": "npm:@jsr/ihasq__random@^0.1.6",
-        "@strix/core": "npm:@jsr/strix__core@^0.0.2"
-    }
+	"name": "strix-std",
+	"version": "0.0.7",
+	"description": "### Install ```javascript npx jsr add @strix/std ```",
+	"main": "dist/mod.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "npx esbuild ./mod.js --bundle --minify --platform=browser --outfile=dist/mod.js --format=esm"
+	},
+	"author": "ihasq",
+	"license": "MIT",
+	"dependencies": {
+		"@ihasq/esptr": "npm:@jsr/ihasq__esptr@^0.1.9",
+		"@ihasq/random": "npm:@jsr/ihasq__random@^0.1.6",
+		"@strix/core": "npm:@jsr/strix__core@^0.0.2"
+	}
 }
