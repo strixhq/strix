@@ -59,31 +59,31 @@ export const createElement = (fragment) => {
 	BASE_DF.appendChild(BASE_TEMP);
 	BASE_TEMP.innerHTML = CONCATTED_TEMPLATE;
 	BASE_TEMP.querySelectorAll(`[${PARSER_TOKEN_ATTR}],[${PARSER_TOKEN_PTR}]`).forEach((TARGET_REF) => {
-		if (TARGET_REF.hasAttribute(PARSER_TOKEN_ATTR)) {
-			const ATTR_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PARSER_TOKEN_ATTR)][2];
+		const IS_ATTR = TARGET_REF.hasAttribute(PARSER_TOKEN_ATTR),
+			VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(IS_ATTR ? PARSER_TOKEN_ATTR : PARSER_TOKEN_PTR)][2];
 
-			Reflect.ownKeys(ATTR_BUFFER).forEach((ATTR_INDEX) => {
-				const ATTR_BUFFER_VALUE = ATTR_BUFFER[ATTR_INDEX];
+		if (IS_ATTR) {
+			Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
+				const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP];
 
-				if (typeof ATTR_INDEX == 'symbol') {
-					window[ATTR_INDEX.toString()]?.(ATTR_INDEX)?.$(
-						ATTR_BUFFER[ATTR_INDEX],
+				if (typeof ATTR_PROP == 'symbol') {
+					window[ATTR_PROP.toString()]?.(ATTR_PROP)?.$(
+						VAL_BUFFER[ATTR_PROP],
 						TARGET_REF,
 					);
 				} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
-					ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_INDEX] = newValue);
+					ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue);
 				} else {
-					TARGET_REF[ATTR_INDEX] = ATTR_BUFFER_VALUE;
+					TARGET_REF[ATTR_PROP] = ATTR_BUFFER_VALUE;
 				}
 			});
 
 			TARGET_REF.removeAttribute(PARSER_TOKEN_ATTR);
 		} else {
-			const PTR_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PARSER_TOKEN_PTR)][2],
-				TEXT_BUF = new Text();
+			const TEXT_BUF = new Text();
 
 			TARGET_REF.replaceWith(TEXT_BUF);
-			PTR_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
+			VAL_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
 		}
 	});
 
