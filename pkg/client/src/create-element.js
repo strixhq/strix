@@ -7,27 +7,27 @@ const BASE_DF = document.createDocumentFragment(),
 	CMD_ASSIGN_RAW = Symbol('CMD');
 
 const resolveFragment = (
-	[TemplateStringsArray, TemplateValuesArray, STRIX_HTML_FRAGMENT],
-	commandBuffer,
+	[TSA, TVA, STRIX_HTML_FRAGMENT],
+	CMD_BUF,
 ) => {
-	commandBuffer.push([
+	CMD_BUF.push([
 		CMD_ASSIGN_DIRECT,
-		TemplateStringsArray[0],
+		TSA[0],
 	]);
 
-	TemplateValuesArray.forEach((x, i) => {
+	TVA.forEach((x, i) => {
 		if (Array.isArray(x) && x[2] === STRIX_HTML_FRAGMENT) {
-			resolveFragment(x, commandBuffer);
-			commandBuffer.push([
+			resolveFragment(x, CMD_BUF);
+			CMD_BUF.push([
 				CMD_ASSIGN_DIRECT,
-				TemplateStringsArray[i + 1],
+				TSA[i + 1],
 			]);
 		} else {
-			commandBuffer.push([
+			CMD_BUF.push([
 				typeof x == 'object'
 					? x[Symbol.for('PTR_IDENTIFIER')] ? CMD_ASSIGN_PTR : CMD_ASSIGN_OBJECT
 					: CMD_ASSIGN_RAW,
-				TemplateStringsArray[i + 1],
+				TSA[i + 1],
 				x,
 			]);
 		}
@@ -40,9 +40,9 @@ const resolveFragment = (
  */
 
 const resolveFragmentRoot = (template) => {
-	const CMD_BUFFER = [];
-	resolveFragment(template, CMD_BUFFER);
-	return CMD_BUFFER;
+	const CMD_BUF = [];
+	resolveFragment(template, CMD_BUF);
+	return CMD_BUF;
 };
 
 /**
