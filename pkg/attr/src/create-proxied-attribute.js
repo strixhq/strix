@@ -8,7 +8,7 @@ export const createProxiedAttribute = (registererFn) => {
 			Reflect.ownKeys(value).forEach((prop) => {
 				registererFn(prop, value[prop], ref);
 			});
-		})[Symbol.toPrimitive](),
+		})[SH_SYMBOL_TO_PRIMITIVE](),
 		BASE_SYMBOL_RETURNER = () => BASE_SYMBOL,
 		BASE_PROXY = new Proxy({}, {
 			get(myTarget, prop) {
