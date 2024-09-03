@@ -23,4 +23,13 @@ await esbuild.build({
 	format: 'esm',
 });
 
+await esbuild.build({
+	plugins: [...denoPlugins()],
+	entryPoints: ['./pkg/attr/mod.js'],
+	outfile: './dist/attr.mod.js',
+	bundle: true,
+	minify: true,
+	format: 'esm',
+});
+
 esbuild.stop();
