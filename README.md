@@ -6,10 +6,13 @@
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
 ```javascript
-import { $, h as html, on } from '@strix/std';
+import { $, h as html } from '@strix/std';
+import { on } from '@strix/attr';
 import { createElement } from '@strix/client';
 
+
 function Counter() {
+
     const count = $(0);
 
     return html`
@@ -19,6 +22,7 @@ function Counter() {
         </button>
     `;
 }
+
 
 document.body.append(...createElement(App()));
 ```

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@ihasq/esptr": "npm:@jsr/ihasq__esptr@^0.1.12"
+  }
+}
