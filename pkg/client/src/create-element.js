@@ -46,7 +46,6 @@ export const createElement = (fragment) => {
 					window[ATTR_PROP.toString()]?.(ATTR_PROP)?.$(
 						VAL_BUFFER[ATTR_PROP],
 						TARGET_REF,
-
 					);
 				} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
 					ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue);
