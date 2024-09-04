@@ -1,7 +1,4 @@
-const CMD_ASSIGN_DIRECT = Symbol('CMD'),
-	CMD_ASSIGN_OBJECT = Symbol('CMD'),
-	CMD_ASSIGN_PTR = Symbol('CMD'),
-	CMD_ASSIGN_RAW = Symbol('CMD');
+import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_PTR, CMD_ASSIGN_OBJECT, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from "./constant.js";
 
 export const resolveFragment = ([TSA, TVA, STRIX_HTML_FRAGMENT], CMD_BUF) => {
 	CMD_BUF.push([CMD_ASSIGN_DIRECT, TSA[0]]);
