@@ -1,6 +1,6 @@
 import { random } from 'jsr:@ihasq/random@0.1.6';
 import { resolveFragment } from './resolve-fragment.js';
-import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_PTR, CMD_ASSIGN_OBJECT, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from "./constant.js";
+import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.js';
 
 const BASE_DF = document.createDocumentFragment();
 

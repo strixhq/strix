@@ -15,8 +15,8 @@ export const css = createProxiedAttribute((prop, value, ref) => {
 
 	if (value[Symbol.for('PTR_IDENTIFIER')]) {
 		value.watch((newValue) => {
-			console.log(newValue)
-			BASE_STYLEMAP.set(RESOLVED_PROP, newValue)
+			console.log(newValue);
+			BASE_STYLEMAP.set(RESOLVED_PROP, newValue);
 		});
 	} else {
 		BASE_STYLEMAP.set(RESOLVED_PROP, value);
