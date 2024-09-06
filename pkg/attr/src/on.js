@@ -3,7 +3,7 @@ import { createProxiedAttribute } from './create-proxied-attribute.js';
 export const on = createProxiedAttribute((prop, value, ref) => {
 	const IS_PTR = value[Symbol.for('PTR_IDENTIFIER')];
 	if (IS_PTR) {
-		value.watch((newValue) => $[value] = newValue);
+		value.watch((newValue) => value.$ = newValue);
 	}
-	ref.addEventListener(prop, IS_PTR ? (e) => $[value](e) : value, { passive: true });
+	ref.addEventListener(prop, IS_PTR ? (e) => value.$(e) : value, { passive: true });
 });
