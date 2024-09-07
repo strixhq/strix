@@ -17,24 +17,23 @@ export const createElement = (fragment) => {
 	const BASE_TEMP = document.createElement('div'),
 		PARSER_UUID = `strix-${random(32)}`,
 		PARSER_TOKEN_ATTR = `${PARSER_UUID}-attr`,
-		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`,
-		CONCATTED_TEMPLATE = CMD_BUF
-			.map(
-				([CMD, TEMP_STR, TEMP_VAL], i) =>
-					CMD == CMD_ASSIGN_DIRECT
-						? TEMP_STR
-						: CMD == CMD_ASSIGN_OBJECT
-						? ` ${PARSER_TOKEN_ATTR}="${i}"${TEMP_STR}`
-						: CMD == CMD_ASSIGN_PTR
-						? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${i}"></${PARSER_UUID}>${TEMP_STR}`
-						: CMD == CMD_ASSIGN_RAW
-						? TEMP_VAL + TEMP_STR
-						: '',
-			)
-			.join('');
+		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`;
 
 	BASE_DF.appendChild(BASE_TEMP);
-	BASE_TEMP.innerHTML = CONCATTED_TEMPLATE;
+	BASE_TEMP.innerHTML = CMD_BUF
+		.map(
+			([CMD, TEMP_STR, TEMP_VAL], i) =>
+				CMD == CMD_ASSIGN_DIRECT
+					? TEMP_STR
+					: CMD == CMD_ASSIGN_OBJECT
+					? ` ${PARSER_TOKEN_ATTR}="${i}"${TEMP_STR}`
+					: CMD == CMD_ASSIGN_PTR
+					? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${i}"></${PARSER_UUID}>${TEMP_STR}`
+					: CMD == CMD_ASSIGN_RAW
+					? TEMP_VAL + TEMP_STR
+					: '',
+		)
+		.join('');
 	BASE_TEMP.querySelectorAll(`[${PARSER_TOKEN_ATTR}],[${PARSER_TOKEN_PTR}]`).forEach((TARGET_REF) => {
 		const IS_ATTR = TARGET_REF.hasAttribute(PARSER_TOKEN_ATTR),
 			VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(IS_ATTR ? PARSER_TOKEN_ATTR : PARSER_TOKEN_PTR)][2];
