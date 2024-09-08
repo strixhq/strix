@@ -26,7 +26,7 @@ function Counter() {
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
-## Demo
+### Demo
 Working demo is out now at **[Codepen](https://codepen.io/ihasq/pen/wvLRzyd?editors=0011)** and **[Stackblitz](https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js)**.
 
 ### Releases
