@@ -1,17 +1,15 @@
 import { random } from 'jsr:@ihasq/random@0.1.6';
-import { resolveFragment } from './resolve-fragment.js';
+import { resolveRootFragment } from './resolve-root-fragment.js';
 import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.js';
 
 const BASE_DF = document.createDocumentFragment();
 
 export const createNode = (fragment, templateElement) => {
-	const CMD_BUF = [],
+	const CMD_BUF = resolveRootFragment(fragment),
 		BASE_TEMP = templateElement,
 		PARSER_UUID = `strix-${random(32)}`,
 		PARSER_TOKEN_ATTR = `${PARSER_UUID}-attr`,
 		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`;
-
-	resolveFragment(fragment, CMD_BUF);
 
 	BASE_DF.appendChild(BASE_TEMP);
 	BASE_TEMP.innerHTML = CMD_BUF

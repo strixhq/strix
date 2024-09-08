@@ -1,7 +1,7 @@
-import { createNode } from "./create-node.js";
+import { createNode } from './create-node.js';
 
 /**
  * @param { any[] } fragment
  * @returns { NodeList }
  */
-export const createElement = (fragment) => createNode(fragment, document.createElement("div")).childNodes;
+export const createElement = (fragment) => createNode(fragment, document.createElement('div')).childNodes;
