@@ -39,7 +39,7 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 ### Installation
 
 ```sh
-npx jsr add @strix/std@0.0.17 @strix/client@0.0.8
+npm create strix@latest
 ```
 
 ![badge](./page/badge.svg)
