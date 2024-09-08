@@ -1,10 +1,10 @@
 import { random } from 'jsr:@ihasq/random@0.1.6';
-import { resolveRootFragment } from './resolve-root-fragment.js';
-import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.js';
+import { resolveRootFragment } from './resolve-root-fragment.ts';
+import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts';
 
 const BASE_DF = document.createDocumentFragment();
 
-export const createNode = (fragment, templateElement) => {
+export const createNode = (fragment: TemplateStringsArray, templateElement: HTMLElement): HTMLElement => {
 	const CMD_BUF = resolveRootFragment(fragment),
 		BASE_TEMP = templateElement,
 		PARSER_UUID = `strix-${random(32)}`,
