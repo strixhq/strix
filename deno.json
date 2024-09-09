@@ -1,6 +1,7 @@
 {
 	"fmt": {
-		"exclude": ["./dist/", "./page/", "README.md"],
+		"include": ["./pkg/"],
+		"exclude": ["node_modules"],
 		"useTabs": true,
 		"lineWidth": 120,
 		"indentWidth": 4,
@@ -8,7 +9,7 @@
 		"singleQuote": true
 	},
 	"tasks": {
-		"build": "deno run -A ./task/build.js",
+		"build": "deno run -A ./task/build.ts",
 		"pushall": "deno fmt;git add -A;git commit -a;git push"
 	}
 }
