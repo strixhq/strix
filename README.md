@@ -16,11 +16,14 @@ function Counter() {
 
     return html`
         <h1>${count}</h1>
-        <button ${{ [on.click]: () => $[count]++ }}>
+        <button ${{ [on.click]: () => count.$++ }}>
             Increment
         </button>
     `;
 }
+
+
+document.body.append(...Counter.bind(element)());
 ```
 
 **Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\

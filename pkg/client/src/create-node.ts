@@ -2,7 +2,18 @@ import { random } from 'jsr:@ihasq/random@0.1.6';
 import { resolveRootFragment } from './resolve-root-fragment.ts';
 import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts';
 
-const BASE_DF = document.createDocumentFragment();
+const
+	BASE_DF = document.createDocumentFragment(),
+	ESCAPER_TEMP = {
+		'&': '&amp;',
+		"'": '&#x27;',
+		'`': '&#x60;',
+		'"': '&quot;',
+		'<': '&lt;',
+		'>': '&gt;',
+	},
+	ESCAPER_FN = (match): string => ESCAPER_TEMP[match]
+;
 
 export const createNode = (fragment: TemplateStringsArray, templateElement: HTMLElement): HTMLElement => {
 	const CMD_BUF = resolveRootFragment(fragment),
@@ -14,21 +25,21 @@ export const createNode = (fragment: TemplateStringsArray, templateElement: HTML
 	BASE_DF.appendChild(BASE_TEMP);
 	BASE_TEMP.innerHTML = CMD_BUF
 		.map(
-			([CMD, TEMP_STR, TEMP_VAL], i) =>
+			([CMD, TEMP_STR, TEMP_VAL], CMD_INDEX) =>
 				CMD == CMD_ASSIGN_DIRECT
 					? TEMP_STR
 					: CMD == CMD_ASSIGN_OBJECT
-					? ` ${PARSER_TOKEN_ATTR}="${i}"${TEMP_STR}`
+					? ` ${PARSER_TOKEN_ATTR}="${CMD_INDEX}"${TEMP_STR}`
 					: CMD == CMD_ASSIGN_PTR
-					? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${i}"></${PARSER_UUID}>${TEMP_STR}`
+					? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${CMD_INDEX}"></${PARSER_UUID}>${TEMP_STR}`
 					: CMD == CMD_ASSIGN_RAW
-					? TEMP_VAL + TEMP_STR
+					? String(TEMP_VAL).replace(/[&'`"<>]/g, ESCAPER_FN) + TEMP_STR
 					: '',
 		)
 		.join('');
 	BASE_TEMP.querySelectorAll(`[${PARSER_TOKEN_ATTR}],[${PARSER_TOKEN_PTR}]`).forEach((TARGET_REF) => {
 		const IS_ATTR = TARGET_REF.hasAttribute(PARSER_TOKEN_ATTR),
-			VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(IS_ATTR ? PARSER_TOKEN_ATTR : PARSER_TOKEN_PTR)][2];
+			VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(IS_ATTR ? PARSER_TOKEN_ATTR : PARSER_TOKEN_PTR) as string]?.[2];
 
 		if (IS_ATTR) {
 			Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
