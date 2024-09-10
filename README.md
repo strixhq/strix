@@ -76,6 +76,15 @@ import { createElement } from '@strix/client';
 document.body.append(...createElement(App()));
 ```
 
+### Unsafe-Proof
+```javascript
+const unsafe = "<script>alert(0)/script>";
+
+const temp = html`<label>name is ${unsafe}</label>`
+
+// <label>name is <script>alert(0)/script></label>
+```
+
 <!-- ### Directories
 
 | directory          | about             |

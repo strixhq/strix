@@ -33,7 +33,7 @@ export const createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElemen
 					: CMD == CMD_ASSIGN_PTR
 					? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${CMD_INDEX}"></${PARSER_UUID}>${TEMP_STR}`
 					: CMD == CMD_ASSIGN_RAW
-					? String(TEMP_VAL).replace(ESCAPER_REGEX, ESCAPER_FN) + TEMP_STR
+					? (TEMP_VAL + "").replace(ESCAPER_REGEX, ESCAPER_FN) + TEMP_STR
 					: '',
 		)
 		.join('');
