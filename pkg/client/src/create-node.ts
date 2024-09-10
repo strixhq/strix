@@ -12,12 +12,12 @@ const
 		'<': '&lt;',
 		'>': '&gt;',
 	},
+	ESCAPER_REGEX = /[&'`"<>]/g,
 	ESCAPER_FN = (match): string => ESCAPER_TEMP[match]
 ;
 
-export const createNode = (fragment: TemplateStringsArray, templateElement: HTMLElement): HTMLElement => {
+export const createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElement): HTMLElement => {
 	const CMD_BUF = resolveRootFragment(fragment),
-		BASE_TEMP = templateElement,
 		PARSER_UUID = `strix-${random(32)}`,
 		PARSER_TOKEN_ATTR = `${PARSER_UUID}-attr`,
 		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`;
@@ -33,7 +33,7 @@ export const createNode = (fragment: TemplateStringsArray, templateElement: HTML
 					: CMD == CMD_ASSIGN_PTR
 					? `<${PARSER_UUID} ${PARSER_TOKEN_PTR}="${CMD_INDEX}"></${PARSER_UUID}>${TEMP_STR}`
 					: CMD == CMD_ASSIGN_RAW
-					? String(TEMP_VAL).replace(/[&'`"<>]/g, ESCAPER_FN) + TEMP_STR
+					? String(TEMP_VAL).replace(ESCAPER_REGEX, ESCAPER_FN) + TEMP_STR
 					: '',
 		)
 		.join('');
