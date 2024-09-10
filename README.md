@@ -30,7 +30,7 @@ document.body.append(...Counter.bind(element)());
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Demo
-Working demo is out now at **[Codepen](https://codepen.io/ihasq/pen/wvLRzyd?editors=0011)** and **[Stackblitz](https://stackblitz.com/edit/vitejs-vite-vuuc9s?file=counter.js)**.
+Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platform-nqktqc?devToolsHeight=33&file=counter.js)** and **[Codepen](https://codepen.io/ihasq/pen/wvLRzyd?editors=0011)**.
 
 ### Releases
 
