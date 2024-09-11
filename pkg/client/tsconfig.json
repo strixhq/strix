@@ -1,6 +1,0 @@
-{
-	"compilerOptions": {
-		"lib": ["ES2015", "DOM"],
-		"allowImportingTsExtensions": true
-	}
-}

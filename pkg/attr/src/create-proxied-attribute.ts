@@ -2,7 +2,7 @@ import { $ } from 'jsr:@ihasq/esptr@0.1.9';
 
 const SH_SYMBOL_TO_PRIMITIVE = Symbol.toPrimitive;
 
-export const createProxiedAttribute = (registererFn: (prop: string, value: any, ref: HTMLElement) => void): object => {
+export const createProxiedAttribute = (registererFn: (prop: string, value: any, ref: any) => void): object => {
 	const ATTR_CACHE = {},
 		BASE_SYMBOL = $((value, ref) => {
 			Object.keys(value).forEach((REGISTERER_PROP) => {
@@ -16,7 +16,7 @@ export const createProxiedAttribute = (registererFn: (prop: string, value: any, 
 					? BASE_SYMBOL_RETURNER
 					: prop in ATTR_CACHE
 					? ATTR_CACHE[prop]
-					: ATTR_CACHE[prop] = $((value, ref) => registererFn(prop as string, value, ref))
+					: ATTR_CACHE[prop] = $((value: any, ref: any) => registererFn(prop as string, value, ref))
 						[SH_SYMBOL_TO_PRIMITIVE]();
 			},
 		});
