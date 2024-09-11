@@ -1,6 +1,11 @@
 import { $ } from 'jsr:@ihasq/esptr@0.1.9';
 
-export const bind = $((value, ref) => {
-	ref.addEventListener('input', ({ target: { value: newValue } }) => $[value] = newValue, { passive: true });
-	value.watch((newValue) => ref.value = newValue);
+export const bind = $((value: any, ref: HTMLInputElement) => {
+	ref.addEventListener('input', ({ target }: InputEvent) => {
+		if (!(target instanceof HTMLInputElement)) {
+			return;
+		}
+		$[value] = target.value, { passive: true };
+	});
+	value.watch((newValue: any) => ref.value = newValue);
 });

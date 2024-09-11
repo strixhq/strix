@@ -1,13 +1,14 @@
 <h1>Strix 🦉</h1>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix)
-![GitHub License](https://img.shields.io/github/license/ihasq/strix)
+![GitHub Repo stars](https://img.shields.io/github/stars/strixhq/strix)
+![GitHub License](https://img.shields.io/github/license/strixhq/strix)
 
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
 ```javascript
 import { $, h as html } from '@strix/std';
 import { on } from '@strix/attr';
+import { createElement } from '@strix/client';
 
 
 function Counter() {
@@ -23,10 +24,10 @@ function Counter() {
 }
 
 
-document.body.append(...Counter.bind(element)());
+document.body.append(...createElement(Counter()));
 ```
 
-**Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
+**Strix** is a ~3KB selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Demo
@@ -40,10 +41,11 @@ Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platfo
 | **[attr](https://github.com/ihasq/strix/tree/main/pkg/attr)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/attr?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/attr) |**[`on`](https://jsr.io/@strix/attr/doc/~/on)** **[`at`](https://jsr.io/@strix/attr/doc/~/at)** | Attribute Modules |
 | **[client](https://github.com/ihasq/strix/tree/main/pkg/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[`createElement`](https://jsr.io/@strix/client/doc/~/createElement)**                                                                                                                   | Client Modules   |
 
-### Installation
+### Installation (not working)
 
+On Deno (@1.46.0 or newer)
 ```sh
-npm create strix@latest
+deno -RWN https://strix.sh/new
 ```
 
 ![badge](./web/page/badge.svg)
@@ -80,7 +82,7 @@ document.body.append(...createElement(App()));
 ```javascript
 const unsafe = "<script>alert(0)/script>";
 
-const temp = html`<label>name is ${unsafe}</label>`
+const temp = html`<label>name is ${unsafe}!</label>`
 
 // name is <script>alert(0)</script>
 ```

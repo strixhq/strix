@@ -1,6 +1,6 @@
 {
 	"name": "@strix/attr",
-	"version": "0.0.4",
-	"exports": "./mod.js",
+	"version": "0.0.5",
+	"exports": "./mod.ts",
 	"license": "MIT"
 }
