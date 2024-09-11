@@ -1,7 +1,9 @@
 import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts';
 
-export const resolveFragment = ([TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol], FRAG_ARR: any[][]): void => {
-
+export const resolveFragment = (
+	[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
+	FRAG_ARR: any[][],
+): void => {
 	FRAG_ARR.push([CMD_ASSIGN_DIRECT, TSA[0]]);
 
 	TVA.forEach((VAL, VAL_INDEX) => {
@@ -18,6 +20,5 @@ export const resolveFragment = ([TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateString
 		}
 
 		FRAG_ARR.push([CMD, TSA[VAL_INDEX + 1], VAL]);
-
 	});
 };

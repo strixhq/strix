@@ -2,8 +2,6 @@
 
 export const nitro = $((_, ref) => {
 	return {
-		[css]: {
-
-		}
-	}
-})
+		[css]: {},
+	};
+});
