@@ -61,7 +61,7 @@ export const createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElemen
 			const TEXT_BUF = new Text();
 
 			TARGET_REF.replaceWith(TEXT_BUF);
-			VAL_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue);
+			VAL_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue + '');
 		}
 	});
 

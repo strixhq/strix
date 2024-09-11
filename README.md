@@ -1,7 +1,7 @@
 <h1>Strix 🦉</h1>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/ihasq/strix)
-![GitHub License](https://img.shields.io/github/license/ihasq/strix)
+![GitHub Repo stars](https://img.shields.io/github/stars/strixhq/strix)
+![GitHub License](https://img.shields.io/github/license/strixhq/strix)
 
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
