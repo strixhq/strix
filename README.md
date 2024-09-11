@@ -27,7 +27,7 @@ function Counter() {
 document.body.append(...createElement(Counter()));
 ```
 
-**Strix** is a selfish library to provide some weirder, but simpler ways to building web interface.\
+**Strix** is a ~3KB selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Demo
