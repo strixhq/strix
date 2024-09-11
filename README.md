@@ -8,8 +8,8 @@
 ```javascript
 import { $, h as html } from '@strix/std';
 import { on } from '@strix/attr';
-
 import { createElement } from '@strix/client';
+
 
 function Counter() {
 
@@ -45,7 +45,7 @@ Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platfo
 
 On Deno (@1.46.0 or newer)
 ```sh
-deno -A https://strix.sh/new
+deno -RWN https://strix.sh/new
 ```
 
 ![badge](./web/badge.svg)
