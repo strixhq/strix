@@ -46,7 +46,7 @@ Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platfo
 npm create strix@latest
 ```
 
-![badge](./web/badge.svg)
+![badge](./web/page/badge.svg)
 
 ### Programmable Attributes
 
@@ -82,7 +82,7 @@ const unsafe = "<script>alert(0)/script>";
 
 const temp = html`<label>name is ${unsafe}</label>`
 
-// <label>name is <script>alert(0)/script></label>
+// name is <script>alert(0)</script>
 ```
 
 <!-- ### Directories
