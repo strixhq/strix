@@ -4,7 +4,7 @@ const SH_SYMBOL_TO_PRIMITIVE = Symbol.toPrimitive;
 
 export const createProxiedAttribute = (registererFn: (prop: string, value: any, ref: any) => void): object => {
 	const ATTR_CACHE = {},
-		BASE_SYMBOL = $((value, ref) => {
+		BASE_SYMBOL = $((value: any, ref: HTMLElement) => {
 			Object.keys(value).forEach((REGISTERER_PROP) => {
 				registererFn(REGISTERER_PROP, value[REGISTERER_PROP], ref);
 			});
