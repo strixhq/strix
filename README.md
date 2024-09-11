@@ -82,9 +82,9 @@ document.body.append(...createElement(App()));
 ```javascript
 const unsafe = "<script>alert(0)/script>";
 
-const temp = html`<label>name is ${unsafe}</label>`
+const temp = html`<label>name is ${unsafe}!</label>`
 
-// <label>name is <script>alert(0)/script></label>
+// Output: "name is <script>alert(0)</script>!"
 ```
 
 <!-- ### Directories
