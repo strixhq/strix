@@ -5,7 +5,7 @@ export const bind = $((value: any, ref: HTMLInputElement) => {
 		if (!(target instanceof HTMLInputElement)) {
 			return;
 		}
-		$[value] = target.value, { passive: true };
+		value.$ = target.value, { passive: true };
 	});
 	value.watch((newValue: any) => ref.value = newValue);
 });
