@@ -56,7 +56,8 @@ const
 				},
 				fork() {
 					return $(value);
-				}
+				},
+				[Symbol.for("PTR_IDENTIFIER")]: true
 			}
 		;
 
