@@ -1,15 +1,11 @@
 import { random } from "jsr:@ihasq/random@0.1.6";
 
-console.log(random(32))
-
 const
 	PUBLISHED_PTR = {},
 
 	GLOBAL_TOKEN = (() => {
-		let TOKEN_BUF = random(32);
-		while(`Symbol(${TOKEN_BUF})` in window) {
-			TOKEN_BUF = random(32);
-		}
+		let TOKEN_BUF;
+		while(`Symbol(${TOKEN_BUF = random(32)})` in window) {}
 		return TOKEN_BUF;
 	})(),
 
@@ -46,6 +42,7 @@ const
 					return value
 				},
 				watch(watcherFn: Function) {
+					watcherFn(value);
 					watcherFnList.push(watcherFn);
 					return this;
 				},
@@ -57,7 +54,10 @@ const
 				fork() {
 					return $(value);
 				},
-				[Symbol.for("PTR_IDENTIFIER")]: true
+				[Symbol.for("PTR_IDENTIFIER")]: true,
+				[Symbol.toPrimitive]() {
+					return BASE_SYMBOL
+				}
 			}
 		;
 
