@@ -50,21 +50,34 @@ deno -RWN https://strix.sh/new
 
 ![badge](./web/page/badge.svg)
 
-### Programmable Attributes
-
+### Components and Fragments
 ```javascript
-import { $, h as html } from '@strix/std';
+// ...
 
-const onDoubleClick = $((callbackFn, ref) => {
-    ref.addEventListener('dblclick', callbackFn, { passive: true });
-});
+const justFragment = html`
+    <label>I am fragment</label>
+    <label>with components!</label>
+    ${App("double-click me!")}
+`;
+```
 
-function App() {
+### Styling, Event-listening
+```javascript
+// ...
+
+import { on, css } from "@strix/attr"
+
+function WithAttributes() {
     return html`
-        <textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
-            Doubleclick me!
-        </textarea>
-    `;
+        <button ${{
+            [css]: {
+                color: "red"
+            },
+            [on.click]: () => alert("clicked!")
+        }}>
+            click me...
+        </button>
+    `
 }
 ```
 
@@ -89,16 +102,31 @@ function AppWithClass() {
 
         <button ${{
             ...mainButton,
-            [css]: {
-                color: "yellow"
-            }
+            [css.color]: "yellow"
         }}>
             and it is overridable!
         </button>
     `
 }
 
+```
 
+### Programmable Attributes
+
+```javascript
+// ...
+
+const onDoubleClick = $((callbackFn, ref) => {
+    ref.addEventListener('dblclick', callbackFn, { passive: true });
+});
+
+function App(defaultText) {
+    return html`
+        <textarea ${{ [onDoubleClick]: ({ target: { value } }) => console.log(value) }}>
+            ${defaultText}
+        </textarea>
+    `;
+}
 ```
 
 ### Create Element
