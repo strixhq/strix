@@ -16,7 +16,8 @@ export const createProxiedAttribute = (registererFn: (prop: string, value: any, 
 					? BASE_SYMBOL_RETURNER
 					: prop in ATTR_CACHE
 					? ATTR_CACHE[prop]
-					: ATTR_CACHE[prop] = $((value: any, ref: any) => registererFn(prop as string, value, ref)).publishSymbol();
+					: ATTR_CACHE[prop] = $((value: any, ref: any) => registererFn(prop as string, value, ref))
+						.publishSymbol();
 			},
 		});
 

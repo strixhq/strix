@@ -14,13 +14,16 @@ const BASE_DF = document.createDocumentFragment(),
 	ESCAPER_REGEX = /[&'`"<>]/g,
 	ESCAPER_FN = (match): string => ESCAPER_TEMP[match];
 
-export const createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElement): HTMLElement => {
+export const createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElement, NOT_ROOT: boolean): HTMLElement => {
 	const CMD_BUF = resolveRootFragment(fragment),
 		PARSER_UUID = `strix-${random(32)}`,
 		PARSER_TOKEN_ATTR = `${PARSER_UUID}-attr`,
 		PARSER_TOKEN_PTR = `${PARSER_UUID}-ptr`;
 
-	BASE_DF.appendChild(BASE_TEMP);
+	if (NOT_ROOT) {
+		BASE_DF.appendChild(BASE_TEMP);
+	}
+
 	BASE_TEMP.innerHTML = CMD_BUF
 		.map(
 			([CMD, TEMP_STR, TEMP_VAL], CMD_INDEX) =>
@@ -48,6 +51,7 @@ export const createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElemen
 					window[ATTR_PROP.toString()]?.(ATTR_PROP)?.$(
 						VAL_BUFFER[ATTR_PROP],
 						TARGET_REF,
+						NOT_ROOT ? undefined : BASE_TEMP,
 					);
 				} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
 					ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue);
