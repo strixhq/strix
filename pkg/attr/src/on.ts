@@ -1,6 +1,6 @@
 import { createProxiedAttribute } from './create-proxied-attribute.ts';
 
-export const on = createProxiedAttribute((prop, value, ref) => {
+export const on: object = createProxiedAttribute((prop, value, ref) => {
 	const IS_PTR = value[Symbol.for('PTR_IDENTIFIER')];
 	if (IS_PTR) {
 		value.watch((newValue) => value.$ = newValue);
