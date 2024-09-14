@@ -10,7 +10,8 @@ await esbuild.build({
 	entryPoints: ['./pkg/std/mod.ts'],
 	outfile: './dist/std.mod.js',
 	bundle: true,
-	minify: true,
+	// minify: true,
+	treeShaking: true,
 	format: 'esm',
 });
 
@@ -19,7 +20,8 @@ await esbuild.build({
 	entryPoints: ['./pkg/client/mod.ts'],
 	outfile: './dist/client.mod.js',
 	bundle: true,
-	minify: true,
+	// minify: true,
+	treeShaking: true,
 	format: 'esm',
 });
 
@@ -28,7 +30,8 @@ await esbuild.build({
 	entryPoints: ['./pkg/attr/mod.ts'],
 	outfile: './dist/attr.mod.js',
 	bundle: true,
-	minify: true,
+	// minify: true,
+	treeShaking: true,
 	format: 'esm',
 });
 

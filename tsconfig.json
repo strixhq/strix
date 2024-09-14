@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"lib": ["ES2015", "dom"],
+		"lib": ["ES2022", "dom"],
 		"allowImportingTsExtensions": true,
 		"noImplicitAny": false, 
 	}

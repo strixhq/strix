@@ -1,4 +1,4 @@
-import { $ } from 'jsr:@ihasq/esptr@0.1.18';
+import { $ } from 'jsr:@strix/std@0.1.3';
 
 const SH_SYMBOL_TO_PRIMITIVE = Symbol.toPrimitive;
 
@@ -8,16 +8,15 @@ export const createProxiedAttribute = (registererFn: (prop: string, value: any, 
 			Object.keys(value).forEach((REGISTERER_PROP) => {
 				registererFn(REGISTERER_PROP, value[REGISTERER_PROP], ref);
 			});
-		})[SH_SYMBOL_TO_PRIMITIVE](),
-		BASE_SYMBOL_RETURNER = () => BASE_PTR,
+		}),
+		BASE_SYMBOL_RETURNER = () => BASE_PTR.publishSymbol(),
 		BASE_PROXY = new Proxy({}, {
 			get(myTarget, prop) {
 				return prop == SH_SYMBOL_TO_PRIMITIVE
 					? BASE_SYMBOL_RETURNER
 					: prop in ATTR_CACHE
 					? ATTR_CACHE[prop]
-					: ATTR_CACHE[prop] = $((value: any, ref: any) => registererFn(prop as string, value, ref))
-						[SH_SYMBOL_TO_PRIMITIVE]();
+					: ATTR_CACHE[prop] = $((value: any, ref: any) => registererFn(prop as string, value, ref)).publishSymbol();
 			},
 		});
 
