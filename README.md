@@ -68,6 +68,39 @@ function App() {
 }
 ```
 
+### Create Class
+```javascript
+// ...
+
+const mainButton = {
+    [css]: {
+        backgroundColor: "blue",
+        color: "white",
+        borderRadius: "2px"
+    }
+}
+
+function AppWithClass() {
+
+    return html`
+        <button ${{ ...mainButton }}>
+            I am main button!
+        </button>
+
+        <button ${{
+            ...mainButton,
+            [css]: {
+                color: "yellow"
+            }
+        }}>
+            and it is overridable!
+        </button>
+    `
+}
+
+
+```
+
 ### Create Element
 
 ```javascript
