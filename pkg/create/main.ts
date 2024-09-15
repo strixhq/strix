@@ -1,5 +1,5 @@
 import { text } from "npm:@clack/prompts@0.7.0";
-import { existsSync, copy } from "jsr:@std/fs@1.0.3";
+import { existsSync, copy } from "https://deno.land/std@0.224.0/fs/mod.ts";
 // import { copy } from "@std/fs"
 // import { fromFileUrl } from "@std/path/posix/from-file-url";
 
