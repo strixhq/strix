@@ -7,6 +7,7 @@
       "jsr:@std/encoding@0.213": "jsr:@std/encoding@0.213.1",
       "jsr:@std/jsonc@0.213": "jsr:@std/jsonc@0.213.1",
       "jsr:@std/path@0.213": "jsr:@std/path@0.213.1",
+      "npm:@clack/prompts": "npm:@clack/prompts@0.7.0",
       "npm:esbuild@0.20.2": "npm:esbuild@0.20.2"
     },
     "jsr": {
@@ -38,6 +39,22 @@
       }
     },
     "npm": {
+      "@clack/core@0.3.4": {
+        "integrity": "sha512-H4hxZDXgHtWTwV3RAVenqcC4VbJZNegbBjlPvzOzCouXtS2y3sDvlO3IsbrPNWuLWPPlYVYPghQdSF64683Ldw==",
+        "dependencies": {
+          "picocolors": "picocolors@1.1.0",
+          "sisteransi": "sisteransi@1.0.5"
+        }
+      },
+      "@clack/prompts@0.7.0": {
+        "integrity": "sha512-0MhX9/B4iL6Re04jPrttDm+BsP8y6mS7byuv0BvXgdXhbV5PdlsHt55dvNsuBCPZ7xq1oTAOOuotR9NFbQyMSA==",
+        "dependencies": {
+          "@clack/core": "@clack/core@0.3.4",
+          "is-unicode-supported": "is-unicode-supported@2.1.0",
+          "picocolors": "picocolors@1.1.0",
+          "sisteransi": "sisteransi@1.0.5"
+        }
+      },
       "@esbuild/aix-ppc64@0.20.2": {
         "integrity": "sha512-D+EBOJHXdNZcLJRBkhENNG8Wji2kgc9AZ9KiPr1JuZjsNtyHzrsfLRrY0tk2H2aoFu6RANO1y1iPPUCDYWkb5g==",
         "dependencies": {}
@@ -157,6 +174,18 @@
           "@esbuild/win32-ia32": "@esbuild/win32-ia32@0.20.2",
           "@esbuild/win32-x64": "@esbuild/win32-x64@0.20.2"
         }
+      },
+      "is-unicode-supported@2.1.0": {
+        "integrity": "sha512-mE00Gnza5EEB3Ds0HfMyllZzbBrmLOX3vfWoj9A9PEnTfratQ/BcaJOuMhnkhjXvb2+FkY3VuHqtAGpTPmglFQ==",
+        "dependencies": {}
+      },
+      "picocolors@1.1.0": {
+        "integrity": "sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==",
+        "dependencies": {}
+      },
+      "sisteransi@1.0.5": {
+        "integrity": "sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==",
+        "dependencies": {}
       }
     }
   },
@@ -281,6 +310,7 @@
     "https://deno.land/std@0.211.0/path/windows/separator.ts": "2bbcc551f64810fb43252185bd1d33d66e0477d74bd52f03b89f5dc21a3dd486",
     "https://deno.land/std@0.211.0/path/windows/to_file_url.ts": "1cd63fd35ec8d1370feaa4752eccc4cc05ea5362a878be8dc7db733650995484",
     "https://deno.land/std@0.211.0/path/windows/to_namespaced_path.ts": "4ffa4fb6fae321448d5fe810b3ca741d84df4d7897e61ee29be961a6aac89a4c",
+    "https://deno.land/std@0.224.0/fs/exists.ts": "3d38cb7dcbca3cf313be343a7b8af18a87bddb4b5ca1bd2314be12d06533b50f",
     "https://deno.land/x/deno_cache@0.6.2/auth_tokens.ts": "5d1d56474c54a9d152e44d43ea17c2e6a398dd1e9682c69811a313567c01ee1e",
     "https://deno.land/x/deno_cache@0.6.2/cache.ts": "58b53c128b742757efcad10af9a3871f23b4e200674cb5b0ddf61164fb9b2fe7",
     "https://deno.land/x/deno_cache@0.6.2/deno_dir.ts": "1ea355b8ba11c630d076b222b197cfc937dd81e5a4a260938997da99e8ff93a0",
