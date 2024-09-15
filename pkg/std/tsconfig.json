@@ -1,7 +1,0 @@
-{
-	"compilerOptions": {
-		"lib": ["es7", "dom"],
-		"allowImportingTsExtensions": true,
-		"noImplicitAny": false
-	}
-}
