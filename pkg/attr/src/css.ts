@@ -1,3 +1,4 @@
+import { PTR_IDENTIFIER } from '../../client/src/constant.ts';
 import { createProxiedAttribute } from './create-proxied-attribute.ts';
 
 const RESOLVED_PROP_BUF = {},
@@ -13,7 +14,7 @@ export const css: object = createProxiedAttribute((prop, value, ref) => {
 			return STYLEMAP;
 		})();
 
-	if (value[Symbol.for('PTR_IDENTIFIER')]) {
+	if (value[PTR_IDENTIFIER]) {
 		value.watch((newValue) => {
 			console.log(newValue);
 			BASE_STYLEMAP.set(RESOLVED_PROP, newValue);

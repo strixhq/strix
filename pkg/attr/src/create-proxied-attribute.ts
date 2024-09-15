@@ -1,6 +1,6 @@
 import { $ } from 'jsr:@strix/std@0.1.3';
 
-const SH_SYMBOL_TO_PRIMITIVE = Symbol.toPrimitive;
+
 
 export const createProxiedAttribute = (registererFn: (prop: string, value: any, ref: any) => void): object => {
 	const ATTR_CACHE = {},
