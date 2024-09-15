@@ -1,6 +1,6 @@
 import { text } from "npm:@clack/prompts@0.7.0";
-import { existsSync, copy } from "https://deno.land/std@0.224.0/fs/mod.ts";
-// import { copy } from "@std/fs"
+import { existsSync } from "./fs.ts";
+import copy from "npm:recursive-copy@2.0.14"
 // import { fromFileUrl } from "@std/path/posix/from-file-url";
 
 console.log(String.raw
