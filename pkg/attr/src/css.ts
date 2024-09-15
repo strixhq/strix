@@ -1,10 +1,10 @@
-import { PTR_IDENTIFIER } from '../../client/src/constant.ts';
 import { createProxiedAttribute } from './create-proxied-attribute.ts';
 
 const RESOLVED_PROP_BUF = {},
-	STYLEMAP_BUF = new WeakMap();
+	STYLEMAP_BUF = new WeakMap(),
+	PTR_IDENTIFIER = Symbol.for("PTR_IDENTIFIER");
 
-export const css: object = createProxiedAttribute((prop, value, ref) => {
+export const css: object = createProxiedAttribute((prop, value, ref, root) => {
 	const RESOLVED_PROP = prop in RESOLVED_PROP_BUF
 			? RESOLVED_PROP_BUF[prop]
 			: RESOLVED_PROP_BUF[prop] = prop.replace(/[A-Z]/g, (match) => '-' + match).toLowerCase(),
