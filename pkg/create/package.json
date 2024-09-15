@@ -1,6 +1,7 @@
 {
   "name": "strix-new",
   "dependencies": {
+    "@clack/prompts": "^0.7.0",
     "@std/fs": "npm:@jsr/std__fs@^1.0.3",
     "@strix/attr": "npm:@jsr/strix__attr@^0.0.6",
     "@strix/client": "npm:@jsr/strix__client@^0.1.5",
