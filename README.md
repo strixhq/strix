@@ -30,6 +30,13 @@ document.body.append(...createElement(Counter()));
 **Strix** is a ~3KB selfish library to provide some weirder, but simpler ways to building web interface.\
 Visit [strix.sh](https://strix.sh) for more infomation.
 
+### Installation
+
+On Deno (@1.46.0 or newer)
+```sh
+deno -RWE https://strix.sh
+```
+
 ### Demo
 Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platform-nqktqc?devToolsHeight=33&file=counter.js)** and **[Codepen](https://codepen.io/ihasq/pen/wvLRzyd?editors=0011)**.
 
@@ -41,12 +48,6 @@ Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platfo
 | **[attr](https://github.com/ihasq/strix/tree/main/pkg/attr)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/attr?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/attr) |**[`on`](https://jsr.io/@strix/attr/doc/~/on)** **[`at`](https://jsr.io/@strix/attr/doc/~/at)** | Attribute Modules |
 | **[client](https://github.com/ihasq/strix/tree/main/pkg/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[`createElement`](https://jsr.io/@strix/client/doc/~/createElement)**                                                                                                                   | Client Modules   |
 
-### Installation
-
-On Deno (@1.46.0 or newer)
-```sh
-deno -RWE https://strix.sh
-```
 
 ![badge](./web/page/badge.svg)
 
