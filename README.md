@@ -45,7 +45,7 @@ Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platfo
 
 On Deno (@1.46.0 or newer)
 ```sh
-deno -RWN https://strix.sh/new
+deno -RWE https://strix.sh/new
 ```
 
 ![badge](./web/page/badge.svg)
