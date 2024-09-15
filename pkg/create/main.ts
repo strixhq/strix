@@ -1,4 +1,4 @@
-import { text } from "npm:@clack/prompts";
+import { text } from "npm:@clack/prompts@0.7.0";
 import { existsSync, copy } from "@std/fs";
 // import { copy } from "@std/fs"
 // import { fromFileUrl } from "@std/path/posix/from-file-url";
