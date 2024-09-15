@@ -1,5 +1,5 @@
 import { text } from "npm:@clack/prompts@0.7.0";
-import { existsSync, copy } from "jsr:@std/fs";
+import { existsSync, copy } from "jsr:@std/fs@1.0.3";
 // import { copy } from "@std/fs"
 // import { fromFileUrl } from "@std/path/posix/from-file-url";
 
