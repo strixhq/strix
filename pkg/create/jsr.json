@@ -1,5 +1,6 @@
 {
 	"name": "@strix/new",
 	"version": "0.0.1",
-	"exports": "./main.js"
+	"license": "MIT",
+	"exports": "./main.ts"
 }

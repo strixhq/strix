@@ -8,6 +8,6 @@
     "@strix/std": "npm:@jsr/strix__std@^0.1.4"
   },
   "bin": {
-    "strix-new": "./main.js"
+    "strix-new": "./main.ts"
   }
 }
