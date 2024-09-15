@@ -3,7 +3,7 @@ type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
 /**
  * @param	{ TemplateStringsArray } s
  * @param	{ ...any} v
- * @returns	{ any[] }
+ * @returns	{ StrixHTMLFragment }
  */
 
 export const h = (
