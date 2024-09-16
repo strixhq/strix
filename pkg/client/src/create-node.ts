@@ -4,15 +4,15 @@ import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, P
 
 const BASE_DF = document.createDocumentFragment(),
 	ESCAPER_TEMP = {
-		'&': '&amp;',
-		"'": '&#x27;',
-		'`': '&#x60;',
-		'"': '&quot;',
-		'<': '&lt;',
-		'>': '&gt;',
+		'"': 22,
+		'&': 26,
+		"'": 27,
+		'<': '3C',
+		'>': '3E',
+		'`': 60,
 	},
 	ESCAPER_REGEX = /[&'`"<>]/g,
-	ESCAPER_FN = (match): string => ESCAPER_TEMP[match],
+	ESCAPER_FN = (match): string => "&#x" + ESCAPER_TEMP[match],
 	createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElement, NOT_ROOT: boolean): HTMLElement | void => {
 		const CMD_BUF = resolveRootFragment(fragment),
 			PARSER_UUID = `strix-${random(32)}`,
