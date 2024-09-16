@@ -14,7 +14,7 @@
 ```javascript
 import { $, h as html } from '@strix/std';
 import { on } from '@strix/attr';
-import { createElement } from '@strix/client';
+import { write } from '@strix/client';
 
 
 function Counter() {
@@ -30,7 +30,7 @@ function Counter() {
 }
 
 
-document.body.append(...createElement(Counter()));
+write(document.body, Counter());
 ```
 
 **Strix** is a ~3KB selfish library to provide some weirder, but simpler ways to building web interface.\
@@ -51,8 +51,8 @@ Working demo is out now at **[StackBlitz](https://stackblitz.com/edit/web-platfo
 |                                                                   | Version                                                                                                                                              | Exports                                                                                                                                                                                   | Description      |
 | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
 | **[std](https://github.com/ihasq/strix/tree/main/pkg/std)**       | [![JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/std)       | **[`h`](https://jsr.io/@strix/std/doc/~/h)** **[`$`](https://jsr.io/@ihasq/esptr/doc/~/$)** | Standard Library |
-| **[attr](https://github.com/ihasq/strix/tree/main/pkg/attr)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/attr?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/attr) |**[`on`](https://jsr.io/@strix/attr/doc/~/on)** **[`at`](https://jsr.io/@strix/attr/doc/~/at)** | Attribute Modules |
-| **[client](https://github.com/ihasq/strix/tree/main/pkg/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[`createElement`](https://jsr.io/@strix/client/doc/~/createElement)**                                                                                                                   | Client Modules   |
+| **[attr](https://github.com/ihasq/strix/tree/main/pkg/attr)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/attr?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/attr) |**[`on`](https://jsr.io/@strix/attr/doc/~/on)** **[`at`](https://jsr.io/@strix/attr/doc/~/at)** **[`css`](https://jsr.io/@strix/attr/doc/~/css)** | Attribute Modules |
+| **[client](https://github.com/ihasq/strix/tree/main/pkg/client)** | [![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&labelColor=%23083344&color=%23F7DF1E&label=%20)](https://jsr.io/@strix/client) | **[`write`](https://jsr.io/@strix/client/doc/~/write)**<br>**[`createElement`](https://jsr.io/@strix/client/doc/~/createElement)**                                                                                                                   | Client Modules   |
 
 
 ![badge](./web/page/badge.svg)
