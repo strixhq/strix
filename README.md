@@ -1,7 +1,13 @@
 <h1>Strix 🦉</h1>
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/strixhq/strix)
-![GitHub License](https://img.shields.io/github/license/strixhq/strix)
+![GitHub License](https://img.shields.io/github/license/strixhq/strix)\
+![strix std JSR Version](https://img.shields.io/jsr/v/%40strix/std?logo=jsr&label=%40strix%2Fstd&labelColor=%2309303F&color=%23EDD82A&link=https%3A%2F%2Fjsr.io%2F%40strix%2Fstd)
+![strix attr JSR Version](https://img.shields.io/jsr/v/%40strix/attr?logo=jsr&label=%40strix%2Fattr&labelColor=%2309303F&color=%23EDD82A&link=https%3A%2F%2Fjsr.io%2F%40strix%2Fattr)
+![JSR Version](https://img.shields.io/jsr/v/%40strix/client?logo=jsr&label=%40strix%2Fclient&labelColor=%2309303F&color=%23EDD82A&link=https%3A%2F%2Fjsr.io%2F%40strix%2Fclient)
+
+
+
 
 <!-- ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/libh) -->
 
