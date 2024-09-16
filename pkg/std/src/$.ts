@@ -9,8 +9,9 @@ const PUBLISHED_PTR = {},
 	SETTER_STD = (
 		newValue: undefined,
 		watcherFnList: Function[],
+		setData: object = {}
 	) => {
-		watcherFnList.forEach((watcherFn) => watcherFn(newValue));
+		watcherFnList.forEach((watcherFn) => watcherFn(newValue, setData.SET_TIMESTAMP));
 		return newValue;
 	},
 	$ = (
@@ -21,7 +22,8 @@ const PUBLISHED_PTR = {},
 		const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
 			BASE_PTR = {
 				set value(newValue) {
-					value = SETTER_STD(setterFn(newValue), watcherFnList);
+					const SET_TIMESTAMP = performance.now();
+					value = SETTER_STD(setterFn(newValue), watcherFnList, { SET_TIMESTAMP });
 				},
 				get value() {
 					return value;
@@ -47,6 +49,25 @@ const PUBLISHED_PTR = {},
 				fork() {
 					return $(value);
 				},
+				emit(eventIdentifier: string | symbol, data: undefined) {
+
+				},
+				listen(listnerCallbacks: object) {
+
+				},
+				extend() {
+					if(Array.isArray(value)) {
+						return $(Object.assign(value, {
+							swap(a: undefined, b: undefined) {
+
+							},
+							pushReturn(...elements: undefined[]) {
+								this.push(...elements);
+								return elements;
+							}
+						}))
+					}
+				},
 				[Symbol.for('PTR_IDENTIFIER')]: true,
 				[Symbol.toPrimitive]() {
 					return BASE_SYMBOL;
@@ -64,3 +85,11 @@ Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 });
 
 export { $ };
+
+const ex = $([]).extend();
+
+const a = {}, b = {};
+
+const [a, b] = ex.$.pushReturn({}, {})
+
+ex.$.swap(a, b)

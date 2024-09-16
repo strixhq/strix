@@ -1,4 +1,4 @@
-type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
+type StrixHTMLFragment = [TemplateStringsArray, any[], symbol];
 
 /**
  * @param	{ TemplateStringsArray } s

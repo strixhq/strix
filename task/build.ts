@@ -5,7 +5,7 @@ import * as esbuild from 'npm:esbuild@0.20.2';
 
 import { denoPlugins } from 'jsr:@luca/esbuild-deno-loader@^0.10.3';
 
-const minify = false;
+const minify = true;
 
 await esbuild.build({
 	plugins: [...denoPlugins()],
@@ -34,6 +34,14 @@ await esbuild.build({
 	bundle: true,
 	minify,
 	treeShaking: true,
+	format: 'esm',
+});
+
+await esbuild.build({
+	entryPoints: ['./web/new/new.ts'],
+	outfile: './web/page/new.ts',
+	bundle: false,
+	minify,
 	format: 'esm',
 });
 

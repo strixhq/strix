@@ -2,7 +2,7 @@ import { createProxiedAttribute } from './create-proxied-attribute.ts';
 
 const RESOLVED_PROP_BUF = {},
 	STYLEMAP_BUF = new WeakMap(),
-	PTR_IDENTIFIER = Symbol.for("PTR_IDENTIFIER");
+	PTR_IDENTIFIER = Symbol.for('PTR_IDENTIFIER');
 
 export const css: object = createProxiedAttribute((prop, value, ref, root) => {
 	const RESOLVED_PROP = prop in RESOLVED_PROP_BUF

@@ -13,7 +13,6 @@ const BASE_DF = document.createDocumentFragment(),
 	},
 	ESCAPER_REGEX = /[&'`"<>]/g,
 	ESCAPER_FN = (match): string => ESCAPER_TEMP[match],
-
 	createNode = (fragment: TemplateStringsArray, BASE_TEMP: HTMLElement, NOT_ROOT: boolean): HTMLElement | void => {
 		const CMD_BUF = resolveRootFragment(fragment),
 			PARSER_UUID = `strix-${random(32)}`,
@@ -70,7 +69,6 @@ const BASE_DF = document.createDocumentFragment(),
 		});
 
 		return NOT_ROOT ? BASE_TEMP : undefined;
-	}
-;
+	};
 
-export { createNode }
+export { createNode };

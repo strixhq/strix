@@ -1,12 +1,4 @@
-import { text } from "npm:@clack/prompts@0.7.0";
-import { existsSync, copy } from "jsr:@std/fs@1.0.3";
-// import { UntarStream } from "jsr:@std/tar@0.1.0"
-// import { dirname, normalize } from "jsr:@std/path@1.0.6";
-// import copy from "npm:recursive-copy@2.0.14"
-// import { fromFileUrl } from "@std/path/posix/from-file-url";
-
-console.log(String.raw
-`  ______    __              __          
+import{text as m}from"npm:@clack/prompts@0.7.0";import{existsSync as a}from"jsr:@std/fs@1.0.3";console.log(String.raw`  ______    __              __          
  /      \  |  \            |  \         
 |  ▓▓▓▓▓▓\_| ▓▓_    ______  \▓▓__    __ 
 | ▓▓___\▓▓   ▓▓ \  /      \|  \  \  /  \
@@ -14,70 +6,7 @@ console.log(String.raw
  _\▓▓▓▓▓▓\ | ▓▓ __| ▓▓   \▓▓ ▓▓ >▓▓  ▓▓ 
 |  \__| ▓▓ | ▓▓|  \ ▓▓     | ▓▓/  ▓▓▓▓\ 
  \▓▓    ▓▓  \▓▓  ▓▓ ▓▓     | ▓▓  ▓▓ \▓▓\
-  \▓▓▓▓▓▓    \▓▓▓▓ \▓▓      \▓▓\▓▓   \▓▓`);
-
-const
-	defaultProjectName = (() => {
-		const
-			[first, second] = [
-				[
-					"adorable", "blazing", "crazy", "domestic", "exciting", "fancy", "gloroious", "humanitic", "intelligent", "jealousy", "luminous", "magnificent", "numerical", "obvious", "precious", "quiet"
-				],
-				[
-					"apple", "beast", "chalk", "donkey", "eagle", "folk", "gorilla", "harp"
-				]
-			],
-			[firstLength, secondLength] = [first.length, second.length]
-		;
-
-		let nameBuffer;
-
-		while(
-			existsSync(nameBuffer = `strix-${
-				first[Math.floor(Math.random() * firstLength)]
-			}-${
-				second[Math.floor(Math.random() * secondLength)]
-			}-app`)
-		) {};
-
-		return nameBuffer
-	})(),
-
-	projectConfig = {
-		name: await text({
-			message: '🦉 < Enter Project Name:',
-			placeholder: defaultProjectName,
-			validate: (value) => 
-				existsSync(value)
-				? '🦉 < The directory has same name is already exists, try again.'
-				: undefined,
-		}),
-	},
-
-	definiteProjectName = projectConfig.name ? projectConfig.name : defaultProjectName
-;
-
-
-const initDir = async (folderName, structure) => {
-	await Deno.mkdir(folderName);
-	for(const index in structure) {
-		const dir = `${folderName}/${index}`;
-		switch(typeof structure[index]) {
-			case "object": {
-				await initDir(dir, structure[index]);
-				break;
-			};
-			case "string": {
-				await Deno.writeTextFile(dir, structure[index]);
-				break;
-			};
-		}
-	}
-}
-
-await initDir(definiteProjectName, {
-	src: {
-		"App.js": `import { $, h as html } from "@strix/std"
+  \▓▓▓▓▓▓    \▓▓▓▓ \▓▓      \▓▓\▓▓   \▓▓`);const s=(()=>{const[t,e]=[["adorable","blazing","crazy","domestic","exciting","fancy","gloroious","humanitic","intelligent","jealousy","luminous","magnificent","numerical","obvious","precious","quiet"],["apple","beast","chalk","donkey","eagle","folk","gorilla","harp"]],[o,n]=[t.length,e.length];let i;for(;a(i=`strix-${t[Math.floor(Math.random()*o)]}-${e[Math.floor(Math.random()*n)]}-app`););return i})(),r={name:await m({message:"\u{1F989} < Enter Project Name:",placeholder:s,validate:t=>a(t)?"\u{1F989} < The directory has same name is already exists, try again.":void 0})},l=r.name?r.name:s,c=async(t,e)=>{await Deno.mkdir(t);for(const o in e){const n=`${t}/${o}`;switch(typeof e[o]){case"object":{await c(n,e[o]);break}case"string":{await Deno.writeTextFile(n,e[o]);break}}}};await c(l,{src:{"App.js":`import { $, h as html } from "@strix/std"
 import { on } from "@strix/attr"
 
 import { buttonClass } from "./style.js";
@@ -92,45 +21,32 @@ export function App() {
 			Increment
 		</button>
 	\`
-}`,
-
-		"main.js": `import { write } from "@strix/client"
+}`,"main.js":`import { write } from "@strix/client"
 import { App } from "./App.js"
 
-write(document.body, App());`,
-
-		"style.js": `import { css } from "@strix/attr";
+write(document.body, App());`,"style.js":`import { css } from "@strix/attr";
 
 export const buttonClass = {
 	[css]: {
 		color: "white",
 		backgroundColor: "black",
 	}
-}`,
-	},
-	"deno.json": `{
+}`},"deno.json":`{
 	"tasks": {
 		"install": "deno run -A npm:jsr add @strix/std@latest @strix/attr@latest @strix/client@latest",
 		"start": "deno run -A npm:vite@latest"
 	}
-}`,
-	"index.html": `<!DOCTYPE html>
+}`,"index.html":`<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<script type="module" src="./src/main.js"></script>
+	<script type="module" src="./src/main.js"><\/script>
 </head>
-</html>`
-})
+</html>`}),console.log(`Done. now, run these following commands:
 
-console.log(
-`Done. now, run these following commands:
-
-  cd ${definiteProjectName}
+  cd ${l}
   deno task install
   deno task start 
-`)
-
-Deno.exit(0);
+`),Deno.exit(0);
