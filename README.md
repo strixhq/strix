@@ -32,9 +32,9 @@ Visit [strix.sh](https://strix.sh) for more infomation.
 
 ### Installation
 
-On Deno (@1.46.0 or newer)
+On Deno (version 1.46 or newer)
 ```sh
-deno -RWE https://strix.sh
+deno -WER https://strix.sh
 ```
 
 ### Demo
