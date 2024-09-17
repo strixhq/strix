@@ -1,2 +1,2 @@
-export { h } from './src/h.ts';
-export { $ } from './src/$.ts';
+export { h } from './src/h.ts'
+export { $ } from './src/$.ts'

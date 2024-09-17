@@ -1,4 +1,3 @@
-import { createNode } from './create-node.ts';
+import { createNode } from './create-node.ts'
 
-export const createElement = (fragment: TemplateStringsArray): NodeList =>
-	createNode(fragment, document.createElement('strix-unregistered'), true).childNodes;
+export const createElement = (fragment: TemplateStringsArray): NodeList => createNode(fragment, document.createElement('strix-unregistered'), true)?.childNodes

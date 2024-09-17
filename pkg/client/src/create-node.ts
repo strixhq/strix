@@ -1,6 +1,6 @@
-import { random } from 'jsr:@ihasq/random@0.1.6';
-import { resolveRootFragment } from './resolve-root-fragment.ts';
-import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts';
+import { random } from 'jsr:@ihasq/random@0.1.6'
+import { resolveRootFragment } from './resolve-root-fragment.ts'
+import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts'
 
 const BASE_DF = document.createDocumentFragment(),
 	ESCAPER_TEMP = {
@@ -21,10 +21,10 @@ const BASE_DF = document.createDocumentFragment(),
 		const CMD_BUF = resolveRootFragment(fragment),
 			PARSER_UUID = `strix-${random(32)}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
-			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`;
+			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`
 
 		if (NOT_ROOT) {
-			BASE_DF.appendChild(BASE_TEMP);
+			BASE_DF.appendChild(BASE_TEMP)
 		}
 
 		BASE_TEMP.innerHTML = CMD_BUF
@@ -40,51 +40,52 @@ const BASE_DF = document.createDocumentFragment(),
 						? (TEMP_VAL + '').replace(ESCAPER_REGEX, ESCAPER_FN) + TEMP_STR
 						: '',
 			)
-			.join('');
+			.join('')
 
 		BASE_TEMP
 			.querySelectorAll(`[${PARSER_UUID}]`)
 			.forEach((TARGET_REF) => {
-				console.log(TARGET_REF);
-				const ATTR_TYPE = TARGET_REF.getAttribute(PARSER_UUID);
+				const ATTR_TYPE = TARGET_REF.getAttribute(PARSER_UUID)
 				switch (ATTR_TYPE) {
 					case 'attr': {
 						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
-							if (!name.startsWith(ATTR_PARSER_TOKEN)) return;
+							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
 
-							const VAL_BUFFER = CMD_BUF[value][2];
+							const VAL_BUFFER = CMD_BUF[value][2]
 							Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
-								const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP];
+								const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
 
 								if (typeof ATTR_PROP == 'symbol') {
 									window[ATTR_PROP.toString()]?.(ATTR_PROP)?.$(
 										VAL_BUFFER[ATTR_PROP],
 										TARGET_REF,
 										NOT_ROOT ? undefined : BASE_TEMP,
-									);
+									)
 								} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
-									ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue);
+									ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue)
 								} else {
-									TARGET_REF[ATTR_PROP] = ATTR_BUFFER_VALUE;
+									TARGET_REF[ATTR_PROP] = ATTR_BUFFER_VALUE
 								}
-							});
-						});
-						TARGET_REF.removeAttribute(PARSER_UUID);
-						break;
+							})
+
+							TARGET_REF.removeAttribute(name);
+						})
+						TARGET_REF.removeAttribute(PARSER_UUID)
+						break
 					}
 					case 'ptr': {
-						const VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PTR_PARSER_TOKEN)][2];
-						const TEXT_BUF = new Text();
+						const VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PTR_PARSER_TOKEN)][2]
+						const TEXT_BUF = new Text()
 
-						TARGET_REF.replaceWith(TEXT_BUF);
-						VAL_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue + '');
+						TARGET_REF.replaceWith(TEXT_BUF)
+						VAL_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue + '')
 
-						break;
+						break
 					}
 				}
-			});
+			})
 
-		return NOT_ROOT ? BASE_TEMP : undefined;
-	};
+		return NOT_ROOT ? BASE_TEMP : undefined
+	}
 
-export { createNode };
+export { createNode }

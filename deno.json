@@ -3,9 +3,9 @@
 		"include": ["./pkg/"],
 		"exclude": ["node_modules"],
 		"useTabs": true,
-		"lineWidth": 120,
+		"lineWidth": 192,
 		"indentWidth": 4,
-		"semiColons": true,
+		"semiColons": false,
 		"singleQuote": true
 	},
 	"tasks": {
