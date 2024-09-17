@@ -9,7 +9,7 @@ const PUBLISHED_PTR = {},
 	SETTER_STD = (
 		newValue: undefined,
 		watcherFnList: Function[],
-		setData: object = {}
+		setData: object = {},
 	) => {
 		watcherFnList.forEach((watcherFn) => watcherFn(newValue, setData.SET_TIMESTAMP));
 		return newValue;
@@ -50,22 +50,19 @@ const PUBLISHED_PTR = {},
 					return $(value);
 				},
 				emit(eventIdentifier: string | symbol, data: undefined) {
-
 				},
 				listen(listnerCallbacks: object) {
-
 				},
 				extend() {
-					if(Array.isArray(value)) {
+					if (Array.isArray(value)) {
 						return $(Object.assign(value, {
 							swap(a: undefined, b: undefined) {
-
 							},
 							pushReturn(...elements: undefined[]) {
 								this.push(...elements);
 								return elements;
-							}
-						}))
+							},
+						}));
 					}
 				},
 				[Symbol.for('PTR_IDENTIFIER')]: true,

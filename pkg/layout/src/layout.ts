@@ -1,3 +1,3 @@
-import { css } from "@strix/attr";
+import { css } from '@strix/attr';
 
 export const layout;

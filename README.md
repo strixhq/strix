@@ -103,12 +103,11 @@ const mainButton = {
 function AppWithClass() {
 
     return html`
-        <button ${{ ...mainButton }}>
+        <button ${mainButton}>
             I am main button!
         </button>
 
-        <button ${{
-            ...mainButton,
+        <button ${mainButton} ${{
             [css.color]: "yellow"
         }}>
             and it is overridable!
