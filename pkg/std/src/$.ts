@@ -85,11 +85,3 @@ Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 });
 
 export { $ };
-
-const ex = $([]).extend();
-
-const a = {}, b = {};
-
-const [a, b] = ex.$.pushReturn({}, {})
-
-ex.$.swap(a, b)
