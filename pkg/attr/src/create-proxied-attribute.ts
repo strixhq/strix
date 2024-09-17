@@ -16,9 +16,7 @@ export const createProxiedAttribute = (
 			get(myTarget, prop) {
 				return prop == SH_SYMBOL_TO_PRIMITIVE
 					? BASE_SYMBOL_RETURNER
-					: prop in ATTR_CACHE
-					? ATTR_CACHE[prop]
-					: ATTR_CACHE[prop] = $((value: any, ref: any, root: HTMLElement | undefined) => registererFn(prop as string, value, ref, root))
+					: ATTR_CACHE[prop] ||= $((value: any, ref: any, root: HTMLElement | undefined) => registererFn(prop as string, value, ref, root))
 						.publishSymbol()
 			},
 		})

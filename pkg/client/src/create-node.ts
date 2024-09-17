@@ -3,16 +3,10 @@ import { resolveRootFragment } from './resolve-root-fragment.ts'
 import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts'
 
 const BASE_DF = document.createDocumentFragment(),
-	ESCAPER_TEMP = {
-		'"': 22,
-		'&': 26,
-		"'": 27,
-		'<': '3C',
-		'>': '3E',
-		'`': 60,
-	},
-	ESCAPER_REGEX = /[&'`"<>]/g,
-	ESCAPER_FN = (match): string => '&#x' + ESCAPER_TEMP[match],
+	ESCAPE_TARGET = "\"&'<>`",
+	ESCAPE_CHARCODE_BUF = {},
+	ESCAPER_REGEX = new RegExp(`[${ESCAPE_TARGET}]`, "g"),
+	ESCAPER_FN = (match: string): string => `&#x${ESCAPE_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],
 		BASE_TEMP: HTMLElement,
@@ -45,8 +39,7 @@ const BASE_DF = document.createDocumentFragment(),
 		BASE_TEMP
 			.querySelectorAll(`[${PARSER_UUID}]`)
 			.forEach((TARGET_REF) => {
-				const ATTR_TYPE = TARGET_REF.getAttribute(PARSER_UUID)
-				switch (ATTR_TYPE) {
+				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
 					case 'attr': {
 						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
 							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
