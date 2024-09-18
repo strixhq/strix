@@ -60,19 +60,17 @@ const BASE_DF = document.createDocumentFragment(),
 								}
 							})
 
-							TARGET_REF.removeAttribute(name)
+							queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						})
-						TARGET_REF.removeAttribute(PARSER_UUID)
-						break
+						queueMicrotask(() => TARGET_REF.removeAttribute(PARSER_UUID))
+						return;
 					}
 					case 'ptr': {
-						const VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PTR_PARSER_TOKEN)][2]
-						const TEXT_BUF = new Text()
+						const VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PTR_PARSER_TOKEN)][2],
+							TEXT_BUF = new Text()
 
 						TARGET_REF.replaceWith(TEXT_BUF)
 						VAL_BUFFER.watch((newValue) => TEXT_BUF.textContent = newValue + '')
-
-						break
 					}
 				}
 			})
