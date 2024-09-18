@@ -98,7 +98,7 @@ const PUBLISHED_PTR = {},
 Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 	configurable: false,
 	enumerable: false,
-	value: (symbol: symbol) => symbol in PUBLISHED_PTR ? PUBLISHED_PTR[symbol] : undefined,
+	value: (symbol: symbol) => PUBLISHED_PTR[symbol]
 })
 
 export { $ }
