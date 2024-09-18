@@ -17,7 +17,7 @@ import { on } from '@strix/attr';
 import { write } from '@strix/client';
 
 
-function Counter() {
+export default function() {
 
     const count = $(0);
 
@@ -28,9 +28,6 @@ function Counter() {
         </button>
     `;
 }
-
-
-write(document.body, Counter());
 ```
 
 **Strix** is a ~3KB selfish library to provide some weirder, but simpler ways to building web interface.\
