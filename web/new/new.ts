@@ -1,4 +1,4 @@
-import { text } from "npm:@clack/prompts@0.7.0";
+import { text, select } from "npm:@clack/prompts@0.7.0";
 import { existsSync, copy } from "jsr:@std/fs@1.0.3";
 // import { UntarStream } from "jsr:@std/tar@0.1.0"
 // import { dirname, normalize } from "jsr:@std/path@1.0.6";
@@ -17,7 +17,7 @@ console.log(String.raw
   \▓▓▓▓▓▓    \▓▓▓▓ \▓▓      \▓▓\▓▓   \▓▓`);
 
 const
-	defaultProjectName = (() => {
+	defaultProjectName = ((nameBuffer) => {
 		const
 			[first, second] = [
 				[
@@ -29,8 +29,6 @@ const
 			],
 			[firstLength, secondLength] = [first.length, second.length]
 		;
-
-		let nameBuffer;
 
 		while(
 			existsSync(nameBuffer = `strix-${
@@ -51,6 +49,13 @@ const
 				existsSync(value)
 				? '🦉 < The directory has same name is already exists, try again.'
 				: undefined,
+		}),
+		type: await select({
+			message: '🦉 < Enter Project Name:',
+			options: [
+				{ value: "client", label: "Client" },
+				{ value: "server", label: "Server" },
+			]
 		}),
 	},
 
@@ -94,10 +99,10 @@ export function App() {
 	\`
 }`,
 
-		"main.js": `import { write } from "@strix/client"
+		"main.js": `import { createElement } from "@strix/client"
 import { App } from "./App.js"
 
-write(document.body, App());`,
+document.body.append(...createElement(App()));`,
 
 		"style.js": `import { css } from "@strix/attr";
 

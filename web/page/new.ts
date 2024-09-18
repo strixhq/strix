@@ -1,4 +1,4 @@
-import{text as m}from"npm:@clack/prompts@0.7.0";import{existsSync as a}from"jsr:@std/fs@1.0.3";console.log(String.raw`  ______    __              __          
+import{text as m,select as p}from"npm:@clack/prompts@0.7.0";import{existsSync as a}from"jsr:@std/fs@1.0.3";console.log(String.raw`  ______    __              __          
  /      \  |  \            |  \         
 |  ▓▓▓▓▓▓\_| ▓▓_    ______  \▓▓__    __ 
 | ▓▓___\▓▓   ▓▓ \  /      \|  \  \  /  \
@@ -6,7 +6,7 @@ import{text as m}from"npm:@clack/prompts@0.7.0";import{existsSync as a}from"jsr:
  _\▓▓▓▓▓▓\ | ▓▓ __| ▓▓   \▓▓ ▓▓ >▓▓  ▓▓ 
 |  \__| ▓▓ | ▓▓|  \ ▓▓     | ▓▓/  ▓▓▓▓\ 
  \▓▓    ▓▓  \▓▓  ▓▓ ▓▓     | ▓▓  ▓▓ \▓▓\
-  \▓▓▓▓▓▓    \▓▓▓▓ \▓▓      \▓▓\▓▓   \▓▓`);const s=(()=>{const[t,e]=[["adorable","blazing","crazy","domestic","exciting","fancy","gloroious","humanitic","intelligent","jealousy","luminous","magnificent","numerical","obvious","precious","quiet"],["apple","beast","chalk","donkey","eagle","folk","gorilla","harp"]],[o,n]=[t.length,e.length];let i;for(;a(i=`strix-${t[Math.floor(Math.random()*o)]}-${e[Math.floor(Math.random()*n)]}-app`););return i})(),r={name:await m({message:"\u{1F989} < Enter Project Name:",placeholder:s,validate:t=>a(t)?"\u{1F989} < The directory has same name is already exists, try again.":void 0})},l=r.name?r.name:s,c=async(t,e)=>{await Deno.mkdir(t);for(const o in e){const n=`${t}/${o}`;switch(typeof e[o]){case"object":{await c(n,e[o]);break}case"string":{await Deno.writeTextFile(n,e[o]);break}}}};await c(l,{src:{"App.js":`import { $, h as html } from "@strix/std"
+  \▓▓▓▓▓▓    \▓▓▓▓ \▓▓      \▓▓\▓▓   \▓▓`);const i=(t=>{const[e,n]=[["adorable","blazing","crazy","domestic","exciting","fancy","gloroious","humanitic","intelligent","jealousy","luminous","magnificent","numerical","obvious","precious","quiet"],["apple","beast","chalk","donkey","eagle","folk","gorilla","harp"]],[o,c]=[e.length,n.length];for(;a(t=`strix-${e[Math.floor(Math.random()*o)]}-${n[Math.floor(Math.random()*c)]}-app`););return t})(),s={name:await m({message:"\u{1F989} < Enter Project Name:",placeholder:i,validate:t=>a(t)?"\u{1F989} < The directory has same name is already exists, try again.":void 0}),type:await p({message:"\u{1F989} < Enter Project Name:",options:[{value:"client",label:"Client"},{value:"server",label:"Server"}]})},r=s.name?s.name:i,l=async(t,e)=>{await Deno.mkdir(t);for(const n in e){const o=`${t}/${n}`;switch(typeof e[n]){case"object":{await l(o,e[n]);break}case"string":{await Deno.writeTextFile(o,e[n]);break}}}};await l(r,{src:{"App.js":`import { $, h as html } from "@strix/std"
 import { on } from "@strix/attr"
 
 import { buttonClass } from "./style.js";
@@ -21,10 +21,10 @@ export function App() {
 			Increment
 		</button>
 	\`
-}`,"main.js":`import { write } from "@strix/client"
+}`,"main.js":`import { createElement } from "@strix/client"
 import { App } from "./App.js"
 
-write(document.body, App());`,"style.js":`import { css } from "@strix/attr";
+document.body.append(...createElement(App()));`,"style.js":`import { css } from "@strix/attr";
 
 export const buttonClass = {
 	[css]: {
@@ -46,7 +46,7 @@ export const buttonClass = {
 </head>
 </html>`}),console.log(`Done. now, run these following commands:
 
-  cd ${l}
+  cd ${r}
   deno task install
   deno task start 
 `),Deno.exit(0);
