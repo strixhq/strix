@@ -11,32 +11,38 @@ const PUBLISHED_PTR = {},
 		watcherFnList: Function[],
 		setData: object = {},
 	) => {
-		watcherFnList.forEach((watcherFn) => watcherFn(newValue, setData.SET_TIMESTAMP))
+		watcherFnList.forEach((watcherFn) => watcherFn(newValue))
 		return newValue
 	},
 	$ = (
-		value: undefined,
+		value: any,
 		setterFn: Function = (newValue) => newValue,
 		watcherFnList: Function[] = [],
 	): object => {
+		const IS_VALUE_PTR = value[Symbol.for("PTR_IDENTIFIER")];
+	
+		let valueBuffer = IS_VALUE_PTR
+			? value.$
+			: value
+		;
+
 		const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
 			BASE_PTR = {
 				set value(newValue) {
-					const SET_TIMESTAMP = performance.now()
-					value = SETTER_STD(setterFn(newValue), watcherFnList, { SET_TIMESTAMP })
+					valueBuffer = SETTER_STD(setterFn(newValue), watcherFnList)
 				},
 				get value() {
-					return value
+					return valueBuffer
 				},
 				set $(newValue) {
-					value = SETTER_STD(setterFn(newValue), watcherFnList)
+					valueBuffer = SETTER_STD(setterFn(newValue), watcherFnList)
 				},
 				get $() {
-					return value
+					return valueBuffer
 				},
 				watch(...newWatcherFnList: Function[]) {
 					if (newWatcherFnList.length) {
-						newWatcherFnList.forEach((watcherFn) => watcherFn(value))
+						newWatcherFnList.forEach((watcherFn) => watcherFn(valueBuffer))
 						watcherFnList.push(...newWatcherFnList)
 					}
 					return this
@@ -47,15 +53,15 @@ const PUBLISHED_PTR = {},
 					return NEW_SYMBOL
 				},
 				fork() {
-					return $(value)
+					return $(valueBuffer)
 				},
 				emit(eventIdentifier: string | symbol, data: undefined) {
 				},
 				listen(listnerCallbacks: object) {
 				},
 				extend() {
-					if (Array.isArray(value)) {
-						return $(Object.assign(value, {
+					if (Array.isArray(valueBuffer)) {
+						return $(Object.assign(valueBuffer, {
 							swap(a: undefined, b: undefined) {
 							},
 							pushReturn(...elements: undefined[]) {
@@ -65,10 +71,16 @@ const PUBLISHED_PTR = {},
 						}))
 					}
 				},
+				into(callbackFn) {
+					return $(this, newValue => callbackFn(newValue))
+				},
 				[Symbol.for('PTR_IDENTIFIER')]: true,
 				[Symbol.toPrimitive]() {
 					return BASE_SYMBOL
 				},
+			}
+			if(IS_VALUE_PTR) {
+				value.watch(newValue => BASE_PTR.$ = newValue)
 			}
 
 		PUBLISHED_PTR[BASE_SYMBOL] = BASE_PTR

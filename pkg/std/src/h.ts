@@ -1,5 +1,7 @@
 type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
 
+
+
 /**
  * @param	{ TemplateStringsArray } s
  * @param	{ ...any} v
@@ -9,4 +11,4 @@ type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
 export const h = (
 	s: TemplateStringsArray,
 	...v: any[]
-): StrixHTMLFragment => [s, v, Symbol.for('STRIX_HTML_IDENTIFIER')]
+): any => [s, v, Symbol.for('STRIX_HTML_IDENTIFIER')]

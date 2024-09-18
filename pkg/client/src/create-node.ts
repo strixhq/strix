@@ -3,9 +3,9 @@ import { resolveRootFragment } from './resolve-root-fragment.ts'
 import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts'
 
 const BASE_DF = document.createDocumentFragment(),
-	ESCAPE_TARGET = "\"&'<>`",
+	ESCAPE_TARGET = '"&\'<>`',
 	ESCAPE_CHARCODE_BUF = {},
-	ESCAPER_REGEX = new RegExp(`[${ESCAPE_TARGET}]`, "g"),
+	ESCAPER_REGEX = new RegExp(`[${ESCAPE_TARGET}]`, 'g'),
 	ESCAPER_FN = (match: string): string => `&#x${ESCAPE_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],
@@ -13,9 +13,9 @@ const BASE_DF = document.createDocumentFragment(),
 		NOT_ROOT: boolean,
 	): HTMLElement | void => {
 		const CMD_BUF = resolveRootFragment(fragment),
-			PARSER_UUID = `strix-${random(32)}`,
-			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
-			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`
+			PARSER_TOKEN = `strix-${random(32)}`,
+			ATTR_PARSER_TOKEN = `${PARSER_TOKEN}-attr`,
+			PTR_PARSER_TOKEN = `${PARSER_TOKEN}-ptr`
 
 		if (NOT_ROOT) {
 			BASE_DF.appendChild(BASE_TEMP)
@@ -27,9 +27,9 @@ const BASE_DF = document.createDocumentFragment(),
 					CMD == CMD_ASSIGN_DIRECT
 						? TEMP_STR
 						: CMD == CMD_ASSIGN_OBJECT
-						? ` ${PARSER_UUID}="attr" ${ATTR_PARSER_TOKEN}-${CMD_INDEX}="${CMD_INDEX}"${TEMP_STR}`
+						? ` ${PARSER_TOKEN}="attr" ${ATTR_PARSER_TOKEN}-${CMD_INDEX}="${CMD_INDEX}"${TEMP_STR}`
 						: CMD == CMD_ASSIGN_PTR
-						? `<template ${PARSER_UUID}="ptr" ${PTR_PARSER_TOKEN}="${CMD_INDEX}"></template>${TEMP_STR}`
+						? `<template ${PARSER_TOKEN}="ptr" ${PTR_PARSER_TOKEN}="${CMD_INDEX}"></template>${TEMP_STR}`
 						: CMD == CMD_ASSIGN_RAW
 						? (TEMP_VAL + '').replace(ESCAPER_REGEX, ESCAPER_FN) + TEMP_STR
 						: '',
@@ -37,9 +37,9 @@ const BASE_DF = document.createDocumentFragment(),
 			.join('')
 
 		BASE_TEMP
-			.querySelectorAll(`[${PARSER_UUID}]`)
+			.querySelectorAll(`[${PARSER_TOKEN}]`)
 			.forEach((TARGET_REF) => {
-				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
+				switch (TARGET_REF.getAttribute(PARSER_TOKEN)) {
 					case 'attr': {
 						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
 							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
@@ -61,9 +61,9 @@ const BASE_DF = document.createDocumentFragment(),
 								}
 							})
 
-							TARGET_REF.removeAttribute(name);
+							TARGET_REF.removeAttribute(name)
 						})
-						TARGET_REF.removeAttribute(PARSER_UUID)
+						TARGET_REF.removeAttribute(PARSER_TOKEN)
 						break
 					}
 					case 'ptr': {
