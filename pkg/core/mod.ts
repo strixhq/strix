@@ -1,1 +1,1 @@
-export * from "./src/get-env.ts"
+export { getEnv } from "./src/get-env.ts"
