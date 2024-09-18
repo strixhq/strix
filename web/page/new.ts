@@ -44,7 +44,7 @@ export const buttonClass = {
 	<title>Document</title>
 	<script type="module" src="./src/main.js"><\/script>
 </head>
-</html>`}),console.log(`Done. now, run these following commands:
+</html>`});console.log(`Done. now, run these following commands:
 
   cd ${r}
   deno task install
