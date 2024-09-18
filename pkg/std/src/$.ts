@@ -1,4 +1,7 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
+import { getEnv } from "jsr:@strix/core@0.0.5"
+
+const { PTR_IDENTIFIER } = getEnv
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = (() => {
@@ -19,7 +22,7 @@ const PUBLISHED_PTR = {},
 		setterFn: Function = (newValue) => newValue,
 		watcherFnList: Function[] = [],
 	): object => {
-		const IS_PTR = value[Symbol.for("PTR_IDENTIFIER")];
+		const IS_PTR = value[PTR_IDENTIFIER];
 
 		value = IS_PTR
 			? value.$
@@ -75,7 +78,7 @@ const PUBLISHED_PTR = {},
 						}))
 					}
 				},
-				get [Symbol.for('PTR_IDENTIFIER')]() {
+				get [PTR_IDENTIFIER]() {
 					return true
 				},
 				[Symbol.toPrimitive]() {

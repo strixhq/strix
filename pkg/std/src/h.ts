@@ -1,3 +1,7 @@
+import { getEnv } from "jsr:@strix/core@0.0.5"
+
+const { STRIX_HTML_IDENTIFIER } = getEnv;
+
 type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
 
 /**
@@ -9,4 +13,4 @@ type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
 export const h = (
 	s: TemplateStringsArray,
 	...v: any[]
-): StrixHTMLFragment => [s, v, Symbol.for('STRIX_HTML_IDENTIFIER')]
+): StrixHTMLFragment => [s, v, STRIX_HTML_IDENTIFIER]
