@@ -3,10 +3,9 @@ import { resolveRootFragment } from './resolve-root-fragment.ts'
 import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts'
 
 const BASE_DF = document.createDocumentFragment(),
-	ESCAPE_TARGET = '"&\'<>`',
-	ESCAPE_CHARCODE_BUF = {},
-	ESCAPER_REGEX = new RegExp(`[${ESCAPE_TARGET}]`, 'g'),
-	ESCAPER_FN = (match: string): string => `&#x${ESCAPE_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
+	ESC_REGEX = /["&'<>`]/g,
+	ESC_CHARCODE_BUF = {},
+	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],
 		BASE_TEMP: HTMLElement,
@@ -31,7 +30,7 @@ const BASE_DF = document.createDocumentFragment(),
 						: CMD == CMD_ASSIGN_PTR
 						? `<template ${PARSER_TOKEN}="ptr" ${PTR_PARSER_TOKEN}="${CMD_INDEX}"></template>${TEMP_STR}`
 						: CMD == CMD_ASSIGN_RAW
-						? (TEMP_VAL + '').replace(ESCAPER_REGEX, ESCAPER_FN) + TEMP_STR
+						? (TEMP_VAL + '').replace(ESC_REGEX, ESC_FN) + TEMP_STR
 						: '',
 			)
 			.join('')
@@ -39,7 +38,8 @@ const BASE_DF = document.createDocumentFragment(),
 		BASE_TEMP
 			.querySelectorAll(`[${PARSER_TOKEN}]`)
 			.forEach((TARGET_REF) => {
-				switch (TARGET_REF.getAttribute(PARSER_TOKEN)) {
+				const ATTR_TYPE = TARGET_REF.getAttribute(PARSER_UUID)
+				switch (ATTR_TYPE) {
 					case 'attr': {
 						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
 							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
