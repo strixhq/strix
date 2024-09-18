@@ -18,15 +18,15 @@ const PUBLISHED_PTR = {},
 		return newValue
 	},
 	$ = (
-		value: undefined,
+		initValue: undefined,
 		setterFn: Function = (newValue) => newValue,
 		watcherFnList: Function[] = [],
 	): object => {
-		const IS_PTR = value[PTR_IDENTIFIER];
+		const IS_PTR = initValue[PTR_IDENTIFIER];
 
-		value = IS_PTR
-			? value.$
-			: value
+		let value = IS_PTR
+			? initValue.$
+			: initValue
 		;
 
 		const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
@@ -88,7 +88,7 @@ const PUBLISHED_PTR = {},
 		;
 
 		if(IS_PTR) {
-			value.watch
+			initValue.watch(newValue => BASE_PTR.$ = newValue);
 		}
 
 		PUBLISHED_PTR[BASE_SYMBOL] = BASE_PTR
