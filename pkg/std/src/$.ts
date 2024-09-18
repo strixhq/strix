@@ -19,6 +19,13 @@ const PUBLISHED_PTR = {},
 		setterFn: Function = (newValue) => newValue,
 		watcherFnList: Function[] = [],
 	): object => {
+		const IS_PTR = value[Symbol.for("PTR_IDENTIFIER")];
+
+		value = IS_PTR
+			? value.$
+			: value
+		;
+
 		const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
 			BASE_PTR = {
 				set value(newValue) {
@@ -49,6 +56,9 @@ const PUBLISHED_PTR = {},
 				fork() {
 					return $(value)
 				},
+				into(callbackFn: Function) {
+					return $()
+				},
 				emit(eventIdentifier: string | symbol, data: undefined) {
 				},
 				listen(listnerCallbacks: object) {
@@ -65,11 +75,18 @@ const PUBLISHED_PTR = {},
 						}))
 					}
 				},
-				[Symbol.for('PTR_IDENTIFIER')]: true,
+				get [Symbol.for('PTR_IDENTIFIER')]() {
+					return true
+				},
 				[Symbol.toPrimitive]() {
 					return BASE_SYMBOL
 				},
 			}
+		;
+
+		if(IS_PTR) {
+			value.watch
+		}
 
 		PUBLISHED_PTR[BASE_SYMBOL] = BASE_PTR
 		return BASE_PTR
