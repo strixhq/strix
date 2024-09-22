@@ -24,7 +24,7 @@ Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 })
 
 export const $ = (
-	initValue: undefined,
+	initValue: any,
 	setterFn: Function = (newValue) => newValue,
 	watcherFnList: Function[] = [],
 ): object => {
@@ -63,7 +63,7 @@ export const $ = (
 				return $(value)
 			},
 			into(setterFn: Function) {
-				return $(this, setterFn);
+				return $(this, setterFn)
 			},
 			emit(eventIdentifier: string | symbol, data: undefined) {
 			},

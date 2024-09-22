@@ -1,17 +1,38 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { resolveRootFragment } from './resolve-root-fragment.ts'
-import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts'
+import { getEnv } from 'jsr:@strix/core@0.0.5'
 
-const BASE_DF = document.createDocumentFragment(),
+const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } = getEnv,
+	BASE_DF = document.createDocumentFragment(),
 	ESC_REGEX = /["&'<>`]/g,
 	ESC_CHARCODE_BUF = {},
 	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
+	resolveFragment = (
+		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
+		FRAG_ARR: [symbol, string, any][] = [],
+	): [symbol, string, any][] => {
+		FRAG_ARR.push(
+			[CMD_ASSIGN_DIRECT, TSA[0], undefined],
+			...(TVA.map((VAL, VAL_INDEX): [symbol, string, any] => [
+				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
+					? (resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR), CMD_ASSIGN_DIRECT)
+					: VAL[PTR_IDENTIFIER]
+					? CMD_ASSIGN_PTR
+					: typeof VAL == 'object'
+					? CMD_ASSIGN_OBJECT
+					: CMD_ASSIGN_RAW,
+				TSA[VAL_INDEX + 1],
+				VAL,
+			])),
+		)
+		return FRAG_ARR
+	},
+	// export
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],
 		BASE_TEMP: HTMLElement,
 		NOT_ROOT: boolean,
 	): HTMLElement | void => {
-		const CMD_BUF = resolveRootFragment(fragment),
+		const CMD_BUF = resolveFragment(fragment),
 			PARSER_UUID = `strix-${random(32)}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
 			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`
