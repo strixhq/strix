@@ -63,7 +63,7 @@ const BASE_DF = document.createDocumentFragment(),
 							queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						})
 						queueMicrotask(() => TARGET_REF.removeAttribute(PARSER_UUID))
-						return;
+						return
 					}
 					case 'ptr': {
 						const VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PTR_PARSER_TOKEN)][2],

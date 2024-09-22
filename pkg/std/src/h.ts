@@ -1,10 +1,8 @@
-import { getEnv } from "jsr:@strix/core@0.0.5"
+import { getEnv } from 'jsr:@strix/core@0.0.5'
 
-const { STRIX_HTML_IDENTIFIER } = getEnv;
+const { STRIX_HTML_IDENTIFIER } = getEnv
 
 type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
-
-
 
 /**
  * @param	{ TemplateStringsArray } s

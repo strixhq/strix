@@ -1,5 +1,5 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { getEnv } from "jsr:@strix/core@0.0.5"
+import { getEnv } from 'jsr:@strix/core@0.0.5'
 
 const { PTR_IDENTIFIER } = getEnv
 
@@ -16,25 +16,21 @@ const PUBLISHED_PTR = {},
 		watcherFnList.forEach((watcherFn) => watcherFn(newValue))
 		return newValue
 	}
-;
 
 Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 	configurable: false,
 	enumerable: false,
-	value: (symbol: symbol) => PUBLISHED_PTR[symbol]
-});
+	value: (symbol: symbol) => PUBLISHED_PTR[symbol],
+})
 
 export const $ = (
 	initValue: undefined,
 	setterFn: Function = (newValue) => newValue,
 	watcherFnList: Function[] = [],
 ): object => {
-	const IS_PTR = initValue[PTR_IDENTIFIER];
+	const IS_PTR = initValue[PTR_IDENTIFIER]
 
-	let value = IS_PTR
-		? initValue.$
-		: initValue
-	;
+	let value = IS_PTR ? initValue.$ : initValue
 
 	const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
 		BASE_PTR = {
@@ -92,10 +88,9 @@ export const $ = (
 				return BASE_SYMBOL
 			},
 		}
-	;
 
-	if(IS_PTR) {
-		initValue.watch(newValue => BASE_PTR.$ = newValue);
+	if (IS_PTR) {
+		initValue.watch((newValue) => BASE_PTR.$ = newValue)
 	}
 
 	PUBLISHED_PTR[BASE_SYMBOL] = BASE_PTR
