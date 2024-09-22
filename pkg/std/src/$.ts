@@ -62,24 +62,12 @@ export const $ = (
 			fork() {
 				return $(value)
 			},
-			into(callbackFn: Function) {
-				return $()
+			into(setterFn: Function) {
+				return $(this, setterFn);
 			},
 			emit(eventIdentifier: string | symbol, data: undefined) {
 			},
 			listen(listnerCallbacks: object) {
-			},
-			extend() {
-				if (Array.isArray(value)) {
-					return $(Object.assign(value, {
-						swap(a: undefined, b: undefined) {
-						},
-						pushReturn(...elements: undefined[]) {
-							this.push(...elements)
-							return elements
-						},
-					}))
-				}
 			},
 			get [PTR_IDENTIFIER]() {
 				return true
