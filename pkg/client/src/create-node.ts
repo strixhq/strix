@@ -6,6 +6,7 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 	ESC_REGEX = /["&'<>`]/g,
 	ESC_CHARCODE_BUF = {},
 	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
+	OBJ_PROTO = Reflect.getPrototypeOf({}),
 	resolveFragment = (
 		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
 		FRAG_ARR: [symbol, string, any][] = [],
@@ -35,7 +36,8 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 		const CMD_BUF = resolveFragment(fragment),
 			PARSER_UUID = `strix-${random(32)}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
-			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`
+			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,
+			EL_BUF = new WeakMap()
 
 		if (NOT_ROOT) {
 			BASE_DF.appendChild(BASE_TEMP)
@@ -61,19 +63,36 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 			.forEach((TARGET_REF) => {
 				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
 					case 'attr': {
+						const ATTR_HOLDER = {},
+							ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })
+
 						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
 							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
 
 							const VAL_BUFFER = CMD_BUF[value][2]
+
 							Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
 								const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
 
 								if (typeof ATTR_PROP == 'symbol') {
-									window[ATTR_PROP.toString()]?.(ATTR_PROP)?.$(
+
+									const PTR_BUF = window[ATTR_PROP.toString()]?.(ATTR_PROP);
+
+									if(!PTR_BUF[PTR_IDENTIFIER]) return;
+
+									const RETURNED_ATTR_BUF = PTR_BUF.$(
 										VAL_BUFFER[ATTR_PROP],
 										TARGET_REF,
-										NOT_ROOT ? undefined : BASE_TEMP,
+										ATTR_HOLDER_PROXY
 									)
+
+									if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
+
+									Object.assign(
+										ATTR_HOLDER,
+										RETURNED_ATTR_BUF
+									)
+
 								} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
 									ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue)
 								} else {

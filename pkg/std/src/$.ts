@@ -23,7 +23,7 @@ Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 	value: (symbol: symbol) => PUBLISHED_PTR[symbol],
 })
 
-export const $ = (
+export const $ = new Proxy((
 	initValue: any,
 	setterFn: Function = (newValue) => newValue,
 	watcherFnList: Function[] = [],
@@ -83,4 +83,25 @@ export const $ = (
 
 	PUBLISHED_PTR[BASE_SYMBOL] = BASE_PTR
 	return BASE_PTR
-}
+}, {
+	get(_, prop) {
+		let ptrBuffer;
+		return typeof prop !== "symbol"
+			? undefined
+			: prop in PUBLISHED_PTR
+			? PUBLISHED_PTR[prop].$
+			: typeof (ptrBuffer = window[prop.toString()]) == "function"
+			? ptrBuffer(prop)?.$
+			: undefined
+	},
+	set(_, value, prop) {
+		let ptrBuffer;
+		return typeof prop !== "symbol"
+			? undefined
+			: prop in PUBLISHED_PTR
+			? PUBLISHED_PTR[prop].$ = value
+			: typeof (ptrBuffer = window[prop.toString()]) == "function"
+			? ptrBuffer(prop).$ = value
+			: undefined
+	}
+})
