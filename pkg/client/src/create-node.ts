@@ -2,11 +2,15 @@ import { random } from 'jsr:@ihasq/random@0.1.6'
 import { getEnv } from 'jsr:@strix/core@0.0.5'
 
 const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } = getEnv,
+
 	BASE_DF = document.createDocumentFragment(),
+
 	ESC_REGEX = /["&'<>`]/g,
 	ESC_CHARCODE_BUF = {},
 	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
+
 	OBJ_PROTO = Reflect.getPrototypeOf({}),
+
 	resolveFragment = (
 		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
 		FRAG_ARR: [symbol, string, any][] = [],
@@ -15,7 +19,10 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 			[CMD_ASSIGN_DIRECT, TSA[0], undefined],
 			...(TVA.map((VAL, VAL_INDEX): [symbol, string, any] => [
 				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
-					? (resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR), CMD_ASSIGN_DIRECT)
+					? (
+						resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR),
+						CMD_ASSIGN_DIRECT
+					)
 					: VAL[PTR_IDENTIFIER]
 					? CMD_ASSIGN_PTR
 					: typeof VAL == 'object'
@@ -27,9 +34,11 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 		)
 		return FRAG_ARR
 	},
+
 	resolveAttr = (TARGET_REF, CMD_BUF) => {
 
 	},
+
 	// export
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],
@@ -42,9 +51,7 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,
 			EL_BUF = new WeakMap()
 
-		if (NOT_ROOT) {
-			BASE_DF.appendChild(BASE_TEMP)
-		}
+		if (NOT_ROOT) BASE_DF.appendChild(BASE_TEMP);
 
 		BASE_TEMP.innerHTML = CMD_BUF
 			.map(
@@ -54,7 +61,7 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 						: CMD == CMD_ASSIGN_OBJECT
 						? ` ${PARSER_UUID}="attr" ${ATTR_PARSER_TOKEN}-${CMD_INDEX}="${CMD_INDEX}"${TEMP_STR}`
 						: CMD == CMD_ASSIGN_PTR
-						? `<template ${PARSER_UUID}="ptr" ${PTR_PARSER_TOKEN}="${CMD_INDEX}"></template>${TEMP_STR}`
+						? `<${PARSER_UUID} ${PARSER_UUID}="ptr" ${PTR_PARSER_TOKEN}="${CMD_INDEX}"></${PARSER_UUID}>${TEMP_STR}`
 						: CMD == CMD_ASSIGN_RAW
 						? (TEMP_VAL + '').replace(ESC_REGEX, ESC_FN) + TEMP_STR
 						: '',

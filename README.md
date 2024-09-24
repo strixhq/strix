@@ -73,9 +73,7 @@ import { on, css } from "@strix/attr"
 function WithAttributes() {
     return html`
         <button ${{
-            [css]: {
-                color: "red"
-            },
+            [css.color]: "red",
             [on.click]: () => alert("clicked!")
         }}>
             click me...
