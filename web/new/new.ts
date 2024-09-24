@@ -51,10 +51,17 @@ const
 				: undefined,
 		}),
 		type: await select({
-			message: '🦉 < Enter Project Name:',
+			message: '🦉 < Select Project Type:',
 			options: [
 				{ value: "client", label: "Client" },
 				{ value: "server", label: "Server" },
+			]
+		}),
+		lang: await select({
+			message: '🦉 < Select Language:',
+			options: [
+				{ value: "js", label: "JavaScript" },
+				{ value: "ts", label: "TypeScript" },
 			]
 		}),
 	},
@@ -128,7 +135,7 @@ export const buttonClass = {
 	<script type="module" src="./src/main.js"></script>
 </head>
 </html>`
-})
+});
 
 console.log(
 `Done. now, run these following commands:

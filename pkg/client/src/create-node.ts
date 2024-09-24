@@ -1,20 +1,43 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { resolveRootFragment } from './resolve-root-fragment.ts'
-import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from './constant.ts'
+import { getEnv } from 'jsr:@strix/core@0.0.5'
 
-const BASE_DF = document.createDocumentFragment(),
+const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } = getEnv,
+	BASE_DF = document.createDocumentFragment(),
 	ESC_REGEX = /["&'<>`]/g,
 	ESC_CHARCODE_BUF = {},
 	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
+	OBJ_PROTO = Reflect.getPrototypeOf({}),
+	resolveFragment = (
+		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
+		FRAG_ARR: [symbol, string, any][] = [],
+	): [symbol, string, any][] => {
+		FRAG_ARR.push(
+			[CMD_ASSIGN_DIRECT, TSA[0], undefined],
+			...(TVA.map((VAL, VAL_INDEX): [symbol, string, any] => [
+				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
+					? (resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR), CMD_ASSIGN_DIRECT)
+					: VAL[PTR_IDENTIFIER]
+					? CMD_ASSIGN_PTR
+					: typeof VAL == 'object'
+					? CMD_ASSIGN_OBJECT
+					: CMD_ASSIGN_RAW,
+				TSA[VAL_INDEX + 1],
+				VAL,
+			])),
+		)
+		return FRAG_ARR
+	},
+	// export
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],
 		BASE_TEMP: HTMLElement,
 		NOT_ROOT: boolean,
 	): HTMLElement | void => {
-		const CMD_BUF = resolveRootFragment(fragment),
+		const CMD_BUF = resolveFragment(fragment),
 			PARSER_UUID = `strix-${random(32)}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
-			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`
+			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,
+			EL_BUF = new WeakMap()
 
 		if (NOT_ROOT) {
 			BASE_DF.appendChild(BASE_TEMP)
@@ -40,19 +63,36 @@ const BASE_DF = document.createDocumentFragment(),
 			.forEach((TARGET_REF) => {
 				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
 					case 'attr': {
+						const ATTR_HOLDER = {},
+							ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })
+
 						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
 							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
 
 							const VAL_BUFFER = CMD_BUF[value][2]
+
 							Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
 								const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
 
 								if (typeof ATTR_PROP == 'symbol') {
-									window[ATTR_PROP.toString()]?.(ATTR_PROP)?.$(
+
+									const PTR_BUF = window[ATTR_PROP.toString()]?.(ATTR_PROP);
+
+									if(!PTR_BUF[PTR_IDENTIFIER]) return;
+
+									const RETURNED_ATTR_BUF = PTR_BUF.$(
 										VAL_BUFFER[ATTR_PROP],
 										TARGET_REF,
-										NOT_ROOT ? undefined : BASE_TEMP,
+										ATTR_HOLDER_PROXY
 									)
+
+									if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
+
+									Object.assign(
+										ATTR_HOLDER,
+										RETURNED_ATTR_BUF
+									)
+
 								} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
 									ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue)
 								} else {
@@ -63,7 +103,7 @@ const BASE_DF = document.createDocumentFragment(),
 							queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						})
 						queueMicrotask(() => TARGET_REF.removeAttribute(PARSER_UUID))
-						return;
+						return
 					}
 					case 'ptr': {
 						const VAL_BUFFER = CMD_BUF[TARGET_REF.getAttribute(PTR_PARSER_TOKEN)][2],

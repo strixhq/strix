@@ -1,5 +1,5 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { getEnv } from "jsr:@strix/core@0.0.5"
+import { getEnv } from 'jsr:@strix/core@0.0.5'
 
 const { PTR_IDENTIFIER } = getEnv
 
@@ -16,25 +16,21 @@ const PUBLISHED_PTR = {},
 		watcherFnList.forEach((watcherFn) => watcherFn(newValue))
 		return newValue
 	}
-;
 
 Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 	configurable: false,
 	enumerable: false,
-	value: (symbol: symbol) => PUBLISHED_PTR[symbol]
-});
+	value: (symbol: symbol) => PUBLISHED_PTR[symbol],
+})
 
-export const $ = (
-	initValue: undefined,
+export const $ = new Proxy((
+	initValue: any,
 	setterFn: Function = (newValue) => newValue,
 	watcherFnList: Function[] = [],
 ): object => {
-	const IS_PTR = initValue[PTR_IDENTIFIER];
+	const IS_PTR = initValue[PTR_IDENTIFIER]
 
-	let value = IS_PTR
-		? initValue.$
-		: initValue
-	;
+	let value = IS_PTR ? initValue.$ : initValue
 
 	const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
 		BASE_PTR = {
@@ -66,24 +62,12 @@ export const $ = (
 			fork() {
 				return $(value)
 			},
-			into(callbackFn: Function) {
-				return $()
+			into(setterFn: Function) {
+				return $(this, setterFn)
 			},
 			emit(eventIdentifier: string | symbol, data: undefined) {
 			},
 			listen(listnerCallbacks: object) {
-			},
-			extend() {
-				if (Array.isArray(value)) {
-					return $(Object.assign(value, {
-						swap(a: undefined, b: undefined) {
-						},
-						pushReturn(...elements: undefined[]) {
-							this.push(...elements)
-							return elements
-						},
-					}))
-				}
 			},
 			get [PTR_IDENTIFIER]() {
 				return true
@@ -92,12 +76,32 @@ export const $ = (
 				return BASE_SYMBOL
 			},
 		}
-	;
 
-	if(IS_PTR) {
-		initValue.watch(newValue => BASE_PTR.$ = newValue);
+	if (IS_PTR) {
+		initValue.watch((newValue) => BASE_PTR.$ = newValue)
 	}
 
 	PUBLISHED_PTR[BASE_SYMBOL] = BASE_PTR
 	return BASE_PTR
-}
+}, {
+	get(_, prop) {
+		let ptrBuffer;
+		return typeof prop !== "symbol"
+			? undefined
+			: prop in PUBLISHED_PTR
+			? PUBLISHED_PTR[prop].$
+			: typeof (ptrBuffer = window[prop.toString()]) == "function"
+			? ptrBuffer(prop)?.$
+			: undefined
+	},
+	set(_, value, prop) {
+		let ptrBuffer;
+		return typeof prop !== "symbol"
+			? undefined
+			: prop in PUBLISHED_PTR
+			? PUBLISHED_PTR[prop].$ = value
+			: typeof (ptrBuffer = window[prop.toString()]) == "function"
+			? ptrBuffer(prop).$ = value
+			: undefined
+	}
+})

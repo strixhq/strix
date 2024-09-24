@@ -1,0 +1,6 @@
+{
+	"tasks": {
+		"install": "deno run -A npm:jsr add @strix/std@latest @strix/attr@latest @strix/client@latest",
+		"start": "deno run -A npm:vite@latest"
+	}
+}
