@@ -14,7 +14,6 @@
 ```javascript
 import { $, h as html } from '@strix/std';
 import { on } from '@strix/attr';
-import { write } from '@strix/client';
 
 
 export default function() {

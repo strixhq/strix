@@ -27,6 +27,9 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 		)
 		return FRAG_ARR
 	},
+	resolveAttr = (TARGET_REF, CMD_BUF) => {
+
+	},
 	// export
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol],

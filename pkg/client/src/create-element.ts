@@ -1,3 +1,16 @@
 import { createNode } from './create-node.ts'
 
-export const createElement = (fragment: TemplateStringsArray): NodeList => createNode(fragment, document.createElement('strix-unregistered'), true)?.childNodes
+const { STRIX_HTML_IDENTIFIER } = getEnv
+
+export const createElement = (fragment: TemplateStringsArray | Function): NodeList => createNode(
+	typeof fragment == "function"
+	? fragment()
+	: fragment[2] == STRIX_HTML_IDENTIFIER
+	? fragment
+	: undefined,
+
+	document.createElement('strix-unregistered'),
+
+	true
+
+)?.childNodes
