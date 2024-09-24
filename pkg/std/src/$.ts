@@ -22,7 +22,7 @@ Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 	value: (symbol: symbol) => PUBLISHED_PTR[symbol],
 })
 
-export const $ = new Proxy((
+export const $: Function = new Proxy((
 	initValue: any,
 	setterFn: Function = (newValue) => newValue,
 	watcherFnList: Function[] = [],
