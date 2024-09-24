@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@strix/attr": "npm:@jsr/strix__attr@^0.0.7",
-    "@strix/client": "npm:@jsr/strix__client@^0.1.8",
-    "@strix/std": "npm:@jsr/strix__std@^0.1.7"
-  }
-}
