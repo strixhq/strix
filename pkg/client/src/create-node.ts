@@ -35,8 +35,38 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 		return FRAG_ARR
 	},
 
-	resolveAttr = (TARGET_REF, CMD_BUF) => {
+	resolveAttr = (TARGET_REF, VAL_BUFFER, CMD_BUF) => {
 
+		Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
+			const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
+
+			if (typeof ATTR_PROP == 'symbol') {
+
+				const PTR_BUF = window[ATTR_PROP.toString()]?.(ATTR_PROP);
+
+				if(!PTR_BUF[PTR_IDENTIFIER]) return;
+
+				const RETURNED_ATTR_BUF = PTR_BUF.$(
+					VAL_BUFFER[ATTR_PROP],
+					TARGET_REF,
+					ATTR_HOLDER_PROXY
+				)
+
+				if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
+
+				resolveAttr(TARGET_REF, RETURNED_ATTR_BUF, CMD_BUF);
+
+				Object.assign(
+					ATTR_HOLDER,
+					RETURNED_ATTR_BUF
+				)
+
+			} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
+				ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue)
+			} else {
+				TARGET_REF[ATTR_PROP] = ATTR_BUFFER_VALUE
+			}
+		})
 	},
 
 	// export
@@ -81,34 +111,7 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 
 							const VAL_BUFFER = CMD_BUF[value][2]
 
-							Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
-								const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
-
-								if (typeof ATTR_PROP == 'symbol') {
-
-									const PTR_BUF = window[ATTR_PROP.toString()]?.(ATTR_PROP);
-
-									if(!PTR_BUF[PTR_IDENTIFIER]) return;
-
-									const RETURNED_ATTR_BUF = PTR_BUF.$(
-										VAL_BUFFER[ATTR_PROP],
-										TARGET_REF,
-										ATTR_HOLDER_PROXY
-									)
-
-									if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
-
-									Object.assign(
-										ATTR_HOLDER,
-										RETURNED_ATTR_BUF
-									)
-
-								} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
-									ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue)
-								} else {
-									TARGET_REF[ATTR_PROP] = ATTR_BUFFER_VALUE
-								}
-							})
+							resolveAttr(TARGET_REF, VAL_BUFFER, CMD_BUF);
 
 							queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						})
