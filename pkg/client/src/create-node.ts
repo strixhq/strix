@@ -1,5 +1,5 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { getEnv } from 'jsr:@strix/core@0.0.5'
+import { getEnv } from 'jsr:@strix/core@0.0.7'
 
 const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } = getEnv,
 
@@ -35,7 +35,7 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 		return FRAG_ARR
 	},
 
-	resolveAttr = (TARGET_REF, VAL_BUFFER, CMD_BUF) => {
+	resolveAttr = (TARGET_REF, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY) => {
 
 		Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
 			const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
@@ -111,7 +111,7 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 
 							const VAL_BUFFER = CMD_BUF[value][2]
 
-							resolveAttr(TARGET_REF, VAL_BUFFER, CMD_BUF);
+							resolveAttr(TARGET_REF, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY);
 
 							queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						})

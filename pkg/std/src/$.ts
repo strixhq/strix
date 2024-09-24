@@ -1,5 +1,4 @@
-import { random } from 'jsr:@ihasq/random@0.1.6'
-import { getEnv } from 'jsr:@strix/core@0.0.5'
+import { getEnv, getRandom as random } from 'jsr:@strix/core@0.0.7'
 
 const { PTR_IDENTIFIER } = getEnv
 

@@ -1,5 +1,1 @@
-{
-	"dependencies": {
-		"@strix/std": "npm:@jsr/strix__std@^0.1.3"
-	}
-}
+{}
