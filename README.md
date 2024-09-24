@@ -94,7 +94,7 @@ const mainButton = {
         backgroundColor: "blue",
         color: "white",
         borderRadius: "2px"
-    }
+    },
 }
 
 function AppWithClass() {
