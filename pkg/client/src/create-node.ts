@@ -1,9 +1,8 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { getEnv } from 'jsr:@strix/core@0.0.7'
+import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from "./env.ts",
 
-const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } = getEnv,
 
-	BASE_DF = document.createDocumentFragment(),
+const BASE_DF = document.createDocumentFragment(),
 
 	ESC_REGEX = /["&'<>`]/g,
 	ESC_CHARCODE_BUF = {},
@@ -35,7 +34,42 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 		return FRAG_ARR
 	},
 
-	resolveAttr = (TARGET_REF, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY) => {
+	resolveAttrIndex = (RAW_ATTR, TARGET_REF) => {
+
+		Reflect.ownKeys(RAW_ATTR).forEach(RAW_ATTR_KEY => {
+
+			if(typeof RAW_ATTR_KEY == 'symbol') {
+				
+				const PTR_BUF = window[RAW_ATTR_KEY.toString()]?.(RAW_ATTR_KEY);
+				if(!PTR_BUF[PTR_IDENTIFIER]) return;
+				
+				const ATTR_PROCESSOR_FN = PTR_BUF.$;
+				if(ATTR_PROCESSOR_FN.constructor?.name != "Function") return;
+				
+				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(
+					RAW_ATTR[RAW_ATTR_KEY],
+					TARGET_REF,
+					ATTR_HOLDER_PROXY
+				)
+				if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
+
+				resolveAttrIndex(RETURNED_ATTR_BUF, TARGET_REF);
+			}
+		})
+	},
+
+	resolveAttr = (TARGET_REF, ATTR_PARSER_TOKEN, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY) => {
+
+		const ATTR_BUF = {};
+
+		Array.from(TARGET_REF.attributes).reverse().forEach(({ name: ATTR_NAME, value: ATTR_VAL }) => {
+
+			if (!ATTR_NAME.startsWith(ATTR_PARSER_TOKEN)) return;
+
+			const RAW_ATTR = CMD_BUF[ATTR_VAL][2];
+
+			resolveAttrIndex(RAW_ATTR, TARGET_REF);
+		})
 
 		Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
 			const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
@@ -46,13 +80,6 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 
 				if(!PTR_BUF[PTR_IDENTIFIER]) return;
 
-				const RETURNED_ATTR_BUF = PTR_BUF.$(
-					VAL_BUFFER[ATTR_PROP],
-					TARGET_REF,
-					ATTR_HOLDER_PROXY
-				)
-
-				if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
 
 				resolveAttr(TARGET_REF, RETURNED_ATTR_BUF, CMD_BUF);
 
@@ -103,19 +130,20 @@ const { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PT
 			.forEach((TARGET_REF) => {
 				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
 					case 'attr': {
-						const ATTR_HOLDER = {},
-							ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })
+						resolveAttr(TARGET_REF, ATTR_PARSER_TOKEN);
+						// const ATTR_HOLDER = {},
+						// 	ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })
 
-						Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
-							if (!name.startsWith(ATTR_PARSER_TOKEN)) return
+						// Array.from(TARGET_REF.attributes).forEach(({ name, value }) => {
+						// 	if (!name.startsWith(ATTR_PARSER_TOKEN)) return
 
-							const VAL_BUFFER = CMD_BUF[value][2]
+						// 	const VAL_BUFFER = CMD_BUF[value][2]
 
-							resolveAttr(TARGET_REF, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY);
+						// 	resolveAttr(TARGET_REF, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY);
 
-							queueMicrotask(() => TARGET_REF.removeAttribute(name))
-						})
-						queueMicrotask(() => TARGET_REF.removeAttribute(PARSER_UUID))
+						// 	queueMicrotask(() => TARGET_REF.removeAttribute(name))
+						// })
+						// queueMicrotask(() => TARGET_REF.removeAttribute(PARSER_UUID))
 						return
 					}
 					case 'ptr': {
