@@ -53,8 +53,8 @@ export const $: Function = new Proxy((
 				}
 				return this
 			},
-			publishSymbol() {
-				const NEW_SYMBOL = Symbol(GLOBAL_TOKEN)
+			publishSymbol(name = "") {
+				const NEW_SYMBOL = Symbol(GLOBAL_TOKEN + name)
 				PUBLISHED_PTR[NEW_SYMBOL] = this
 				return NEW_SYMBOL
 			},

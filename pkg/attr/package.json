@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@strix/std": "npm:@jsr/strix__std@^0.1.8"
+    "@strix/std": "npm:@jsr/strix__std@^0.1.9"
   }
 }
