@@ -24,4 +24,4 @@ export const css: object = createProxiedAttribute((prop, value, ref, root) => {
 	} else {
 		BASE_STYLEMAP.set(RESOLVED_PROP, value)
 	}
-})
+}, "css")

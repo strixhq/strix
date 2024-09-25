@@ -1,5 +1,7 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { PTR_IDENTIFIER } from "./env.ts"
+
+
+const PTR_IDENTIFIER = Symbol.for("PTR_IDENTIFIER")
 
 
 const BASE_DF = document.createDocumentFragment(),
@@ -9,6 +11,7 @@ const BASE_DF = document.createDocumentFragment(),
 	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
 
 	OBJ_PROTO = Reflect.getPrototypeOf({}),
+	FN_PROTO = Reflect.getPrototypeOf(() => {}),
 
 	resolveFragment = (
 		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
@@ -16,7 +19,7 @@ const BASE_DF = document.createDocumentFragment(),
 	): [number, string, any][] => {
 		FRAG_ARR.push(
 			[0, TSA[0], undefined],
-			...(TVA.map((VAL, VAL_INDEX): [number, string, any] => [
+			...(TVA.map((VAL, VAL_INDEX): [symbol, string, any] => [
 				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
 					? (
 						resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR),
@@ -24,7 +27,7 @@ const BASE_DF = document.createDocumentFragment(),
 					)
 					: VAL[PTR_IDENTIFIER]
 					? 1
-					: typeof VAL == 'object'
+					: typeof VAL == "object" && Reflect.getPrototypeOf(VAL) == OBJ_PROTO
 					? 2
 					: 3,
 				TSA[VAL_INDEX + 1],
@@ -34,65 +37,33 @@ const BASE_DF = document.createDocumentFragment(),
 		return FRAG_ARR
 	},
 
-	resolveAttrIndex = (RAW_ATTR, TARGET_REF) => {
+	resolveAttr = (RAW_ATTR, TARGET_REF) => {
+		console.log(RAW_ATTR)
 
 		Reflect.ownKeys(RAW_ATTR).forEach(RAW_ATTR_KEY => {
+			const RAW_ATTR_VALUE = RAW_ATTR[RAW_ATTR_KEY]
 
 			if(typeof RAW_ATTR_KEY == 'symbol') {
 				
-				const PTR_BUF = window[RAW_ATTR_KEY.toString()]?.(RAW_ATTR_KEY);
-				if(!PTR_BUF[PTR_IDENTIFIER]) return;
+				const PTR_BUF = window[RAW_ATTR_KEY.toString().slice(8, 12)]?.(RAW_ATTR_KEY);
+
+				if(!PTR_BUF?.[PTR_IDENTIFIER]) {
+					TARGET_REF[RAW_ATTR_KEY] = RAW_ATTR_VALUE
+					return;
+				};
 				
 				const ATTR_PROCESSOR_FN = PTR_BUF.$;
-				if(ATTR_PROCESSOR_FN.constructor?.name != "Function") return;
+				if(Reflect.getPrototypeOf(ATTR_PROCESSOR_FN) == FN_PROTO) return;
 				
-				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(
-					RAW_ATTR[RAW_ATTR_KEY],
-					TARGET_REF,
-				)
-
+				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(RAW_ATTR_VALUE, TARGET_REF)
 				if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
 
-				resolveAttrIndex(RETURNED_ATTR_BUF, TARGET_REF);
-			}
-		})
-	},
-
-	resolveAttr = (TARGET_REF, ATTR_PARSER_TOKEN, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY) => {
-
-		const ATTR_BUF = {};
-
-		Array.from(TARGET_REF.attributes).reverse().forEach(({ name: ATTR_NAME, value: ATTR_VAL }) => {
-
-			if (!ATTR_NAME.startsWith(ATTR_PARSER_TOKEN)) return;
-
-			const RAW_ATTR = CMD_BUF[ATTR_VAL][2];
-
-			resolveAttrIndex(RAW_ATTR, TARGET_REF);
-		})
-
-		Reflect.ownKeys(VAL_BUFFER).forEach((ATTR_PROP) => {
-			const ATTR_BUFFER_VALUE = VAL_BUFFER[ATTR_PROP]
-
-			if (typeof ATTR_PROP == 'symbol') {
-
-				const PTR_BUF = window[ATTR_PROP.toString()]?.(ATTR_PROP);
-
-				if(!PTR_BUF[PTR_IDENTIFIER]) return;
-
-
-				resolveAttr(TARGET_REF, RETURNED_ATTR_BUF, CMD_BUF);
-
-				Object.assign(
-					ATTR_HOLDER,
-					RETURNED_ATTR_BUF
-				)
-
-			} else if (ATTR_BUFFER_VALUE?.[PTR_IDENTIFIER]) {
-				ATTR_BUFFER_VALUE.watch((newValue) => TARGET_REF[ATTR_PROP] = newValue)
+				resolveAttr(RETURNED_ATTR_BUF, TARGET_REF);
 			} else {
-				TARGET_REF[ATTR_PROP] = ATTR_BUFFER_VALUE
+				TARGET_REF[RAW_ATTR_KEY] = RAW_ATTR_VALUE
 			}
+
+			
 		})
 	},
 
@@ -130,7 +101,14 @@ const BASE_DF = document.createDocumentFragment(),
 			.forEach((TARGET_REF) => {
 				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
 					case 'attr': {
-						resolveAttr(TARGET_REF, ATTR_PARSER_TOKEN);
+						Array.from(TARGET_REF.attributes).forEach(({ name: ATTR_NAME, value: ATTR_VAL }) => {
+
+							if (!ATTR_NAME.startsWith(ATTR_PARSER_TOKEN)) return;
+				
+							const RAW_ATTR = CMD_BUF[ATTR_VAL][2];
+				
+							resolveAttr(RAW_ATTR, TARGET_REF);
+						})
 						// const ATTR_HOLDER = {},
 						// 	ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })
 
