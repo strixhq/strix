@@ -19,7 +19,7 @@ const BASE_DF = document.createDocumentFragment(),
 	): [number, string, any][] => {
 		FRAG_ARR.push(
 			[0, TSA[0], undefined],
-			...(TVA.map((VAL, VAL_INDEX): [symbol, string, any] => [
+			...(TVA.map((VAL, VAL_INDEX): [number, string, any] => [
 				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
 					? (
 						resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR),

@@ -74,7 +74,9 @@ export const $: Function = new Proxy((
 				return true
 			},
 			[Symbol.toPrimitive]() {
-				return BASE_SYMBOL
+				const NEW_SYMBOL = Symbol(GLOBAL_TOKEN + name)
+				PUBLISHED_PTR[NEW_SYMBOL] = this
+				return NEW_SYMBOL
 			},
 		}
 
