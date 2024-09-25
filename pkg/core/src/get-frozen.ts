@@ -7,5 +7,5 @@ export const getFrozen = (target: object = {}): object => {
 	Reflect.ownKeys(target).forEach((targetKey: (string | symbol)) => {
 		BASE_OBJ[targetKey] = Object.assign({ value: target[targetKey] }, TEMP)
 	})
-	return Object.defineProperties({}, BASE_OBJ)
+	return Object.defineProperties({}, BASE_OBJ as any)
 }
