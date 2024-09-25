@@ -3,7 +3,7 @@ const TEMP = {
 	emumerable: false
 }
 export const getFrozen = (target: object = {}): object => {
-	const BASE_OBJ: object = {};
+	const BASE_OBJ: any = {};
 	Reflect.ownKeys(target).forEach((targetKey: (string | symbol)) => {
 		BASE_OBJ[targetKey] = Object.assign({ value: target[targetKey] }, TEMP)
 	})
