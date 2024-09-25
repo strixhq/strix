@@ -1,0 +1,1 @@
+export const getAddress = ({ description }: symbol) => description.slice(0, 16)
