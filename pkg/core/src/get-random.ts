@@ -34,5 +34,3 @@ export const getRandom = (
 	.fill(0)
 	.map(() => TEMP[Math.floor((getBufferFragment() / 255) * 31)])
 	.join("")
-
-console.log(Symbol(getRandom(16)))

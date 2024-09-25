@@ -25,7 +25,9 @@ Object.defineProperty(window, GLOBAL_TOKEN, {
 export const $: Function = new Proxy((
 	initValue: any,
 	setterFn: Function = (newValue) => newValue,
-	options,
+	options = {
+		watcherFnList: []
+	},
 ): object => {
 	const IS_PTR = initValue[PTR_IDENTIFIER]
 
@@ -49,7 +51,7 @@ export const $: Function = new Proxy((
 			watch(...newWatcherFnList: Function[]) {
 				if (newWatcherFnList.length) {
 					newWatcherFnList.forEach((watcherFn) => watcherFn(value))
-					options.watcherFnList.push(...newWatcherFnList)
+					options.watcherFnList?.push?.(...newWatcherFnList)
 				}
 				return this
 			},
