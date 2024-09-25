@@ -1,4 +1,5 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
+import { getAddress } from 'jsr:@strix/core@0.0.10'
 
 
 const PTR_IDENTIFIER = Symbol.for("PTR_IDENTIFIER")
@@ -38,16 +39,16 @@ const BASE_DF = document.createDocumentFragment(),
 	},
 
 	resolveAttr = (RAW_ATTR, TARGET_REF) => {
-		console.log(RAW_ATTR)
+		// console.log(RAW_ATTR)
 
 		Reflect.ownKeys(RAW_ATTR).forEach(RAW_ATTR_KEY => {
 			const RAW_ATTR_VALUE = RAW_ATTR[RAW_ATTR_KEY]
 
 			if(typeof RAW_ATTR_KEY == 'symbol') {
 				
-				const PTR_BUF = window[RAW_ATTR_KEY.description.slice(0, 16)]?.(RAW_ATTR_KEY);
+				const PTR_BUF = globalThis[getAddress(RAW_ATTR_KEY) as string]?.(RAW_ATTR_KEY);
 
-				console.log(PTR_BUF)
+				// console.log(PTR_BUF)
 
 				if(!PTR_BUF?.[PTR_IDENTIFIER]) {
 					TARGET_REF[RAW_ATTR_KEY] = RAW_ATTR_VALUE
@@ -55,10 +56,12 @@ const BASE_DF = document.createDocumentFragment(),
 				};
 				
 				const ATTR_PROCESSOR_FN = PTR_BUF.$;
-				if(Reflect.getPrototypeOf(ATTR_PROCESSOR_FN) == FN_PROTO) return;
+
+				if(!(Reflect.getPrototypeOf(ATTR_PROCESSOR_FN) == FN_PROTO)) return;
 				
 				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(RAW_ATTR_VALUE, TARGET_REF)
-				if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
+
+				if(typeof RETURNED_ATTR_BUF != "object" || RETURNED_ATTR_BUF[PTR_IDENTIFIER] ||Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
 
 				resolveAttr(RETURNED_ATTR_BUF, TARGET_REF);
 			} else {
