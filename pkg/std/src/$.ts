@@ -1,10 +1,10 @@
-import { getEnv, getRandom as random } from 'jsr:@strix/core@0.0.7'
+import { getEnv, getRandom as random } from 'jsr:@strix/core@0.0.8'
 
 const { PTR_IDENTIFIER } = getEnv
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {
-		while ((TOKEN_BUF = random(4)) in window) {}
+		while ((TOKEN_BUF = random(16)) in window) {}
 		return TOKEN_BUF
 	})(),
 	SETTER_STD = (
@@ -31,7 +31,7 @@ export const $: Function = new Proxy((
 
 	let value = IS_PTR ? initValue.$ : initValue
 
-	const BASE_SYMBOL = Symbol(`[${GLOBAL_TOKEN}]${options.name ? " " + options.name : ""}`),
+	const BASE_SYMBOL = Symbol(`${GLOBAL_TOKEN}${options.name || ""}`),
 		BASE_PTR = {
 			set value(newValue) {
 				const SET_TIMESTAMP = performance.now()
@@ -89,7 +89,7 @@ export const $: Function = new Proxy((
 			? undefined
 			: prop in PUBLISHED_PTR
 			? PUBLISHED_PTR[prop].$
-			: typeof (ptrBuffer = window[prop.description.slice(0, 4)]) == "function"
+			: typeof (ptrBuffer = window[prop.description.slice(0, 16)]) == "function"
 			? ptrBuffer(prop)?.$
 			: undefined
 	},
@@ -99,7 +99,7 @@ export const $: Function = new Proxy((
 			? undefined
 			: prop in PUBLISHED_PTR
 			? PUBLISHED_PTR[prop].$ = value
-			: typeof (ptrBuffer = window[prop.description.slice(0, 4)]) == "function"
+			: typeof (ptrBuffer = window[prop.description.slice(0, 16)]) == "function"
 			? ptrBuffer(prop).$ = value
 			: undefined
 	}

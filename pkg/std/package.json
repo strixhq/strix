@@ -10,6 +10,6 @@
 	"author": "ihasq",
 	"license": "MIT",
 	"dependencies": {
-		"@strix/core": "npm:@jsr/strix__core@^0.0.7"
+		"@strix/core": "npm:@jsr/strix__core@^0.0.8"
 	}
 }
