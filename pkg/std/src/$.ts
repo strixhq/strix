@@ -4,7 +4,7 @@ const { PTR_IDENTIFIER } = getEnv
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {
-		while (`Symbol(${TOKEN_BUF = random(32)})` in window) {}
+		while ((TOKEN_BUF = random(4)) in window) {}
 		return TOKEN_BUF
 	})(),
 	SETTER_STD = (
@@ -16,7 +16,7 @@ const PUBLISHED_PTR = {},
 		return newValue
 	}
 
-Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
+Object.defineProperty(window, GLOBAL_TOKEN, {
 	configurable: false,
 	enumerable: false,
 	value: (symbol: symbol) => PUBLISHED_PTR[symbol],
@@ -25,23 +25,23 @@ Object.defineProperty(window, `Symbol(${GLOBAL_TOKEN})`, {
 export const $: Function = new Proxy((
 	initValue: any,
 	setterFn: Function = (newValue) => newValue,
-	watcherFnList: Function[] = [],
+	options,
 ): object => {
 	const IS_PTR = initValue[PTR_IDENTIFIER]
 
 	let value = IS_PTR ? initValue.$ : initValue
 
-	const BASE_SYMBOL = Symbol(GLOBAL_TOKEN),
+	const BASE_SYMBOL = Symbol(`[${GLOBAL_TOKEN}]${options.name ? " " + options.name : ""}`),
 		BASE_PTR = {
 			set value(newValue) {
 				const SET_TIMESTAMP = performance.now()
-				value = SETTER_STD(setterFn(newValue), watcherFnList, { SET_TIMESTAMP })
+				value = SETTER_STD(setterFn(newValue), options.watcherFnList, { SET_TIMESTAMP })
 			},
 			get value() {
 				return value
 			},
 			set $(newValue) {
-				value = SETTER_STD(setterFn(newValue), watcherFnList)
+				value = SETTER_STD(setterFn(newValue), options.watcherFnList)
 			},
 			get $() {
 				return value
@@ -49,7 +49,7 @@ export const $: Function = new Proxy((
 			watch(...newWatcherFnList: Function[]) {
 				if (newWatcherFnList.length) {
 					newWatcherFnList.forEach((watcherFn) => watcherFn(value))
-					watcherFnList.push(...newWatcherFnList)
+					options.watcherFnList.push(...newWatcherFnList)
 				}
 				return this
 			},
@@ -89,7 +89,7 @@ export const $: Function = new Proxy((
 			? undefined
 			: prop in PUBLISHED_PTR
 			? PUBLISHED_PTR[prop].$
-			: typeof (ptrBuffer = window[prop.toString()]) == "function"
+			: typeof (ptrBuffer = window[prop.description.slice(0, 4)]) == "function"
 			? ptrBuffer(prop)?.$
 			: undefined
 	},
@@ -99,7 +99,7 @@ export const $: Function = new Proxy((
 			? undefined
 			: prop in PUBLISHED_PTR
 			? PUBLISHED_PTR[prop].$ = value
-			: typeof (ptrBuffer = window[prop.toString()]) == "function"
+			: typeof (ptrBuffer = window[prop.description.slice(0, 4)]) == "function"
 			? ptrBuffer(prop).$ = value
 			: undefined
 	}
