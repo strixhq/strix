@@ -1,5 +1,5 @@
 import { random } from 'jsr:@ihasq/random@0.1.6'
-import { CMD_ASSIGN_DIRECT, CMD_ASSIGN_OBJECT, CMD_ASSIGN_PTR, CMD_ASSIGN_RAW, PTR_IDENTIFIER } from "./env.ts",
+import { PTR_IDENTIFIER } from "./env.ts"
 
 
 const BASE_DF = document.createDocumentFragment(),
@@ -12,21 +12,21 @@ const BASE_DF = document.createDocumentFragment(),
 
 	resolveFragment = (
 		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
-		FRAG_ARR: [symbol, string, any][] = [],
-	): [symbol, string, any][] => {
+		FRAG_ARR: [number, string, any][] = [],
+	): [number, string, any][] => {
 		FRAG_ARR.push(
-			[CMD_ASSIGN_DIRECT, TSA[0], undefined],
-			...(TVA.map((VAL, VAL_INDEX): [symbol, string, any] => [
+			[0, TSA[0], undefined],
+			...(TVA.map((VAL, VAL_INDEX): [number, string, any] => [
 				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
 					? (
 						resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR),
-						CMD_ASSIGN_DIRECT
+						0
 					)
 					: VAL[PTR_IDENTIFIER]
-					? CMD_ASSIGN_PTR
+					? 1
 					: typeof VAL == 'object'
-					? CMD_ASSIGN_OBJECT
-					: CMD_ASSIGN_RAW,
+					? 2
+					: 3,
 				TSA[VAL_INDEX + 1],
 				VAL,
 			])),
@@ -49,8 +49,8 @@ const BASE_DF = document.createDocumentFragment(),
 				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(
 					RAW_ATTR[RAW_ATTR_KEY],
 					TARGET_REF,
-					ATTR_HOLDER_PROXY
 				)
+
 				if(typeof RETURNED_ATTR_BUF != "object" || Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
 
 				resolveAttrIndex(RETURNED_ATTR_BUF, TARGET_REF);
@@ -113,13 +113,13 @@ const BASE_DF = document.createDocumentFragment(),
 		BASE_TEMP.innerHTML = CMD_BUF
 			.map(
 				([CMD, TEMP_STR, TEMP_VAL], CMD_INDEX) =>
-					CMD == CMD_ASSIGN_DIRECT
+					CMD == 0
 						? TEMP_STR
-						: CMD == CMD_ASSIGN_OBJECT
-						? ` ${PARSER_UUID}="attr" ${ATTR_PARSER_TOKEN}-${CMD_INDEX}="${CMD_INDEX}"${TEMP_STR}`
-						: CMD == CMD_ASSIGN_PTR
+						: CMD == 1
 						? `<${PARSER_UUID} ${PARSER_UUID}="ptr" ${PTR_PARSER_TOKEN}="${CMD_INDEX}"></${PARSER_UUID}>${TEMP_STR}`
-						: CMD == CMD_ASSIGN_RAW
+						: CMD == 2
+						? ` ${PARSER_UUID}="attr" ${ATTR_PARSER_TOKEN}-${CMD_INDEX}="${CMD_INDEX}"${TEMP_STR}`
+						: CMD == 3
 						? (TEMP_VAL + '').replace(ESC_REGEX, ESC_FN) + TEMP_STR
 						: '',
 			)
