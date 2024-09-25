@@ -45,7 +45,9 @@ const BASE_DF = document.createDocumentFragment(),
 
 			if(typeof RAW_ATTR_KEY == 'symbol') {
 				
-				const PTR_BUF = window[RAW_ATTR_KEY.toString().slice(8, 12)]?.(RAW_ATTR_KEY);
+				const PTR_BUF = window[RAW_ATTR_KEY.description.slice(0, 16)]?.(RAW_ATTR_KEY);
+
+				console.log(PTR_BUF)
 
 				if(!PTR_BUF?.[PTR_IDENTIFIER]) {
 					TARGET_REF[RAW_ATTR_KEY] = RAW_ATTR_VALUE

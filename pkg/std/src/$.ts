@@ -1,4 +1,4 @@
-import { getEnv, getRandom as random } from 'jsr:@strix/core@0.0.8'
+import { getEnv, getRandom as random } from 'jsr:@strix/core@0.0.9'
 
 const { PTR_IDENTIFIER } = getEnv
 
@@ -26,6 +26,7 @@ export const $: Function = new Proxy((
 	initValue: any,
 	setterFn: Function = (newValue) => newValue,
 	options = {
+		name: "",
 		watcherFnList: []
 	},
 ): object => {
@@ -74,9 +75,7 @@ export const $: Function = new Proxy((
 				return true
 			},
 			[Symbol.toPrimitive]() {
-				const NEW_SYMBOL = Symbol(GLOBAL_TOKEN + name)
-				PUBLISHED_PTR[NEW_SYMBOL] = this
-				return NEW_SYMBOL
+				return BASE_SYMBOL
 			},
 		}
 
