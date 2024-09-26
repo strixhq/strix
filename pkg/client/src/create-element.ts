@@ -1,4 +1,4 @@
-import { getEnv } from "jsr:@strix/core@0.0.7"
+import { getEnv } from "jsr:@strix/core@0.0.11"
 import { createNode } from './create-node.ts'
 
 const { STRIX_HTML_IDENTIFIER } = getEnv

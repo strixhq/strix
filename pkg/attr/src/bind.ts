@@ -1,4 +1,4 @@
-import { $ } from 'jsr:@ihasq/esptr@0.1.18'
+import { $ } from 'jsr:@strix/std@0.1.11'
 
 export const bind = $((value: any, ref: HTMLInputElement) => {
 	ref.addEventListener('input', ({ target }: InputEvent) => {

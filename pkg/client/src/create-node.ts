@@ -1,5 +1,4 @@
-import { random } from 'jsr:@ihasq/random@0.1.6'
-import { getAddress } from 'jsr:@strix/core@0.0.10'
+import { getAddress, getRandom } from 'jsr:@strix/core@0.0.11'
 
 
 const PTR_IDENTIFIER = Symbol.for("PTR_IDENTIFIER")
@@ -79,7 +78,7 @@ const BASE_DF = document.createDocumentFragment(),
 		NOT_ROOT: boolean,
 	): HTMLElement | void => {
 		const CMD_BUF = resolveFragment(fragment),
-			PARSER_UUID = `strix-${random(32)}`,
+			PARSER_UUID = `strix-${getRandom(32, "str")}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
 			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,
 			EL_BUF = new WeakMap()

@@ -1,4 +1,4 @@
-import { $ } from 'jsr:@strix/std@0.1.10'
+import { $ } from 'jsr:@strix/std@0.1.11'
 
 const SH_SYMBOL_TO_PRIMITIVE = Symbol.toPrimitive
 
