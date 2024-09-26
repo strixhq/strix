@@ -1,6 +1,8 @@
-import { getEnv, getRandom as random } from 'jsr:@strix/core@0.0.9'
+import { getEnv, getRandom as random, getShorthand, getAddress } from 'jsr:@strix/core@0.0.12'
 
 const { PTR_IDENTIFIER } = getEnv
+
+const { Object_isFrozen, Array_isArray } = getShorthand
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {
@@ -25,9 +27,18 @@ Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 })
 
 const next$: Function = new Proxy((...args) => {
+	if(!args.length) return;
 	const firstArgs = args[0];
-	if(firstArgs && Array.isArray(firstArgs) && Object.isFrozen(firstArgs) && "raw" in firstArgs && Array.isArray(firstArgs.raw) && Object.isFrozen(firstArgs.raw)) {
+	if(Array_isArray(firstArgs) && Object_isFrozen(firstArgs) && "raw" in firstArgs && Array_isArray(firstArgs.raw) && Object_isFrozen(firstArgs.raw)) {
 		// called as template
+		const [s, ...v] = args;
+		v.forEach(vIndex => {
+			if(typeof vIndex == "symbol") {
+
+			}
+		})
+	} else {
+		const [initValue, setterFn = (newValue) => newValue, options = { name: "", watcherFnList: [] }] = args;
 	}
 }, {})
 
@@ -40,7 +51,7 @@ export const $: Function = new Proxy((
 	},
 ): object => {
 	const PTR_TYPE =
-		(typeof initValue == "symbol" && globalThis[initValue.description.slice(0, 16)]?.has(initValue))
+		(typeof initValue == "symbol" && globalThis[getAddress(initValue)]?.has(initValue))
 		? "inherited-symbol"
 		: "object"
 	const IS_PTR = initValue[PTR_IDENTIFIER]

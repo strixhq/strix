@@ -1,4 +1,4 @@
-import { getEnv } from 'jsr:@strix/core@0.0.5'
+import { getEnv } from 'jsr:@strix/core@0.0.12'
 
 const { STRIX_HTML_IDENTIFIER } = getEnv
 

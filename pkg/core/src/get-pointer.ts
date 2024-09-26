@@ -1,0 +1,1 @@
+export const getPointer = (symbol: symbol): object => globalThis[symbol.description.slice(0, 16)]?.(symbol)
