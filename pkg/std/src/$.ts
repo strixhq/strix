@@ -19,8 +19,17 @@ const PUBLISHED_PTR = {},
 Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	configurable: false,
 	enumerable: false,
-	value: (symbol: symbol) => PUBLISHED_PTR[symbol],
+	value: Object.freeze(Object.assign((symbol: symbol) => PUBLISHED_PTR[symbol], {
+		has: (symbol: symbol) => symbol in PUBLISHED_PTR
+	})),
 })
+
+const next$: Function = new Proxy((...args) => {
+	const firstArgs = args[0];
+	if(firstArgs && Array.isArray(firstArgs) && Object.isFrozen(firstArgs) && "raw" in firstArgs && Array.isArray(firstArgs.raw) && Object.isFrozen(firstArgs.raw)) {
+		// called as template
+	}
+}, {})
 
 export const $: Function = new Proxy((
 	initValue: any,
@@ -30,6 +39,10 @@ export const $: Function = new Proxy((
 		watcherFnList: []
 	},
 ): object => {
+	const PTR_TYPE =
+		(typeof initValue == "symbol" && globalThis[initValue.description.slice(0, 16)]?.has(initValue))
+		? "inherited-symbol"
+		: "object"
 	const IS_PTR = initValue[PTR_IDENTIFIER]
 
 	let value = IS_PTR ? initValue.$ : initValue
