@@ -1,4 +1,4 @@
 export const getShorthand: object = new Proxy({}, { get: (_, concattedMethodName: string) => {
 	const [className, methodName] = concattedMethodName.split("_")
-	return globalThis[className as string][methodName];
+	return (globalThis as { [key: string]: any })[className as string][methodName];
 } })
