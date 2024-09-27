@@ -1,18 +1,13 @@
 import { getAddress, getRandom } from 'jsr:@strix/core@0.0.11'
 
-
-const PTR_IDENTIFIER = Symbol.for("PTR_IDENTIFIER")
-
+const PTR_IDENTIFIER = Symbol.for('PTR_IDENTIFIER')
 
 const BASE_DF = document.createDocumentFragment(),
-
 	ESC_REGEX = /["&'<>`]/g,
 	ESC_CHARCODE_BUF = {},
 	ESC_FN = (match): string => `&#x${ESC_CHARCODE_BUF[match] ||= match.charCodeAt(0).toString(16)};`,
-
 	OBJ_PROTO = Reflect.getPrototypeOf({}),
 	FN_PROTO = Reflect.getPrototypeOf(() => {}),
-
 	resolveFragment = (
 		[TSA, TVA, STRIX_HTML_FRAGMENT]: [TemplateStringsArray, any[], symbol],
 		FRAG_ARR: [number, string, any][] = [],
@@ -22,12 +17,11 @@ const BASE_DF = document.createDocumentFragment(),
 			...(TVA.map((VAL, VAL_INDEX): [number, string, any] => [
 				(Array.isArray(VAL) && VAL[2] === STRIX_HTML_FRAGMENT)
 					? (
-						resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR),
-						0
+						resolveFragment(VAL as [TemplateStringsArray, any[], symbol], FRAG_ARR), 0
 					)
 					: VAL[PTR_IDENTIFIER]
 					? 1
-					: typeof VAL == "object" && Reflect.getPrototypeOf(VAL) == OBJ_PROTO
+					: typeof VAL == 'object' && Reflect.getPrototypeOf(VAL) == OBJ_PROTO
 					? 2
 					: 3,
 				TSA[VAL_INDEX + 1],
@@ -36,41 +30,36 @@ const BASE_DF = document.createDocumentFragment(),
 		)
 		return FRAG_ARR
 	},
-
 	resolveAttr = (RAW_ATTR, TARGET_REF) => {
 		// console.log(RAW_ATTR)
 
-		Reflect.ownKeys(RAW_ATTR).forEach(RAW_ATTR_KEY => {
+		Reflect.ownKeys(RAW_ATTR).forEach((RAW_ATTR_KEY) => {
 			const RAW_ATTR_VALUE = RAW_ATTR[RAW_ATTR_KEY]
 
-			if(typeof RAW_ATTR_KEY == 'symbol') {
-				
-				const PTR_BUF = globalThis[getAddress(RAW_ATTR_KEY) as string]?.(RAW_ATTR_KEY);
+			if (typeof RAW_ATTR_KEY == 'symbol') {
+				const PTR_BUF = globalThis[getAddress(RAW_ATTR_KEY) as string]?.(RAW_ATTR_KEY)
 
 				// console.log(PTR_BUF)
 
-				if(!PTR_BUF?.[PTR_IDENTIFIER]) {
+				if (!PTR_BUF?.[PTR_IDENTIFIER]) {
 					TARGET_REF[RAW_ATTR_KEY] = RAW_ATTR_VALUE
-					return;
-				};
-				
-				const ATTR_PROCESSOR_FN = PTR_BUF.$;
+					return
+				}
 
-				if(!(Reflect.getPrototypeOf(ATTR_PROCESSOR_FN) == FN_PROTO)) return;
-				
+				const ATTR_PROCESSOR_FN = PTR_BUF.$
+
+				if (!(Reflect.getPrototypeOf(ATTR_PROCESSOR_FN) == FN_PROTO)) return
+
 				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(RAW_ATTR_VALUE, TARGET_REF)
 
-				if(typeof RETURNED_ATTR_BUF != "object" || RETURNED_ATTR_BUF[PTR_IDENTIFIER]) return;
+				if (typeof RETURNED_ATTR_BUF != 'object' || RETURNED_ATTR_BUF[PTR_IDENTIFIER]) return
 
-				resolveAttr(RETURNED_ATTR_BUF, TARGET_REF);
+				resolveAttr(RETURNED_ATTR_BUF, TARGET_REF)
 			} else {
 				TARGET_REF[RAW_ATTR_KEY] = RAW_ATTR_VALUE
 			}
-
-			
 		})
 	},
-
 	// export
 	createNode = (
 		fragment: [TemplateStringsArray, any[], symbol] | Function,
@@ -79,12 +68,12 @@ const BASE_DF = document.createDocumentFragment(),
 	): HTMLElement | void => {
 		const STD_FRAGMENT = Reflect.getPrototypeOf(fragment) == FN_PROTO ? fragment() : fragment,
 			CMD_BUF = resolveFragment(fragment),
-			PARSER_UUID = `strix-${getRandom(32, "str")}`,
+			PARSER_UUID = `strix-${getRandom(32, 'str')}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
 			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,
 			EL_BUF = new WeakMap()
 
-		if (NOT_ROOT) BASE_DF.appendChild(BASE_TEMP);
+		if (NOT_ROOT) BASE_DF.appendChild(BASE_TEMP)
 
 		BASE_TEMP.innerHTML = CMD_BUF
 			.map(
@@ -107,12 +96,11 @@ const BASE_DF = document.createDocumentFragment(),
 				switch (TARGET_REF.getAttribute(PARSER_UUID)) {
 					case 'attr': {
 						Array.from(TARGET_REF.attributes).forEach(({ name: ATTR_NAME, value: ATTR_VAL }) => {
+							if (!ATTR_NAME.startsWith(ATTR_PARSER_TOKEN)) return
 
-							if (!ATTR_NAME.startsWith(ATTR_PARSER_TOKEN)) return;
-				
-							const RAW_ATTR = CMD_BUF[ATTR_VAL][2];
-				
-							resolveAttr(RAW_ATTR, TARGET_REF);
+							const RAW_ATTR = CMD_BUF[ATTR_VAL][2]
+
+							resolveAttr(RAW_ATTR, TARGET_REF)
 						})
 						// const ATTR_HOLDER = {},
 						// 	ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })

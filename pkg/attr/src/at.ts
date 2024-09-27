@@ -6,4 +6,4 @@ export const at: object = createProxiedAttribute((prop, value, ref) => {
 	} else {
 		ref.setAttribute(prop, value)
 	}
-}, "at")
+}, 'at')

@@ -4,14 +4,18 @@ const SH_SYMBOL_TO_PRIMITIVE = Symbol.toPrimitive
 
 export const createProxiedAttribute = (
 	registererFn: (prop: string, value: any, ref: any, root?: HTMLElement | undefined) => void,
-	name: string
+	name: string,
 ): object => {
 	const ATTR_CACHE = {},
-		BASE_PTR = $((value: any, ref: HTMLElement, root: HTMLElement | undefined = undefined) => {
-			Object.keys(value).forEach((REGISTERER_PROP) => {
-				registererFn(REGISTERER_PROP, value[REGISTERER_PROP], ref, root ? root : undefined)
-			})
-		}, undefined, { name }),
+		BASE_PTR = $(
+			(value: any, ref: HTMLElement, root: HTMLElement | undefined = undefined) => {
+				Object.keys(value).forEach((REGISTERER_PROP) => {
+					registererFn(REGISTERER_PROP, value[REGISTERER_PROP], ref, root ? root : undefined)
+				})
+			},
+			undefined,
+			{ name },
+		),
 		BASE_SYMBOL_RETURNER = () => BASE_PTR.publishSymbol(name),
 		BASE_PROXY = new Proxy({}, {
 			get(myTarget, prop) {

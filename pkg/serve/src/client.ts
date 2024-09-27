@@ -1,3 +1,3 @@
-const client = {};
+const client = {}
 
 client.navigator.gpu
