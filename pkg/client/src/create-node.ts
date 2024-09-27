@@ -60,7 +60,7 @@ const BASE_DF = document.createDocumentFragment(),
 				
 				const RETURNED_ATTR_BUF = ATTR_PROCESSOR_FN(RAW_ATTR_VALUE, TARGET_REF)
 
-				if(typeof RETURNED_ATTR_BUF != "object" || RETURNED_ATTR_BUF[PTR_IDENTIFIER] ||Reflect.getPrototypeOf(RETURNED_ATTR_BUF) !== OBJ_PROTO) return;
+				if(typeof RETURNED_ATTR_BUF != "object" || RETURNED_ATTR_BUF[PTR_IDENTIFIER]) return;
 
 				resolveAttr(RETURNED_ATTR_BUF, TARGET_REF);
 			} else {
@@ -73,11 +73,12 @@ const BASE_DF = document.createDocumentFragment(),
 
 	// export
 	createNode = (
-		fragment: [TemplateStringsArray, any[], symbol],
+		fragment: [TemplateStringsArray, any[], symbol] | Function,
 		BASE_TEMP: HTMLElement,
 		NOT_ROOT: boolean,
 	): HTMLElement | void => {
-		const CMD_BUF = resolveFragment(fragment),
+		const STD_FRAGMENT = Reflect.getPrototypeOf(fragment) == FN_PROTO ? fragment() : fragment,
+			CMD_BUF = resolveFragment(fragment),
 			PARSER_UUID = `strix-${getRandom(32, "str")}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
 			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,

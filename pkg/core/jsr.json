@@ -1,6 +1,6 @@
 {
 	"name": "@strix/core",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"license": "MIT",
 	"exports": "./mod.ts"
 }

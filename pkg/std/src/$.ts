@@ -1,8 +1,10 @@
-import { getEnv, getRandom as random, getShorthand, getAddress } from 'jsr:@strix/core@0.0.12'
+import { getEnv, getRandom as random, getShorthand, getAddress, getPointer } from 'jsr:@strix/core@0.0.12'
 
 const { PTR_IDENTIFIER } = getEnv
 
-const { Object_isFrozen, Array_isArray } = getShorthand
+const { Object_isFrozen, Object_assign, Array_isArray } = getShorthand
+
+const isTemp = ([firstArg]) => Array_isArray(firstArgs) && Object_isFrozen(firstArgs) && "raw" in firstArgs && Array_isArray(firstArgs.raw) && Object_isFrozen(firstArgs.raw)
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {
@@ -26,19 +28,36 @@ Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	})),
 })
 
-const next$: Function = new Proxy((...args) => {
+const next$: Function = new Proxy((...args): (symbol | undefined) => {
 	if(!args.length) return;
-	const firstArgs = args[0];
-	if(Array_isArray(firstArgs) && Object_isFrozen(firstArgs) && "raw" in firstArgs && Array_isArray(firstArgs.raw) && Object_isFrozen(firstArgs.raw)) {
+	const firstArg = args[0];
+	if(isTemp(firstArg)) {
 		// called as template
 		const [s, ...v] = args;
 		v.forEach(vIndex => {
 			if(typeof vIndex == "symbol") {
+				const ptr = getPointer(vIndex)
+				if(!ptr) return;
 
 			}
 		})
 	} else {
 		const [initValue, setterFn = (newValue) => newValue, options = { name: "", watcherFnList: [] }] = args;
+		const BASE_SYMBOL = Symbol(GLOBAL_TOKEN + options.name)
+		return Object_assign({
+			[Symbol.toPrimitive](hint) {
+				return hint == typeof initValue && hint == "number"
+					? initValue
+					: BASE_SYMBOL
+			},
+			watch(...newWatcherFnList: Function[]) {
+				if (newWatcherFnList.length) {
+					newWatcherFnList.forEach((watcherFn) => watcherFn(value))
+					options.watcherFnList?.push?.(...newWatcherFnList)
+				}
+				return this
+			}
+		})
 	}
 }, {})
 
@@ -144,3 +163,5 @@ export const $: Function = new Proxy((
 			: undefined
 	}
 })
+
+$`${count}px`
