@@ -1,5 +1,4 @@
-export const getShorthand: object = new Proxy({}, { get: (_, methodName: string) => {
-	let resolveBuffer = globalThis;
-	methodName.split("_").forEach((index: string) => resolveBuffer = resolveBuffer[index])
-	return resolveBuffer;
+export const getShorthand: object = new Proxy({}, { get: (_, concattedMethodName: string) => {
+	const [className, methodName] = concattedMethodName.split("_")
+	return globalThis[className][methodName];
 } })
