@@ -1,6 +1,4 @@
-let index = 0,
-	proxyLength = 0,
-	proxyType = 'ctrl'
+let index = 0;
 
 const BUF_SIZE = 1024,
 	RAND_BUF = crypto.getRandomValues(new Uint8Array(BUF_SIZE)),

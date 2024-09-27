@@ -1,16 +1,20 @@
-import { getAddress, getEnv, getPointer, getRandom as random, getShorthand } from 'jsr:@strix/core@0.0.12'
+import { getAddress, getEnv, getPointer, getRandom as random, getStatic } from 'jsr:@strix/core@0.0.15'
+
+type $ = Function;
 
 const { PTR_IDENTIFIER } = getEnv
 
-const { Object_isFrozen, Object_assign, Array_isArray } = getShorthand
+const { Object_isFrozen, Object_assign, Object_freeze, Array_isArray, Reflect_getPrototypeOf } = getStatic
 
-const isTemp = ([firstArg]) => Array_isArray(firstArg) && Object_isFrozen(firstArg) && 'raw' in firstArg && Array_isArray(firstArg.raw) && Object_isFrozen(firstArg.raw)
+const isTemp = ([firstArg]) => Array_isArray(firstArg) && Object_isFrozen(firstArg) && 'raw' in firstArg && Array_isArray(firstArg.raw) && Object_isFrozen(firstArg.raw);
+const setAsync = (fn: Function): Function => async (...args) => fn.apply(null, args)
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {
 		while ((TOKEN_BUF = random(16)) in globalThis) {}
 		return TOKEN_BUF
 	})(),
+	CREATE_SYMBOL = (name) => Symbol(GLOBAL_TOKEN + name),
 	SETTER_STD = (
 		newValue: undefined,
 		watcherFnList: Function[],
@@ -18,7 +22,10 @@ const PUBLISHED_PTR = {},
 	) => {
 		watcherFnList.forEach((watcherFn) => watcherFn(newValue))
 		return newValue
-	}
+	},
+	OBJ_PROTO = Reflect_getPrototypeOf({}),
+	FN_PROTO = Reflect_getPrototypeOf(() => {}),
+	ASYNCFN_PROTO = Reflect_getPrototypeOf(async () => {})
 
 Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	configurable: false,
@@ -41,20 +48,85 @@ const next$: Function = new Proxy((...args): symbol | undefined => {
 			}
 		})
 	} else {
-		const [initValue, setterFn = (newValue) => newValue, options = { name: '', watcherFnList: [] }] = args
-		const BASE_SYMBOL = Symbol(GLOBAL_TOKEN + options.name)
-		return Object_assign({
-			[Symbol.toPrimitive](hint) {
-				return hint == typeof initValue && hint == 'number' ? initValue : BASE_SYMBOL
+		const [initValue, setterFn = (newValue: any) => newValue, options = { name: '', watcherFnList: [] }] = args,
+			typeofInitValue = typeof initValue,
+			BASE_SYMBOL = CREATE_SYMBOL(options.name),
+			BASE_PTR: object = {
+				[Symbol.toPrimitive](hint) {
+					return hint == "number" && typeofInitValue == "number"
+						? initValue
+						: BASE_SYMBOL
+				},
+				publishSymbol() {
+					const NEW_SYMBOL = CREATE_SYMBOL(options.name);
+					PUBLISHED_PTR[NEW_SYMBOL] = this;
+					return NEW_SYMBOL
+				},
+				watchers: [],
 			},
-			watch(...newWatcherFnList: Function[]) {
-				if (newWatcherFnList.length) {
-					newWatcherFnList.forEach((watcherFn) => watcherFn(value))
-					options.watcherFnList?.push?.(...newWatcherFnList)
+			IS_INITVALUE_PTR: boolean = Object_isFrozen(initValue) && initValue[PTR_IDENTIFIER], 
+			IS_SETTERFN_ASYNC: boolean = Reflect_getPrototypeOf(setterFn) == ASYNCFN_PROTO
+		;
+
+		let value;
+
+		if("string number".includes(typeofInitValue)) {
+
+			Object_assign(BASE_PTR, {
+				get $(): any {
+					return initValue
+				},
+				watch(...watcherFnList: Function[]): object {
+					if(watcherFnList.length) {
+						watcherFnList.forEach(watcherFn => watcherFn(value))
+						this.watchers.push.apply(null, watcherFnList)
+					}
+					return this;
+				},
+				into(...transformerFnList: Function[]): object {
+					const asyncBuf = new WeakMap();
+					return transformerFnList.length
+						? next$(this, (newValue: any) => {
+							for(const transformerFn of transformerFnList) {
+								newValue = transformerFn(newValue)
+							}
+							return newValue
+						})
+						: this
 				}
-				return this
-			},
-		})
+			}, IS_SETTERFN_ASYNC
+				? {
+					set $(newValue: any) {
+						setterFn(newValue).then(processedNewValue => {
+							value = processedNewValue;
+							this.watchers.forEach(watcher => watcher(value))
+						})
+					}
+				}
+				: {
+					set $(newValue: any) {
+						value = setterFn(newValue);
+						this.watchers.forEach(watcher => watcher(value))
+					}
+				}
+			)
+
+			if(typeofInitValue == "number") {
+
+				Object_assign(BASE_PTR, {
+					to(destination: number, duration: number = 1000) {
+
+					}
+				})
+			}
+
+		} else if(Array_isArray(initValue)) {
+
+		} else if(Reflect_getPrototypeOf(initValue) == OBJ_PROTO) {
+			
+		}
+		
+		return Object_freeze(BASE_PTR)
 	}
 }, {})
 
@@ -72,7 +144,7 @@ export const $: Function = new Proxy((
 	let value = IS_PTR ? initValue.$ : initValue
 
 	const BASE_SYMBOL = Symbol(GLOBAL_TOKEN + options.name),
-		BASE_PTR = Object.assign(
+		BASE_PTR = Object_assign(
 			{
 				get value() {
 					return value
@@ -159,4 +231,4 @@ export const $: Function = new Proxy((
 	},
 })
 
-$`${count}px`
+const x = $({ [app]: "red" })
