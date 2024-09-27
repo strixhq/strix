@@ -4,7 +4,7 @@ const { PTR_IDENTIFIER } = getEnv
 
 const { Object_isFrozen, Object_assign, Array_isArray } = getShorthand
 
-const isTemp = ([firstArg]) => Array_isArray(firstArgs) && Object_isFrozen(firstArgs) && "raw" in firstArgs && Array_isArray(firstArgs.raw) && Object_isFrozen(firstArgs.raw)
+const isTemp = ([firstArg]) => Array_isArray(firstArg) && Object_isFrozen(firstArg) && "raw" in firstArg && Array_isArray(firstArg.raw) && Object_isFrozen(firstArg.raw)
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {

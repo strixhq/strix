@@ -1,2 +1,2 @@
 export * from './src/h.ts'
-export * from './src/$.ts'
+export * from './src/$.js'
