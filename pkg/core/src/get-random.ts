@@ -13,7 +13,7 @@ const BUF_SIZE = 1024,
 	TEMP_STR: number[] = '0123456789abcdefghijklmnopqrstuvwxyz'.split('').map((x) => x.charCodeAt(0)),
 	TEMP_PROXY = new Proxy({}, {
 		get: (target: any, prop) =>
-			prop == 'length' ? target.length : target.type == 'ctrl' ? TEMP_CTRL[Math.floor(getBufferFragment(32))] : target.type == 'str' ? TEMP_STR[Math.floor(getBufferFragment(36))] : 0,
+			prop == 'length' ? target.length : target.type == 'ctrl' ? TEMP_CTRL[Math.floor(getBufferFragment(31))] : target.type == 'str' ? TEMP_STR[Math.floor(getBufferFragment(35))] : 0,
 	}),
 	getRandom = (
 		length: number = 16,

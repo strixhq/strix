@@ -1,10 +1,15 @@
-import { getAddress, getEnv, getPointer, getRandom as random, getStatic } from 'jsr:@strix/core@0.0.15'
+import { getAddress, getEnv, getPointer, getRandom as random, getStatic } from 'jsr:@strix/core@0.0.19'
 
 type $ = Function;
 
 const { PTR_IDENTIFIER } = getEnv
 
-const { Object_isFrozen, Object_assign, Object_freeze, Array_isArray, Reflect_getPrototypeOf } = getStatic
+const {
+	Object_isFrozen, Object_assign, Object_freeze, Array_isArray, Reflect_getPrototypeOf,
+	Promise_prototype,
+	Object_prototype,
+	Function_prototype
+} = getStatic
 
 const isTemp = ([firstArg]) => Array_isArray(firstArg) && Object_isFrozen(firstArg) && 'raw' in firstArg && Array_isArray(firstArg.raw) && Object_isFrozen(firstArg.raw);
 const setAsync = (fn: Function): Function => async (...args) => fn.apply(null, args)
@@ -23,9 +28,10 @@ const PUBLISHED_PTR = {},
 		watcherFnList.forEach((watcherFn) => watcherFn(newValue))
 		return newValue
 	},
-	OBJ_PROTO = Reflect_getPrototypeOf({}),
 	FN_PROTO = Reflect_getPrototypeOf(() => {}),
-	ASYNCFN_PROTO = Reflect_getPrototypeOf(async () => {})
+	ASYNCFN_PROTO = Reflect_getPrototypeOf(async () => {}),
+	curveGenerators = {}
+;
 
 Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	configurable: false,
@@ -35,8 +41,8 @@ Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	})),
 })
 
-const next$: Function = new Proxy((...args): symbol | undefined => {
-	if (!args.length) return
+const next$: Function = Object.assign((...args): symbol | undefined => {
+	if (!args.length) return;
 	const firstArg = args[0]
 	if (isTemp(firstArg)) {
 		// called as template
@@ -63,18 +69,51 @@ const next$: Function = new Proxy((...args): symbol | undefined => {
 					return NEW_SYMBOL
 				},
 				watchers: [],
+				execWatcherFn(newValue) {
+					this.watchers.forEach(watcher => watcher(newValue))
+				}
 			},
 			IS_INITVALUE_PTR: boolean = Object_isFrozen(initValue) && initValue[PTR_IDENTIFIER], 
-			IS_SETTERFN_ASYNC: boolean = Reflect_getPrototypeOf(setterFn) == ASYNCFN_PROTO
+			PTR_INTERFACE = [{
+				[PTR_IDENTIFIER]: true,
+				[Symbol.toPrimitive](hint) {
+					return hint == "number" && typeofInitValue == "number"
+						? initValue
+						: BASE_SYMBOL
+				},
+				publishSymbol() {
+					const NEW_SYMBOL = CREATE_SYMBOL(options.name);
+					PUBLISHED_PTR[NEW_SYMBOL] = this;
+					return NEW_SYMBOL
+				},
+				watchers: [],
+			}],
+			valueHistory: any[] = [],
+			actionHistory: { action: string, oldValue: any, newValue: any, curveGeneratorFn?: Function }[] = []
 		;
 
-		let value;
+		let
+			value = initValue,
+			valueHistoryIndex = 0,
+			valueHistoryMaxIndex = 0
+		;
+
+		valueHistory.push(value);
 
 		if("string number".includes(typeofInitValue)) {
+			PTR_INTERFACE.push({
+				set $(newValue: any) {
+					(newValue = setterFn(newValue)).prototype == Promise_prototype
+					? newValue.then(this.execWatcherFn)
+					: this.execWatcherFn(newValue);
 
-			Object_assign(BASE_PTR, {
+					valueHistory[valueHistoryMaxIndex = ++valueHistoryIndex] = newValue;
+					actionHistory.push({ action: "set", newValue, oldValue: value })
+
+					value = newValue;
+				},
 				get $(): any {
-					return initValue
+					return value
 				},
 				watch(...watcherFnList: Function[]): object {
 					if(watcherFnList.length) {
@@ -93,42 +132,61 @@ const next$: Function = new Proxy((...args): symbol | undefined => {
 							return newValue
 						})
 						: this
-				}
-			}, IS_SETTERFN_ASYNC
-				? {
-					set $(newValue: any) {
-						setterFn(newValue).then(processedNewValue => {
-							value = processedNewValue;
-							this.watchers.forEach(watcher => watcher(value))
-						})
+				},
+
+				undo(step: number, options: { enableWatcher: true }) {
+					value = valueHistory[valueHistoryIndex -= step]
+					if(options.enableWatcher == true) {
+						this.execWatcherFn(value);
+					}
+				},
+				redo(step: number, options: { enableWatcher: true }) {
+					value = valueHistory[++valueHistoryIndex]
+					if(options.enableWatcher == true) {
+						this.execWatcherFn(value);
 					}
 				}
-				: {
-					set $(newValue: any) {
-						value = setterFn(newValue);
-						this.watchers.forEach(watcher => watcher(value))
-					}
-				}
-			)
+			});
 
 			if(typeofInitValue == "number") {
+				PTR_INTERFACE.push({
+					to(destination: number, duration: number = 1500, options: { frame: number | string, curve: { start: [number, number], end: [number, number] } }) {
+						const { start: [curveStartX, curveStartY], end: [curveEndX, curveEndY] } =
+							options.curve
+							||= { start: [0.5, 0.5], end: [0.5, 0.5] }
+						;
+						const curveGeneratorFn =
+							curveGenerators[`${curveStartX}-${curveStartY}-${curveEndX}-${curveEndY}`]
+							||= (t: number) => [
+								3 * (1 - t) * (((1 - t) * curveStartX) + (curveEndX ** 2)) + (t ** 3),
+								3 * (1 - t) * (((1 - t) * curveStartY) + (curveEndY ** 2)) + (t ** 3)
+							]
+						;
+						actionHistory.push({ action: "transit", newValue: destination, oldValue: value, curveGeneratorFn })
+						if(options.frame == "animation") {
 
-				Object_assign(BASE_PTR, {
-					to(destination: number, duration: number = 1000) {
+						} else {
 
+						}
 					}
 				})
 			}
 
+		} else if(typeofInitValue == "symbol" && getPointer(initValue)?.[PTR_IDENTIFIER]) {
+
 		} else if(Array_isArray(initValue)) {
 
-		} else if(Reflect_getPrototypeOf(initValue) == OBJ_PROTO) {
+		} else if(Reflect_getPrototypeOf(initValue) == Object_prototype) {
 			
 		}
 		
 		return Object_freeze(BASE_PTR)
 	}
-}, {})
+}, {
+	extend(assignedConstructor: Function) {
+
+	}
+})
 
 export const $: Function = new Proxy((
 	initValue: any,
@@ -231,4 +289,3 @@ export const $: Function = new Proxy((
 	},
 })
 
-const x = $({ [app]: "red" })

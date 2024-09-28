@@ -1,4 +1,4 @@
-import { getAddress, getRandom } from 'jsr:@strix/core@0.0.11'
+import { getAddress, getRandom } from 'jsr:@strix/core@0.0.19'
 
 const PTR_IDENTIFIER = Symbol.for('PTR_IDENTIFIER')
 
