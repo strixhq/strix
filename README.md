@@ -18,7 +18,7 @@ import { on } from '@strix/attr';
 
 export default function() {
 
-    const count = $<number>(0);
+    const count = $(0);
 
     return html`
         <h1>${count}</h1>
