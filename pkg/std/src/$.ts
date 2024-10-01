@@ -1,25 +1,26 @@
 import { getAddress, getEnv, getPointer, getRandom as random, getStatic } from 'jsr:@strix/core@0.0.19'
 
-type $ = Function;
-
-const { PTR_IDENTIFIER } = getEnv
+const { PTR_IDENTIFIER, STRIX_PUBLISH_NEW_SYMBOL } = getEnv
 
 const {
-	Object_isFrozen, Object_assign, Object_freeze, Array_isArray, Reflect_getPrototypeOf,
-	Promise_prototype,
-	Object_prototype,
-	Function_prototype
+	Object_isFrozen, Object_assign, Object_freeze,
+
+	Array_isArray,
+	Reflect_getPrototypeOf,
+
+	Promise_prototype, Object_prototype, Function_prototype,
+
+	Symbol_toPrimitive
 } = getStatic
 
 const isTemp = ([firstArg]) => Array_isArray(firstArg) && Object_isFrozen(firstArg) && 'raw' in firstArg && Array_isArray(firstArg.raw) && Object_isFrozen(firstArg.raw);
-const setAsync = (fn: Function): Function => async (...args) => fn.apply(null, args)
 
 const PUBLISHED_PTR = {},
 	GLOBAL_TOKEN = ((TOKEN_BUF) => {
 		while ((TOKEN_BUF = random(16)) in globalThis) {}
 		return TOKEN_BUF
 	})(),
-	CREATE_SYMBOL = (name) => Symbol(GLOBAL_TOKEN + name),
+	createSymbol = (name) => Symbol(GLOBAL_TOKEN + name),
 	SETTER_STD = (
 		newValue: undefined,
 		watcherFnList: Function[],
@@ -28,20 +29,28 @@ const PUBLISHED_PTR = {},
 		watcherFnList.forEach((watcherFn) => watcherFn(newValue))
 		return newValue
 	},
-	FN_PROTO = Reflect_getPrototypeOf(() => {}),
-	ASYNCFN_PROTO = Reflect_getPrototypeOf(async () => {}),
 	curveGenerators = {}
 ;
 
 Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	configurable: false,
 	enumerable: false,
-	value: Object.freeze(Object.assign((symbol: symbol) => PUBLISHED_PTR[symbol], {
+	value: Object_freeze(Object_assign((symbol: symbol) => PUBLISHED_PTR[symbol], {
 		has: (symbol: symbol) => symbol in PUBLISHED_PTR,
 	})),
 })
 
-const next$: Function = Object.assign((...args): symbol | undefined => {
+type $<T> = T;
+
+// interface StrixPointer {
+// 	[Symbol_toPrimitive]: (hint: string) => symbol | number;
+// 	publishSymbol: () => symbol;
+// 	watchers: Function[];
+// 	$?: any;
+// 	watch?: (...watcherFnList) => 
+// }
+
+const next$: Function = Object_assign((...args: any[]): symbol | undefined => {
 	if (!args.length) return;
 	const firstArg = args[0]
 	if (isTemp(firstArg)) {
@@ -54,17 +63,18 @@ const next$: Function = Object.assign((...args): symbol | undefined => {
 			}
 		})
 	} else {
-		const [initValue, setterFn = (newValue: any) => newValue, options = { name: '', watcherFnList: [] }] = args,
+		const [initValue, setterFn = (newValue: any) => newValue, options = { name: '', watcherFnList: [], reload: true }] = args,
 			typeofInitValue = typeof initValue,
-			BASE_SYMBOL = CREATE_SYMBOL(options.name),
+			BASE_SYMBOL = createSymbol(options.name),
 			BASE_PTR: object = {
-				[Symbol.toPrimitive](hint) {
+				[PTR_IDENTIFIER]: true,
+				[Symbol_toPrimitive](hint) {
 					return hint == "number" && typeofInitValue == "number"
 						? initValue
 						: BASE_SYMBOL
 				},
 				publishSymbol() {
-					const NEW_SYMBOL = CREATE_SYMBOL(options.name);
+					const NEW_SYMBOL = createSymbol(options.name);
 					PUBLISHED_PTR[NEW_SYMBOL] = this;
 					return NEW_SYMBOL
 				},
@@ -74,51 +84,82 @@ const next$: Function = Object.assign((...args): symbol | undefined => {
 				}
 			},
 			IS_INITVALUE_PTR: boolean = Object_isFrozen(initValue) && initValue[PTR_IDENTIFIER], 
-			PTR_INTERFACE = [{
+
+			PTR_INTERFACE: object[] = [{
 				[PTR_IDENTIFIER]: true,
-				[Symbol.toPrimitive](hint) {
-					return hint == "number" && typeofInitValue == "number"
+				[Symbol_toPrimitive](hint) {
+					if(hint == STRIX_PUBLISH_NEW_SYMBOL) {
+						const NEW_SYMBOL = createSymbol(options.name);
+						PUBLISHED_PTR[NEW_SYMBOL] = this;
+						return NEW_SYMBOL;
+					}
+					return hint == "number" && hint == typeofInitValue
 						? initValue
 						: BASE_SYMBOL
 				},
 				publishSymbol() {
-					const NEW_SYMBOL = CREATE_SYMBOL(options.name);
+					const NEW_SYMBOL = createSymbol(options.name);
 					PUBLISHED_PTR[NEW_SYMBOL] = this;
 					return NEW_SYMBOL
 				},
-				watchers: [],
 			}],
+	
 			valueHistory: any[] = [],
-			actionHistory: { action: string, oldValue: any, newValue: any, curveGeneratorFn?: Function }[] = []
+			actionHistory: {
+				action: string,
+				oldValue?: any, newValue?: any, curveGeneratorFn?: Function,
+				targetIndex?: number
+			}[] = [],
+			createAction = (action: string, oldValue: any, newValue: any) => ({ action, oldValue, newValue }),
+
+			watcherFnList: Function[] = [],
+			execWatcherFn = (newValue: any): any => {
+				watcherFnList.forEach(watcherFn => watcherFn(newValue))
+				return newValue
+			}
 		;
 
 		let
 			value = initValue,
 			valueHistoryIndex = 0,
-			valueHistoryMaxIndex = 0
+			valueHistoryMaxIndex = 0,
+
+			actionHistoryIndex = -1
 		;
 
 		valueHistory.push(value);
 
-		if("string number".includes(typeofInitValue)) {
+		if(typeofInitValue == "symbol") {
+
+			return getPointer(initValue)
+
+		} else if("string number".includes(typeofInitValue)) {
+
+			actionHistory[++actionHistoryIndex] = {
+				action: "init-primitive",
+				oldValue: undefined, newValue: initValue
+			}
+
 			PTR_INTERFACE.push({
 				set $(newValue: any) {
-					(newValue = setterFn(newValue)).prototype == Promise_prototype
-					? newValue.then(this.execWatcherFn)
-					: this.execWatcherFn(newValue);
-
+					if((newValue = setterFn(newValue)).prototype == Promise_prototype) {
+						newValue.then((resolvedNewValue) => {
+							if(resolvedNewValue === value) return;
+							actionHistory[++actionHistoryIndex] = createAction("set", value, execWatcherFn(value = resolvedNewValue));
+						})
+					} else {
+						if(newValue === value) return;
+						actionHistory[++actionHistoryIndex] = createAction("set", value, execWatcherFn(value = newValue))
+					}
 					valueHistory[valueHistoryMaxIndex = ++valueHistoryIndex] = newValue;
-					actionHistory.push({ action: "set", newValue, oldValue: value })
-
-					value = newValue;
 				},
 				get $(): any {
 					return value
 				},
-				watch(...watcherFnList: Function[]): object {
-					if(watcherFnList.length) {
-						watcherFnList.forEach(watcherFn => watcherFn(value))
-						this.watchers.push.apply(null, watcherFnList)
+				watch(...newWatcherFnList: Function[]): object {
+					if(newWatcherFnList.length) {
+						newWatcherFnList.forEach(watcherFn => watcherFn(value))
+						watcherFnList.push.apply(null, newWatcherFnList)
 					}
 					return this;
 				},
@@ -134,15 +175,15 @@ const next$: Function = Object.assign((...args): symbol | undefined => {
 						: this
 				},
 
-				undo(step: number, options: { enableWatcher: true }) {
+				undo(step: number, options: { ignoreWatcher: boolean }) {
 					value = valueHistory[valueHistoryIndex -= step]
-					if(options.enableWatcher == true) {
+					if(options.ignoreWatcher == true) {
 						this.execWatcherFn(value);
 					}
 				},
-				redo(step: number, options: { enableWatcher: true }) {
+				redo(step: number, options: { ignoreWatcher: boolean }) {
 					value = valueHistory[++valueHistoryIndex]
-					if(options.enableWatcher == true) {
+					if(options.ignoreWatcher == true) {
 						this.execWatcherFn(value);
 					}
 				}
@@ -150,7 +191,16 @@ const next$: Function = Object.assign((...args): symbol | undefined => {
 
 			if(typeofInitValue == "number") {
 				PTR_INTERFACE.push({
-					to(destination: number, duration: number = 1500, options: { frame: number | string, curve: { start: [number, number], end: [number, number] } }) {
+					to(
+						destination: number, duration: number = 1500,
+						options: {
+							frame: number | string,
+							curve: {
+								start: [number, number],
+								end: [number, number]
+							}
+						}
+					) {
 						const { start: [curveStartX, curveStartY], end: [curveEndX, curveEndY] } =
 							options.curve
 							||= { start: [0.5, 0.5], end: [0.5, 0.5] }
@@ -164,7 +214,16 @@ const next$: Function = Object.assign((...args): symbol | undefined => {
 						;
 						actionHistory.push({ action: "transit", newValue: destination, oldValue: value, curveGeneratorFn })
 						if(options.frame == "animation") {
-
+							const EXEC_TIMESTAMP = performance.now();
+							const clockFn = () => {
+								const CLOCK_TIMESTAMP = performance.now()
+								const CLOCK_DURATION = (CLOCK_TIMESTAMP - EXEC_TIMESTAMP);
+								if(CLOCK_DURATION < duration) {
+									curveGeneratorFn(CLOCK_DURATION / duration);
+									requestAnimationFrame(clockFn);
+								}
+							}
+							requestAnimationFrame(clockFn);
 						} else {
 
 						}
@@ -172,15 +231,16 @@ const next$: Function = Object.assign((...args): symbol | undefined => {
 				})
 			}
 
-		} else if(typeofInitValue == "symbol" && getPointer(initValue)?.[PTR_IDENTIFIER]) {
+		} else {
+			actionHistory.push({ action: "init-object", oldValue: undefined, newValue: initValue })
+			if(Array_isArray(initValue)) {
 
-		} else if(Array_isArray(initValue)) {
-
-		} else if(Reflect_getPrototypeOf(initValue) == Object_prototype) {
-			
+			} else if(Reflect_getPrototypeOf(initValue) == Object_prototype) {
+				
+			}
 		}
-		
-		return Object_freeze(BASE_PTR)
+
+		return Object_freeze(BASE_PTR);
 	}
 }, {
 	extend(assignedConstructor: Function) {
@@ -243,7 +303,7 @@ export const $: Function = new Proxy((
 				get [PTR_IDENTIFIER]() {
 					return true
 				},
-				[Symbol.toPrimitive]() {
+				[Symbol_toPrimitive]() {
 					return BASE_SYMBOL
 				},
 			},
@@ -288,4 +348,3 @@ export const $: Function = new Proxy((
 			: undefined
 	},
 })
-
