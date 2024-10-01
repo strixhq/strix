@@ -18,7 +18,7 @@ import { on } from '@strix/attr';
 
 export default function() {
 
-    const count = $(0);
+    const count = $<number>(0);
 
     return html`
         <h1>${count}</h1>
@@ -141,11 +141,11 @@ document.body.append(...createElement(App()));
 
 ### Unsafe-Proof
 ```javascript
-const unsafe = "<script>alert(0)/script>";
+const username = "<script>alert(0)</script>";
 
-const temp = html`<label>name is ${unsafe}!</label>`
+const temp = html`<label>username is ${username}!</label>`
 
-// name is <script>alert(0)</script>
+// username is <script>alert(0)</script>!
 ```
 
 <!-- ### Directories

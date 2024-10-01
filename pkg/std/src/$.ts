@@ -40,7 +40,47 @@ Object.defineProperty(globalThis, GLOBAL_TOKEN, {
 	})),
 })
 
-type $<T> = T;
+interface StrixPointer extends Function {
+	[PTR_IDENTIFIER]: true;
+	[Symbol.toPrimitive](hint: string): symbol;
+	publishSymbol(): symbol;
+	undo(step: number): this;
+	redo(step: number): this;
+}
+
+interface StrixPrimitivePointer extends StrixPointer {
+	into(...transformerFnList: (<V>(newValue: V) => V | Promise<V>)[]): this;
+}
+
+interface StrixStringPointer extends StrixPrimitivePointer {
+	$: string;
+	watch(...watcherFnList: ((newValue: string) => void)[]): this;
+}
+
+interface StrixNumberPointer extends StrixPrimitivePointer {
+	$: number;
+	watch(...watcherFnList: ((newValue: number) => void)[]): this;
+}
+
+type StrixArrayPointer {
+
+}
+
+type StrixObjectPointer {
+
+}
+
+type $<T> =
+	T extends Number
+	? StrixNumberPointer
+	: T extends String
+	? StrixStringPointer
+	: T extends any[]
+	? StrixArrayPointer
+	: T extends object
+	? StrixObjectPointer
+	: undefined
+;
 
 // interface StrixPointer {
 // 	[Symbol_toPrimitive]: (hint: string) => symbol | number;
@@ -50,7 +90,7 @@ type $<T> = T;
 // 	watch?: (...watcherFnList) => 
 // }
 
-const next$: Function = Object_assign((...args: any[]): symbol | undefined => {
+const next$: Function = Object_assign(<V>(...args: any[]): $<V> => {
 	if (!args.length) return;
 	const firstArg = args[0]
 	if (isTemp(firstArg)) {
@@ -129,11 +169,13 @@ const next$: Function = Object_assign((...args: any[]): symbol | undefined => {
 
 		valueHistory.push(value);
 
-		if(typeofInitValue == "symbol") {
+		if ("undefined null".includes(typeofInitValue)) {
+			return;
+		} else if(typeofInitValue == "symbol") {
 
 			return getPointer(initValue)
 
-		} else if("string number".includes(typeofInitValue)) {
+		} else if("string number bigint".includes(typeofInitValue)) {
 
 			actionHistory[++actionHistoryIndex] = {
 				action: "init-primitive",
@@ -231,7 +273,7 @@ const next$: Function = Object_assign((...args: any[]): symbol | undefined => {
 				})
 			}
 
-		} else {
+		} else if(typeofInitValue == "object") {
 			actionHistory.push({ action: "init-object", oldValue: undefined, newValue: initValue })
 			if(Array_isArray(initValue)) {
 
@@ -348,3 +390,11 @@ export const $: Function = new Proxy((
 			: undefined
 	},
 })
+
+const test: $<number> = $(0)
+
+test.$++
+
+const obj = {
+	[test as any]: "a"
+}
