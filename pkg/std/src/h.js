@@ -2,15 +2,21 @@ import { getEnv } from 'jsr:@strix/core@0.0.15'
 
 const { STRIX_HTML_IDENTIFIER } = getEnv
 
-type StrixHTMLFragment = [TemplateStringsArray, any[], symbol]
-
 /**
  * @param	{ TemplateStringsArray } s
  * @param	{ ...any} v
  * @returns	{ StrixHTMLFragment }
  */
 
-export const h = (
-	s: TemplateStringsArray,
-	...v: any[]
-): StrixHTMLFragment => [s, v, STRIX_HTML_IDENTIFIER]
+export const h = (s, ...v) => ({
+	0: s,
+	1: v,
+	2: STRIX_HTML_IDENTIFIER,
+	s,
+	v,
+	[STRIX_HTML_IDENTIFIER]: true,
+	then(onloadCallbackFn) {
+
+		return this;
+	}
+})

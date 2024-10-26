@@ -16,15 +16,19 @@ export const createProxiedAttribute = (
 			undefined,
 			{ name },
 		),
-		BASE_SYMBOL_RETURNER = () => BASE_PTR.publishSymbol(name),
+		BASE_SYMBOL_RETURNER: symbol = () => BASE_PTR.publishSymbol(name),
 		BASE_PROXY = new Proxy({}, {
 			get(myTarget, prop) {
 				return prop == SH_SYMBOL_TO_PRIMITIVE
 					? BASE_SYMBOL_RETURNER
+					: prop == "$"
+					? BASE_SYMBOL_RETURNER()
 					: ATTR_CACHE[prop] ||= $((value: any, ref: any, root: HTMLElement | undefined) => registererFn(prop as string, value, ref, root), undefined, { name })
 						.publishSymbol(`${name}.${prop}`)
 			},
 		})
 
-	return BASE_PROXY as object
+	return BASE_PROXY as {
+		[key: string]: symbol
+	}
 }

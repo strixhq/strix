@@ -70,8 +70,7 @@ const BASE_DF = document.createDocumentFragment(),
 			CMD_BUF = resolveFragment(fragment as [TemplateStringsArray, any[], symbol]),
 			PARSER_UUID = `strix-${getRandom(32, 'str')}`,
 			ATTR_PARSER_TOKEN = `${PARSER_UUID}-attr`,
-			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`,
-			EL_BUF = new WeakMap()
+			PTR_PARSER_TOKEN = `${PARSER_UUID}-ptr`
 
 		if (NOT_ROOT) BASE_DF.appendChild(BASE_TEMP)
 
@@ -101,6 +100,8 @@ const BASE_DF = document.createDocumentFragment(),
 							const RAW_ATTR = CMD_BUF[ATTR_VAL][2]
 
 							resolveAttr(RAW_ATTR, TARGET_REF)
+
+						// 	queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						})
 						// const ATTR_HOLDER = {},
 						// 	ATTR_HOLDER_PROXY = new Proxy(ATTR_HOLDER, { get: (target, prop) => target[prop] })
@@ -111,8 +112,6 @@ const BASE_DF = document.createDocumentFragment(),
 						// 	const VAL_BUFFER = CMD_BUF[value][2]
 
 						// 	resolveAttr(TARGET_REF, VAL_BUFFER, CMD_BUF, ATTR_HOLDER_PROXY);
-
-						// 	queueMicrotask(() => TARGET_REF.removeAttribute(name))
 						// })
 						// queueMicrotask(() => TARGET_REF.removeAttribute(PARSER_UUID))
 						return
