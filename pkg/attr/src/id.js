@@ -1,0 +1,1 @@
+export const id = $({}, ({ prop }, ref) => ref.onload = ({ target }) => ref.resolvers[prop] = target)

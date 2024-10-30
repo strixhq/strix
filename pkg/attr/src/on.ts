@@ -6,4 +6,4 @@ export const on: object = createProxiedAttribute((prop, value, ref) => {
 		value.watch((newValue) => value.$ = newValue)
 	}
 	ref.addEventListener(prop, IS_PTR ? (e) => value.$(e) : value, { passive: true })
-})
+}, 'on')
