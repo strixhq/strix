@@ -152,8 +152,8 @@ const temp = html`<label>username is ${username}!</label>`
 ```javascript
 import { id } from "@strix/attr"
 
-const canvas = html`<canvas ${id.canvas}></canvas>`.then(({ canvas }) => {
-    const ctx = canvas.getContext("2d");
+const canvasApp = html`<canvas ${id.myCanvas}></canvas>`.then(({ myCanvas }) => {
+    const ctx = myCanvas.getContext("2d");
     // ...
 })
 ```
